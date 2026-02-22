@@ -1,55 +1,46 @@
-# Markdown Files
+# Pengantar Penambangan Data (Data Mining)
 
-Whether you write your book's content in Jupyter Notebooks (`.ipynb`) or
-in regular markdown files (`.md`), you'll write in the same flavor of markdown
-called **MyST Markdown**.
-This is a simple file to help you get started and show off some syntax.
+## Apa itu Penambangan Data?
+Penambangan Data atau *Data Mining* adalah proses inti untuk menemukan pola, korelasi, dan anomali yang menarik dari kumpulan data dalam jumlah besar (Big Data). Tujuannya adalah mengubah data mentah menjadi informasi atau pengetahuan yang berharga untuk pengambilan keputusan.
 
-## What is MyST?
+Istilah ini sering digunakan bergantian dengan **Knowledge Discovery in Databases (KDD)**, meskipun sebenarnya *data mining* hanyalah salah satu langkah penting dalam proses KDD yang lebih luas.
 
-MyST stands for "Markedly Structured Text". It
-is a slight variation on a flavor of markdown called "CommonMark" markdown,
-with small syntax extensions to allow you to write **roles** and **directives**
-in the Sphinx ecosystem.
+## Proses Knowledge Discovery in Databases (KDD)
+Untuk mengubah data mentah menjadi pengetahuan yang bisa ditindaklanjuti, diperlukan serangkaian tahapan yang sistematis. Berikut adalah diagram alir proses KDD:
 
-For more about MyST, see [the MyST Markdown Overview](https://jupyterbook.org/content/myst.html).
+![Diagram Proses Knowledge Discovery in Databases (KDD)](image_0.png)
 
-## Sample Roles and Directives
+**Penjelasan Tahapan Singkat:**
+1.  **Data Cleaning:** Membersihkan data dari *noise* (gangguan) dan data yang tidak konsisten atau hilang.
+2.  **Data Integration:** Menggabungkan data dari berbagai sumber yang berbeda.
+3.  **Data Selection:** Memilih data yang relevan dengan tujuan analisis dari database.
+4.  **Data Transformation:** Mengubah data menjadi format yang sesuai untuk ditambang (misalnya normalisasi angka).
+5.  **Data Mining:** Proses inti di mana metode cerdas diterapkan untuk mengekstrak pola data.
+6.  **Pattern Evaluation:** Mengevaluasi pola yang ditemukan apakah benar-benar menarik dan berguna berdasarkan ukuran tertentu.
+7.  **Knowledge Presentation:** Menyajikan pengetahuan yang ditambang kepada pengguna menggunakan teknik visualisasi agar mudah dipahami.
 
-Roles and directives are two of the most powerful tools in Jupyter Book. They
-are like functions, but written in a markup language. They both
-serve a similar purpose, but **roles are written in one line**, whereas
-**directives span many lines**. They both accept different kinds of inputs,
-and what they do with those inputs depends on the specific role or directive
-that is being called.
+## Metode Utama dalam Data Mining
+Tugas *data mining* umumnya dibagi menjadi beberapa kategori utama berdasarkan tujuannya dan apakah data yang digunakan memiliki label atau tidak.
 
-Here is a "note" directive:
+### 1. Klasifikasi vs Klastering (Classification vs Clustering)
+Perbedaan mendasar kedua metode ini terletak pada ada atau tidaknya label data sebelumnya.
 
-```{note}
-Here is a note
-```
+![Perbandingan Visual Klasifikasi (Supervised) dan Klastering (Unsupervised)](image_1.png)
 
-It will be rendered in a special box when you build your book.
+* **Klasifikasi (Gambar Kiri - Supervised Learning):**
+    * Tujuannya adalah memasukkan data baru ke dalam **kategori (kelas) yang sudah ditentukan sebelumnya**.
+    * Model dilatih menggunakan data yang sudah "diberi label". Seperti pada gambar kiri, kita sudah tahu mana data "kotak biru" dan "lingkaran merah", lalu sistem membuat garis batas pemisahnya.
+    * *Contoh:* Mendeteksi email spam (kelas: Spam atau Bukan Spam), memprediksi jenis bunga Iris (kelas: Setosa, Versicolor, atau Virginica).
 
-Here is an inline directive to refer to a document: {doc}`markdown-notebooks`.
+* **Klastering (Gambar Kanan - Unsupervised Learning):**
+    * Tujuannya adalah mengelompokkan data berdasarkan kemiripannya **tanpa mengetahui label/kategori sebelumnya**.
+    * Sistem mencari sendiri struktur alami dari data tersebut. Seperti pada gambar kanan, data yang mirip secara otomatis berkumpul membentuk kelompok-kelompok (klaster).
+    * *Contoh:* Segmentasi pelanggan pasar berdasarkan perilaku belanja untuk target promosi.
 
+### 2. Asosiasi (Association Rules)
+Metode ini digunakan untuk menemukan aturan yang menunjukkan hubungan kuat antar item dalam database transaksi yang besar. Metode ini sangat populer di industri ritel.
 
-## Citations
+![Ilustrasi Market Basket Analysis menunjukkan hubungan antar produk](image_2.png)
 
-You can also cite references that are stored in a `bibtex` file. For example,
-the following syntax: `` {cite}`holdgraf_evidence_2014` `` will render like
-this: {cite}`holdgraf_evidence_2014`.
-
-Moreover, you can insert a bibliography into your page with this syntax:
-The `{bibliography}` directive must be used for all the `{cite}` roles to
-render properly.
-For example, if the references for your book are stored in `references.bib`,
-then the bibliography is inserted with:
-
-```{bibliography}
-```
-
-## Learn more
-
-This is just a simple starter to get you started.
-You can learn a lot more at [jupyterbook.org](https://jupyterbook.org).
+* **Konsep:** Teknik ini sering disebut *Market Basket Analysis*. Tujuannya adalah mencari pola "Jika membeli A, maka kemungkinan besar akan membeli B".
+* *Contoh:* Seperti ilustrasi di atas, analisis keranjang belanja menemukan bahwa pelanggan yang membeli Roti dan Susu (dalam keranjang) memiliki kecenderungan kuat (asosiasi) untuk juga membeli Telur dan Mentega pada transaksi yang sama. Informasi ini berguna untuk pengaturan tata letak rak toko atau rekomendasi produk *e-commerce*.

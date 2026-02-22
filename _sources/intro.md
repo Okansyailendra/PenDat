@@ -1,11 +1,27 @@
-# Welcome to your Jupyter Book
+# 👋 Hello, World!
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+### Data Mining Portfolio
+Selamat datang di catatan perjalanan saya dalam mempelajari Data Mining.
 
-Check out the content pages bundled with this sample book to see more.
+|  | **Profile Info** |
+| :--- | :--- |
+| 👤 | **Okan Syailendra Wahyudi** |
+| 🆔 | **NIM:** 240411100179 |
+| 🎓 | **Universitas Trunojoyo Madura** (Angkatan 2024) |
+| 📍 | **Status:** *Student & Learner* |
 
-```{tableofcontents}
-```
+---
+
+### 🎯 My Mission & Goals
+
+Saya memiliki ketertarikan besar pada pengembangan teknologi yang bermanfaat bagi banyak orang:
+
+* 🎮 **Game Development:**
+    > Bercita-cita menciptakan *Multiplayer Game* yang seru dan bisa dimainkan bersama teman-teman.
+* 💰 **Fintech Solutions:**
+    > Mengembangkan aplikasi manajemen keuangan untuk membantu orang mengelola tabungan mereka dengan lebih baik.
+
+---
+
+### 🛠️ Currently Learning
+Sedang mendalami teknik **Penambangan Data**, **Python**, dan **Algoritma** untuk mewujudkan mimpi-mimpi di atas.
