@@ -9,3 +9,4 @@ chapters:
 - file: markdown-notebooks
 - file: distance
 - file: WKNN
+- file: analisis_knn_kesuburan_tanah

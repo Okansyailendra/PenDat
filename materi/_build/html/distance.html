@@ -1,12 +1,13 @@
 
+
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="./" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Pengukuran Jarak Data Campuran dengan Euclidean Distance &#8212; Notebook Materi</title>
   
@@ -28,35 +29,39 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'distance';</script>
@@ -160,18 +165,7 @@
   
   
 </a></div>
-        <div class="sidebar-primary-item">
-
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -189,6 +183,7 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Pengukuran Jarak Data Campuran dengan Euclidean Distance</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="WKNN.html">Preprocessing: Missing Values (WKNN) &amp; Normalisasi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analisis_knn_kesuburan_tanah.html">Analisis Klasifikasi Kesuburan Tanah dengan K-Nearest Neighbors (KNN)</a></li>
 </ul>
 
     </div>
@@ -218,9 +213,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -361,9 +356,9 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</button>
+</label>
 </div></div>
       
     </div>
@@ -417,10 +412,10 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="pengukuran-jarak-data-campuran-dengan-euclidean-distance">
-<h1>Pengukuran Jarak Data Campuran dengan Euclidean Distance<a class="headerlink" href="#pengukuran-jarak-data-campuran-dengan-euclidean-distance" title="Link to this heading">#</a></h1>
+<h1>Pengukuran Jarak Data Campuran dengan Euclidean Distance<a class="headerlink" href="#pengukuran-jarak-data-campuran-dengan-euclidean-distance" title="Permalink to this heading">#</a></h1>
 <p>Metode yang digunakan untuk mengukur jarak pada dataset dengan tipe data campuran (numerik dan kategorikal) dalam analisis ini adalah <strong>Euclidean Distance</strong>. Untuk mengakomodasi data campuran, data melalui tahap pra-pemrosesan: atribut numerik dinormalisasi, dan atribut kategorikal diubah menjadi representasi numerik (misalnya melalui <em>One-Hot Encoding</em>).</p>
 <section id="pengelompokan-atribut">
-<h2>1. Pengelompokan Atribut<a class="headerlink" href="#pengelompokan-atribut" title="Link to this heading">#</a></h2>
+<h2>1. Pengelompokan Atribut<a class="headerlink" href="#pengelompokan-atribut" title="Permalink to this heading">#</a></h2>
 <p>Berdasarkan dataset <code class="docutils literal notranslate"><span class="pre">StudentPerformanceFactors.csv</span></code>, atribut dikelompokkan menjadi dua jenis:</p>
 <ul class="simple">
 <li><p><strong>Atribut Numerik (7):</strong> <code class="docutils literal notranslate"><span class="pre">Hours_Studied</span></code>, <code class="docutils literal notranslate"><span class="pre">Attendance</span></code>, <code class="docutils literal notranslate"><span class="pre">Sleep_Hours</span></code>, <code class="docutils literal notranslate"><span class="pre">Previous_Scores</span></code>, <code class="docutils literal notranslate"><span class="pre">Tutoring_Sessions</span></code>, <code class="docutils literal notranslate"><span class="pre">Physical_Activity</span></code>, dan <code class="docutils literal notranslate"><span class="pre">Exam_Score</span></code>.</p></li>
@@ -429,7 +424,7 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="normalisasi-dan-transformasi-data">
-<h2>2. Normalisasi dan Transformasi Data<a class="headerlink" href="#normalisasi-dan-transformasi-data" title="Link to this heading">#</a></h2>
+<h2>2. Normalisasi dan Transformasi Data<a class="headerlink" href="#normalisasi-dan-transformasi-data" title="Permalink to this heading">#</a></h2>
 <p>Sebelum menghitung jarak Euclidean, data harus distandarisasi agar atribut dengan skala besar tidak mendominasi perhitungan:</p>
 <ol class="arabic simple">
 <li><p><strong>Atribut Numerik:</strong> Dinormalisasi menggunakan Min-Max Scaler agar berada di rentang <strong>0 hingga 1</strong>.
@@ -440,13 +435,13 @@ $<span class="math notranslate nohighlight">\(X_{norm} = \frac{X - X_{min}}{X_{m
 </section>
 <hr class="docutils" />
 <section id="pengukuran-jarak-euclidean-distance">
-<h2>3. Pengukuran Jarak (Euclidean Distance)<a class="headerlink" href="#pengukuran-jarak-euclidean-distance" title="Link to this heading">#</a></h2>
+<h2>3. Pengukuran Jarak (Euclidean Distance)<a class="headerlink" href="#pengukuran-jarak-euclidean-distance" title="Permalink to this heading">#</a></h2>
 <p>Setelah seluruh data berada dalam bentuk numerik yang setara, jarak antar baris data (profil siswa) dihitung menggunakan rumus Euclidean.</p>
 <p><strong>Rumus Euclidean Distance:</strong>
 $<span class="math notranslate nohighlight">\(d(x,y) = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2}\)</span>$</p>
 <p>Di mana <span class="math notranslate nohighlight">\(x_i\)</span> dan <span class="math notranslate nohighlight">\(y_i\)</span> adalah nilai atribut ke-<span class="math notranslate nohighlight">\(i\)</span> dari dua siswa yang sedang dibandingkan, dan <span class="math notranslate nohighlight">\(n\)</span> adalah total jumlah atribut setelah transformasi.</p>
 <section id="matriks-jarak-sampel-5-data-pertama">
-<h3>Matriks Jarak (Sampel 5 Data Pertama)<a class="headerlink" href="#matriks-jarak-sampel-5-data-pertama" title="Link to this heading">#</a></h3>
+<h3>Matriks Jarak (Sampel 5 Data Pertama)<a class="headerlink" href="#matriks-jarak-sampel-5-data-pertama" title="Permalink to this heading">#</a></h3>
 <p>Berdasarkan perhitungan, berikut adalah sampel jarak untuk 5 siswa pertama. Semakin kecil nilainya (mendekati 0), maka profil kombinasi akademik dan latar belakang siswa tersebut semakin mirip.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -499,7 +494,7 @@ $<span class="math notranslate nohighlight">\(d(x,y) = \sqrt{\sum_{i=1}^{n} (x_i
 </div>
 </section>
 <section id="interpretasi-hasil">
-<h3>Interpretasi Hasil<a class="headerlink" href="#interpretasi-hasil" title="Link to this heading">#</a></h3>
+<h3>Interpretasi Hasil<a class="headerlink" href="#interpretasi-hasil" title="Permalink to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p><strong>Paling Mirip:</strong> Siswa 3 dan Siswa 4 memiliki jarak terendah (<span class="math notranslate nohighlight">\(2.392\)</span>) di dalam sampel ini. Ini berarti secara keseluruhan (jam belajar, nilai, latar belakang keluarga, dll), karakteristik mereka paling identik.</p></li>
 <li><p><strong>Paling Berbeda:</strong> Siswa 2 dan Siswa 3 memiliki jarak paling besar (<span class="math notranslate nohighlight">\(4.239\)</span>), menandakan perbedaan profil yang cukup signifikan di antara keduanya.</p></li>
@@ -512,13 +507,13 @@ $<span class="math notranslate nohighlight">\(d(x,y) = \sqrt{\sum_{i=1}^{n} (x_i
 </section>
 </section>
 <section id="implementasi-kode-python">
-<h2>3. Implementasi Kode (Python)<a class="headerlink" href="#implementasi-kode-python" title="Link to this heading">#</a></h2>
+<h2>3. Implementasi Kode (Python)<a class="headerlink" href="#implementasi-kode-python" title="Permalink to this heading">#</a></h2>
 <p>Berikut adalah implementasi perhitungan jarak menggunakan bahasa pemrograman Python. Proses ini meniru cara kerja <em>software data mining</em> dalam melakukan pra-pemrosesan dan ekstraksi jarak Euclidean.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
+<details class="hide above-input">
 <summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -572,12 +567,12 @@ Siswa 5    4.304    3.565    2.531    3.585    0.000
 </section>
 <hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="pengukuran-jarak-data-numerik-studi-kasus-dataset-iris">
-<h1>Pengukuran Jarak Data Numerik (Studi Kasus: Dataset Iris)<a class="headerlink" href="#pengukuran-jarak-data-numerik-studi-kasus-dataset-iris" title="Link to this heading">#</a></h1>
+<h1>Pengukuran Jarak Data Numerik (Studi Kasus: Dataset Iris)<a class="headerlink" href="#pengukuran-jarak-data-numerik-studi-kasus-dataset-iris" title="Permalink to this heading">#</a></h1>
 <p>Berbeda dengan dataset campuran yang membutuhkan perlakuan khusus, dataset yang seluruhnya berisi angka (<em>Pure Numeric</em>) sangat menyenangkan untuk dihitung. Contoh klasiknya adalah dataset <strong>Iris</strong>, yang mengukur karakteristik fisik bunga (panjang dan lebar kelopak).</p>
 <p>Karena semua ukurannya adalah angka kontinu (dalam sentimeter), kita bisa menggunakan penggaris virtual bernama <strong>Euclidean Distance</strong> (Jarak Garis Lurus).</p>
 <hr class="docutils" />
 <section id="rumus-euclidean-distance-sangat-sederhana">
-<h2>1. Rumus Euclidean Distance (Sangat Sederhana!)<a class="headerlink" href="#rumus-euclidean-distance-sangat-sederhana" title="Link to this heading">#</a></h2>
+<h2>1. Rumus Euclidean Distance (Sangat Sederhana!)<a class="headerlink" href="#rumus-euclidean-distance-sangat-sederhana" title="Permalink to this heading">#</a></h2>
 <p>Bayangkan kamu sedang menarik garis lurus dari Titik A ke Titik B di atas kertas. Euclidean Distance bekerja dengan cara mencari selisih masing-masing ukuran, mengkuadratkannya agar tidak ada nilai minus, menjumlahkannya, lalu diakar-kuadratkan.</p>
 <div class="math notranslate nohighlight">
 \[\Large d(x,y) = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2}\]</div>
@@ -591,7 +586,7 @@ Siswa 5    4.304    3.565    2.531    3.585    0.000
 </section>
 <hr class="docutils" />
 <section id="praktik-step-by-step-mencari-missing-value">
-<h2>2. Praktik Step-by-Step Mencari Missing Value!<a class="headerlink" href="#praktik-step-by-step-mencari-missing-value" title="Link to this heading">#</a></h2>
+<h2>2. Praktik Step-by-Step Mencari Missing Value!<a class="headerlink" href="#praktik-step-by-step-mencari-missing-value" title="Permalink to this heading">#</a></h2>
 <p>Mari kita ambil 5 baris pertama dari dataset <code class="docutils literal notranslate"><span class="pre">IRIS.csv</span></code>. Kita akan sengaja “menghapus” nilai lebar kelopak bagian dalam (<code class="docutils literal notranslate"><span class="pre">petal_width</span></code>) pada <strong>Bunga D</strong> dan menjadikannya misteri yang harus kita tebak.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -638,7 +633,7 @@ Siswa 5    4.304    3.565    2.531    3.585    0.000
 </div>
 <p>Karena <code class="docutils literal notranslate"><span class="pre">petal_width</span></code> pada Bunga D kosong, kita akan mengukur kemiripan bunga berdasarkan 3 fitur pertama saja: <em>Sepal Length</em>, <em>Sepal Width</em>, dan <em>Petal Length</em>.</p>
 <section id="langkah-perhitungan-jarak-dari-bunga-d-ke-teman-temannya">
-<h3>Langkah Perhitungan Jarak dari Bunga D ke Teman-temannya:<a class="headerlink" href="#langkah-perhitungan-jarak-dari-bunga-d-ke-teman-temannya" title="Link to this heading">#</a></h3>
+<h3>Langkah Perhitungan Jarak dari Bunga D ke Teman-temannya:<a class="headerlink" href="#langkah-perhitungan-jarak-dari-bunga-d-ke-teman-temannya" title="Permalink to this heading">#</a></h3>
 <p><strong>Pertandingan 1: Bunga D vs Bunga A</strong></p>
 <ul class="simple">
 <li><p>Beda Sepal Length = <span class="math notranslate nohighlight">\((4.6 - 5.1)^2 = (-0.5)^2 = 0.25\)</span></p></li>
@@ -671,7 +666,7 @@ Siswa 5    4.304    3.565    2.531    3.585    0.000
 </section>
 <hr class="docutils" />
 <section id="kesimpulan-mengisi-nilai-bunga-d">
-<h2>3. Kesimpulan: Mengisi Nilai Bunga D!<a class="headerlink" href="#kesimpulan-mengisi-nilai-bunga-d" title="Link to this heading">#</a></h2>
+<h2>3. Kesimpulan: Mengisi Nilai Bunga D!<a class="headerlink" href="#kesimpulan-mengisi-nilai-bunga-d" title="Permalink to this heading">#</a></h2>
 <p>Mari kita bandingkan kedekatan ukurannya:</p>
 <ul class="simple">
 <li><p>Jarak ke Bunga A: <span class="math notranslate nohighlight">\(0.648\)</span></p></li>
@@ -794,7 +789,7 @@ By Okan Syailendra Wahyudi
 
   <p class="copyright">
     
-      © Copyright 2023.
+      © Copyright 2022.
       <br/>
     
   </p>
