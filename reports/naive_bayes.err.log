@@ -1,0 +1,128 @@
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/asyncio/base_events.py", line 684, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# ==========================================
+# IMPORT LIBRARY
+# ==========================================
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# Mengatur tampilan visualisasi agar lebih rapi
+sns.set_theme(style="whitegrid")
+
+# ==========================================
+# 1. MEMUAT DATASET
+# ==========================================
+# Membaca dataset dari file Excel yang direferensikan
+try:
+    # Karena ekstensinya .xlsx, kita gunakan read_excel
+    df = pd.read_csv('IRIS.csv')
+    print("Dataset berhasil dimuat!")
+except FileNotFoundError:
+    print("Error: File IRIS.csv tidak ditemukan.")
+
+# ==========================================
+# 2. EKSPLORASI DATA & VALIDASI ASUMSI GAUSSIAN
+# ==========================================
+# Naive Bayes Gaussian berasumsi data terdistribusi normal (berbentuk lonceng).
+# Mari kita visualisasikan distribusi 'petal_length' untuk masing-masing spesies.
+plt.figure(figsize=(10, 6))
+sns.kdeplot(data=df, x='petal_length', hue='species', fill=True)
+plt.title('Distribusi Petal Length per Spesies (Validasi Asumsi Gaussian)')
+plt.xlabel('Petal Length')
+plt.ylabel('Density (Kepadatan)')
+plt.show()
+
+# ==========================================
+# 3. PERSIAPAN DATA (SPLIT)
+# ==========================================
+X = df[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']]
+y = df['species']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# ==========================================
+# 4. TRAINING MODEL GAUSSIAN NAIVE BAYES
+# ==========================================
+model_nb = GaussianNB()
+model_nb.fit(X_train, y_train)
+
+# ==========================================
+# 5. MEMBEDAH MATEMATIKA DI DALAM MODEL (PENDALAMAN)
+# ==========================================
+print("\n--- PENDALAMAN MATEMATIKA MODEL ---")
+print("Kelas yang ditemukan oleh model:", model_nb.classes_)
+print("Probabilitas Prior masing-masing kelas (P(C)):", np.exp(model_nb.class_log_prior_))
+
+# Melihat rata-rata (Mu) yang dihitung model untuk kelas pertama (misal Setosa)
+print("\nRata-rata (Mu) fitur untuk masing-masing kelas:")
+df_mu = pd.DataFrame(model_nb.theta_, columns=X.columns, index=model_nb.classes_)
+print(df_mu)
+
+# Melihat varians (Sigma^2) yang dihitung model
+print("\nVarians (Sigma^2) fitur untuk masing-masing kelas:")
+df_var = pd.DataFrame(model_nb.var_, columns=X.columns, index=model_nb.classes_)
+print(df_var)
+
+# ==========================================
+# 6. PREDIKSI DAN EVALUASI MENDALAM
+# ==========================================
+y_pred = model_nb.predict(X_test)
+
+print("\n--- EVALUASI PERFORMA ---")
+print(f"Akurasi Model: {accuracy_score(y_test, y_pred) * 100:.2f}%\n")
+print("Laporan Detail Klasifikasi:")
+print(classification_report(y_test, y_pred))
+
+# Visualisasi Confusion Matrix
+cm = confusion_matrix(y_test, y_pred, labels=model_nb.classes_)
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+            xticklabels=model_nb.classes_, yticklabels=model_nb.classes_)
+plt.title('Confusion Matrix - Naive Bayes')
+plt.xlabel('Prediksi Model')
+plt.ylabel('Kenyataan Aktual')
+plt.show()
+------------------
+
+----- stdout -----
+Dataset berhasil dimuat!
+----- stdout -----
+
+--- PENDALAMAN MATEMATIKA MODEL ---
+Kelas yang ditemukan oleh model: ['Iris-setosa' 'Iris-versicolor' 'Iris-virginica']
+------------------
+
+[31m---------------------------------------------------------------------------[39m
+[31mAttributeError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 57[39m
+[32m     55[39m [38;5;28mprint[39m([33m"[39m[38;5;130;01m\n[39;00m[33m--- PENDALAMAN MATEMATIKA MODEL ---[39m[33m"[39m)
+[32m     56[39m [38;5;28mprint[39m([33m"[39m[33mKelas yang ditemukan oleh model:[39m[33m"[39m, model_nb.classes_)
+[32m---> [39m[32m57[39m [38;5;28mprint[39m([33m"[39m[33mProbabilitas Prior masing-masing kelas (P(C)):[39m[33m"[39m, np.exp([43mmodel_nb[49m[43m.[49m[43mclass_log_prior_[49m))
+[32m     59[39m [38;5;66;03m# Melihat rata-rata (Mu) yang dihitung model untuk kelas pertama (misal Setosa)[39;00m
+[32m     60[39m [38;5;28mprint[39m([33m"[39m[38;5;130;01m\n[39;00m[33mRata-rata (Mu) fitur untuk masing-masing kelas:[39m[33m"[39m)
+
+[31mAttributeError[39m: 'GaussianNB' object has no attribute 'class_log_prior_'
+

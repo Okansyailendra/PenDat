@@ -1,0 +1,921 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris &#8212; Notebook Materi</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'naive_bayes';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Analisis Klasifikasi Kesuburan Tanah dengan K-Nearest Neighbors (KNN)" href="analisis_knn_kesuburan_tanah.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/foto.png" class="logo__image only-light" alt="Notebook Materi - Home"/>
+    <script>document.write(`<img src="_static/foto.png" class="logo__image only-dark" alt="Notebook Materi - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    👋 Hello, World!
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="markdown.html">Pengantar Penambangan Data (Data Mining)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Data Iris</a></li>
+<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Mengukur Jarak Data (Distance Measurement)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="distance.html">Pengukuran Jarak Data Campuran dengan Euclidean Distance</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="WKNN.html">Preprocessing: Missing Values (WKNN) &amp; Normalisasi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analisis_knn_kesuburan_tanah.html">Analisis Klasifikasi Kesuburan Tanah dengan K-Nearest Neighbors (KNN)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnaive_bayes.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/naive_bayes.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teori-dasar-probabilitas-dan-teorema-bayes">1. Teori Dasar Probabilitas dan Teorema Bayes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-naive-bayes-menangani-data-numerik">2. Gaussian Naive Bayes (Menangani Data Numerik)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-python-tingkat-lanjut">3. Implementasi Python Tingkat Lanjut</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-data-preprocessing">4. Persiapan Data (Preprocessing)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pelatihan-model-dan-bedah-parameter-matematis">5. Pelatihan Model dan Bedah Parameter Matematis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediksi-dan-evaluasi-model">6. Prediksi dan Evaluasi Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">7. Kesimpulan</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-mendalam-klasifikasi-naive-bayes-pada-dataset-iris">
+<h1>Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris<a class="headerlink" href="#analisis-mendalam-klasifikasi-naive-bayes-pada-dataset-iris" title="Permalink to this heading">#</a></h1>
+<p>Dokumentasi ini memberikan panduan komprehensif mulai dari teori probabilitas dasar, penurunan rumus matematika, hingga implementasi tingkat lanjut menggunakan Python. Dataset yang digunakan direferensikan dari file <code class="docutils literal notranslate"><span class="pre">IRIS.csv.xlsx</span></code>.</p>
+<hr class="docutils" />
+<section id="teori-dasar-probabilitas-dan-teorema-bayes">
+<h2>1. Teori Dasar Probabilitas dan Teorema Bayes<a class="headerlink" href="#teori-dasar-probabilitas-dan-teorema-bayes" title="Permalink to this heading">#</a></h2>
+<p>Naive Bayes bukan sekadar satu algoritma, melainkan keluarga algoritma klasifikasi yang berakar pada <strong>Teorema Bayes</strong>. Teorema ini mendeskripsikan probabilitas suatu kejadian berdasarkan pengetahuan sebelumnya (prior knowledge) mengenai kondisi yang terkait dengan kejadian tersebut.</p>
+<p>Secara matematis, Teorema Bayes dirumuskan sebagai:</p>
+<div class="math notranslate nohighlight">
+\[P(C_k | X) = \frac{P(X | C_k) \cdot P(C_k)}{P(X)}\]</div>
+<p><strong>Penjelasan Komponen:</strong></p>
+<ol class="arabic simple">
+<li><p><strong><span class="math notranslate nohighlight">\(P(C_k | X)\)</span> (Posterior Probability)</strong>: Peluang observasi data <span class="math notranslate nohighlight">\(X\)</span> masuk ke dalam kelas <span class="math notranslate nohighlight">\(C_k\)</span> (misal: kelas <em>Iris-setosa</em>). Inilah yang ingin kita cari.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(P(C_k)\)</span> (Prior Probability)</strong>: Peluang awal dari kelas <span class="math notranslate nohighlight">\(C_k\)</span> sebelum melihat data <span class="math notranslate nohighlight">\(X\)</span>. Jika dari 150 data Iris terdapat 50 Setosa, maka prior untuk Setosa adalah <span class="math notranslate nohighlight">\(50/150 = 0.33\)</span>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(P(X | C_k)\)</span> (Likelihood)</strong>: Peluang munculnya fitur <span class="math notranslate nohighlight">\(X\)</span> asalkan kita tahu datanya berasal dari kelas <span class="math notranslate nohighlight">\(C_k\)</span>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(P(X)\)</span> (Evidence)</strong>: Probabilitas total dari fitur <span class="math notranslate nohighlight">\(X\)</span>. Karena nilai ini sama untuk semua kelas, seringkali diabaikan dalam perhitungan komparatif (kita hanya membandingkan pembilangnya saja).</p></li>
+</ol>
+<p><strong>Sifat “Naive” (Naif)</strong>:
+Algoritma ini disebut “naif” karena mengasumsikan bahwa <strong>setiap fitur <span class="math notranslate nohighlight">\(X_1, X_2, ..., X_n\)</span> saling independen bersyarat</strong> (tidak saling memengaruhi). Sehingga likelihood bisa dipecah menjadi perkalian:</p>
+<div class="math notranslate nohighlight">
+\[P(X | C_k) = P(x_1 | C_k) \times P(x_2 | C_k) \times \dots \times P(x_n | C_k)\]</div>
+</section>
+<hr class="docutils" />
+<section id="gaussian-naive-bayes-menangani-data-numerik">
+<h2>2. Gaussian Naive Bayes (Menangani Data Numerik)<a class="headerlink" href="#gaussian-naive-bayes-menangani-data-numerik" title="Permalink to this heading">#</a></h2>
+<p>Dataset <code class="docutils literal notranslate"><span class="pre">IRIS.csv.xlsx</span></code> berisi data numerik kontinu (<em>sepal_length, sepal_width, petal_length, petal_width</em>). Kita tidak bisa menghitung probabilitas kejadian pasti dari angka kontinu. Sebagai solusinya, kita menggunakan asumsi <strong>Distribusi Gaussian (Normal)</strong>.</p>
+<p>Model mengasumsikan distribusi data untuk setiap kelas berbentuk lonceng (bell curve). Fungsi Kepadatan Peluang (Probability Density Function / PDF) untuk fitur <span class="math notranslate nohighlight">\(x_i\)</span> pada kelas <span class="math notranslate nohighlight">\(C_k\)</span> adalah:</p>
+<div class="math notranslate nohighlight">
+\[P(x_i | C_k) = \frac{1}{\sqrt{2\pi\sigma^2_{i,k}}} \exp\left(-\frac{(x_i - \mu_{i,k})^2}{2\sigma^2_{i,k}}\right)\]</div>
+<p><strong>Langkah Kerja Algoritma secara Matematis:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Hitung Rata-rata (<span class="math notranslate nohighlight">\(\mu\)</span>)</strong>: Model menghitung rata-rata dari setiap fitur untuk masing-masing kelas.</p></li>
+<li><p><strong>Hitung Varians (<span class="math notranslate nohighlight">\(\sigma^2\)</span>)</strong>: Model menghitung penyebaran data (varians) dari setiap fitur untuk masing-masing kelas.</p></li>
+<li><p><strong>Hitung Likelihood</strong>: Saat ada data baru <span class="math notranslate nohighlight">\(X_{baru}\)</span>, model memasukkan nilai fitur tersebut ke dalam rumus PDF Gaussian di atas.</p></li>
+<li><p><strong>Prediksi</strong>: Kelas yang menghasilkan nilai perkalian Prior dan Likelihood terbesar adalah kelas prediksinya (disebut metode <em>Maximum A Posteriori</em> atau MAP).</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="implementasi-python-tingkat-lanjut">
+<h2>3. Implementasi Python Tingkat Lanjut<a class="headerlink" href="#implementasi-python-tingkat-lanjut" title="Permalink to this heading">#</a></h2>
+<p>Pada implementasi ini, kita tidak hanya melatih model, tetapi juga:</p>
+<ul class="simple">
+<li><p>Melakukan <strong>Visualisasi Distribusi Data</strong> untuk memvalidasi asumsi Gaussian.</p></li>
+<li><p>Membedah isi model <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code> untuk <strong>melihat nilai rata-rata (<span class="math notranslate nohighlight">\(\mu\)</span>) dan varians (<span class="math notranslate nohighlight">\(\sigma^2\)</span>)</strong> yang dihitung model (membuktikan rumusnya bekerja).</p></li>
+<li><p>Membuat <strong>Confusion Matrix</strong> untuk analisis error klasifikasi.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ==========================================</span>
+<span class="c1"># IMPORT LIBRARY</span>
+<span class="c1"># ==========================================</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+
+<span class="c1"># Mengatur tampilan visualisasi agar lebih rapi</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># ==========================================</span>
+<span class="c1"># 1. MEMUAT DATASET</span>
+<span class="c1"># ==========================================</span>
+<span class="c1"># Membaca dataset dari file CSV yang direferensikan</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;IRIS.csv&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset berhasil dimuat!&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: File IRIS.csv tidak ditemukan.&quot;</span><span class="p">)</span>
+
+<span class="c1"># ==========================================</span>
+<span class="c1"># 2. EKSPLORASI DATA &amp; VALIDASI ASUMSI GAUSSIAN</span>
+<span class="c1"># ==========================================</span>
+<span class="c1"># Naive Bayes Gaussian berasumsi data terdistribusi normal (berbentuk lonceng).</span>
+<span class="c1"># Mari kita visualisasikan distribusi &#39;petal_length&#39; untuk masing-masing spesies.</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribusi Petal Length per Spesies (Validasi Asumsi Gaussian)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Petal Length&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Density (Kepadatan)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># ==========================================</span>
+<span class="c1"># 3. PERSIAPAN DATA (SPLIT)</span>
+<span class="c1"># ==========================================</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ==========================================</span>
+<span class="c1"># 4. TRAINING MODEL GAUSSIAN NAIVE BAYES</span>
+<span class="c1"># ==========================================</span>
+<span class="n">model_nb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">model_nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># ==========================================</span>
+<span class="c1"># 5. MEMBEDAH MATEMATIKA DI DALAM MODEL (PENDALAMAN)</span>
+<span class="c1"># ==========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- PENDALAMAN MATEMATIKA MODEL ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kelas yang ditemukan oleh model:&quot;</span><span class="p">,</span> <span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+
+<span class="c1"># PERBAIKAN DI SINI: Menggunakan class_prior_ tanpa np.exp()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Probabilitas Prior masing-masing kelas (P(C)):&quot;</span><span class="p">,</span> <span class="n">model_nb</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">)</span>
+
+<span class="c1"># Melihat rata-rata (Mu) yang dihitung model untuk kelas pertama (misal Setosa)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Rata-rata (Mu) fitur untuk masing-masing kelas:&quot;</span><span class="p">)</span>
+<span class="n">df_mu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">model_nb</span><span class="o">.</span><span class="n">theta_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_mu</span><span class="p">)</span>
+
+<span class="c1"># Melihat varians (Sigma^2) yang dihitung model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Varians (Sigma^2) fitur untuk masing-masing kelas:&quot;</span><span class="p">)</span>
+<span class="n">df_var</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">model_nb</span><span class="o">.</span><span class="n">var_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_var</span><span class="p">)</span>
+
+<span class="c1"># ==========================================</span>
+<span class="c1"># 6. PREDIKSI DAN EVALUASI MENDALAM</span>
+<span class="c1"># ==========================================</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- EVALUASI PERFORMA ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi Model: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Laporan Detail Klasifikasi:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="c1"># Visualisasi Confusion Matrix</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> 
+            <span class="n">xticklabels</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix - Naive Bayes&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Prediksi Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Kenyataan Aktual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset berhasil dimuat!
+</pre></div>
+</div>
+<img alt="_images/ad2609054d54bb275c3afda3ce8ddfbe9b8a2ec99ff05e863914dea7cbf46261.png" src="_images/ad2609054d54bb275c3afda3ce8ddfbe9b8a2ec99ff05e863914dea7cbf46261.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- PENDALAMAN MATEMATIKA MODEL ---
+Kelas yang ditemukan oleh model: [&#39;Iris-setosa&#39; &#39;Iris-versicolor&#39; &#39;Iris-virginica&#39;]
+Probabilitas Prior masing-masing kelas (P(C)): [0.33333333 0.34166667 0.325     ]
+
+Rata-rata (Mu) fitur untuk masing-masing kelas:
+                 sepal_length  sepal_width  petal_length  petal_width
+Iris-setosa          4.990000     3.440000      1.452500     0.242500
+Iris-versicolor      5.919512     2.770732      4.241463     1.321951
+Iris-virginica       6.533333     2.966667      5.520513     2.000000
+
+Varians (Sigma^2) fitur untuk masing-masing kelas:
+                 sepal_length  sepal_width  petal_length  petal_width
+Iris-setosa          0.123900     0.154900      0.032994     0.011444
+Iris-versicolor      0.286936     0.100119      0.225842     0.041225
+Iris-virginica       0.416581     0.099145      0.285733     0.082051
+
+--- EVALUASI PERFORMA ---
+Akurasi Model: 100.00%
+
+Laporan Detail Klasifikasi:
+                 precision    recall  f1-score   support
+
+    Iris-setosa       1.00      1.00      1.00        10
+Iris-versicolor       1.00      1.00      1.00         9
+ Iris-virginica       1.00      1.00      1.00        11
+
+       accuracy                           1.00        30
+      macro avg       1.00      1.00      1.00        30
+   weighted avg       1.00      1.00      1.00        30
+</pre></div>
+</div>
+<img alt="_images/823ee50081c010d23587ac4f55d426c5899db7df048be62e0e6c202eb0667560.png" src="_images/823ee50081c010d23587ac4f55d426c5899db7df048be62e0e6c202eb0667560.png" />
+</div>
+</div>
+</section>
+<section id="persiapan-data-preprocessing">
+<h2>4. Persiapan Data (Preprocessing)<a class="headerlink" href="#persiapan-data-preprocessing" title="Permalink to this heading">#</a></h2>
+<p>Salah satu keunggulan besar Naive Bayes adalah algoritma ini tidak memerlukan fitur scaling (seperti Standardization atau Normalization). Karena model menghitung probabilitas berdasarkan rata-rata dan varians masing-masing fitur secara independen, skala data tidak mendistorsi perhitungan.</p>
+<p>Kita hanya perlu membagi data menjadi set pelatihan (training) dan pengujian (testing).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Memisahkan Prediktor (X) dan Target (y)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
+
+<span class="c1"># Split data: 80% Latih, 20% Uji</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensi Data Latih: </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensi Data Uji: </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensi Data Latih: (120, 4)
+Dimensi Data Uji: (30, 4)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pelatihan-model-dan-bedah-parameter-matematis">
+<h2>5. Pelatihan Model dan Bedah Parameter Matematis<a class="headerlink" href="#pelatihan-model-dan-bedah-parameter-matematis" title="Permalink to this heading">#</a></h2>
+<p>Fase training (model.fit()) pada Naive Bayes sesungguhnya adalah proses menghitung rata-rata (<span class="math notranslate nohighlight">\(\mu\)</span>) dan varians (<span class="math notranslate nohighlight">\(\sigma^2\)</span>) dari dataset untuk dimasukkan ke dalam persamaan Gaussian. Mari kita bedah nilai-nilai tersebut.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inisiasi dan Pelatihan Model</span>
+<span class="n">model_nb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">model_nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- PARAMETER MODEL GAUSSIAN NB ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Probabilitas Prior P(C) - Peluang Awal Masing-masing Kelas:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">prior</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">model_nb</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">prior</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Rata-rata (Mu) yang dihitung model untuk tiap fitur:&quot;</span><span class="p">)</span>
+<span class="n">df_mu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">model_nb</span><span class="o">.</span><span class="n">theta_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_mu</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Varians (Sigma^2) yang dihitung model untuk tiap fitur:&quot;</span><span class="p">)</span>
+<span class="n">df_var</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">model_nb</span><span class="o">.</span><span class="n">var_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_var</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- PARAMETER MODEL GAUSSIAN NB ---
+
+Probabilitas Prior P(C) - Peluang Awal Masing-masing Kelas:
+- Iris-setosa: 0.3333
+- Iris-versicolor: 0.3417
+- Iris-virginica: 0.3250
+
+Rata-rata (Mu) yang dihitung model untuk tiap fitur:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal_length</th>
+      <th>sepal_width</th>
+      <th>petal_length</th>
+      <th>petal_width</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Iris-setosa</th>
+      <td>4.990000</td>
+      <td>3.440000</td>
+      <td>1.452500</td>
+      <td>0.242500</td>
+    </tr>
+    <tr>
+      <th>Iris-versicolor</th>
+      <td>5.919512</td>
+      <td>2.770732</td>
+      <td>4.241463</td>
+      <td>1.321951</td>
+    </tr>
+    <tr>
+      <th>Iris-virginica</th>
+      <td>6.533333</td>
+      <td>2.966667</td>
+      <td>5.520513</td>
+      <td>2.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Varians (Sigma^2) yang dihitung model untuk tiap fitur:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal_length</th>
+      <th>sepal_width</th>
+      <th>petal_length</th>
+      <th>petal_width</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Iris-setosa</th>
+      <td>0.123900</td>
+      <td>0.154900</td>
+      <td>0.032994</td>
+      <td>0.011444</td>
+    </tr>
+    <tr>
+      <th>Iris-versicolor</th>
+      <td>0.286936</td>
+      <td>0.100119</td>
+      <td>0.225842</td>
+      <td>0.041225</td>
+    </tr>
+    <tr>
+      <th>Iris-virginica</th>
+      <td>0.416581</td>
+      <td>0.099145</td>
+      <td>0.285733</td>
+      <td>0.082051</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Tabel di atas merepresentasikan memori dari model kita. Setiap kali ada data baru untuk diprediksi, model akan mensubstitusikan nilai fitur data baru tersebut ke dalam persamaan Gaussian menggunakan rata-rata dan varians dari tabel di atas.</p>
+</section>
+<section id="prediksi-dan-evaluasi-model">
+<h2>6. Prediksi dan Evaluasi Model<a class="headerlink" href="#prediksi-dan-evaluasi-model" title="Permalink to this heading">#</a></h2>
+<p>Sekarang kita menguji seberapa baik model memprediksi data yang belum pernah ia lihat sebelumnya (X_test).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Melakukan prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Evaluasi Akurasi</span>
+<span class="n">akurasi</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi Keseluruhan: </span><span class="si">{</span><span class="n">akurasi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- LAPORAN KLASIFIKASI DETIL ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="c1"># Membuat Confusion Matrix</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> 
+            <span class="n">xticklabels</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="n">model_nb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix - Prediksi Naive Bayes&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Prediksi Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Kenyataan Aktual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi Keseluruhan: 100.00%
+
+--- LAPORAN KLASIFIKASI DETIL ---
+                 precision    recall  f1-score   support
+
+    Iris-setosa       1.00      1.00      1.00        10
+Iris-versicolor       1.00      1.00      1.00         9
+ Iris-virginica       1.00      1.00      1.00        11
+
+       accuracy                           1.00        30
+      macro avg       1.00      1.00      1.00        30
+   weighted avg       1.00      1.00      1.00        30
+</pre></div>
+</div>
+<img alt="_images/d7970aac8b251189f7046d35e6caa1a0d8cabc08417b1a4559c4584bfcb4dcd8.png" src="_images/d7970aac8b251189f7046d35e6caa1a0d8cabc08417b1a4559c4584bfcb4dcd8.png" />
+</div>
+</div>
+<p>Cara Membaca Metrik Evaluasi:
+Precision: Dari semua data yang diprediksi sebagai Versicolor, berapa persen yang benar-benar Versicolor?</p>
+<p>Recall: Dari semua data yang nyatanya Versicolor, berapa persen yang berhasil ditebak benar oleh model?</p>
+<p>F1-Score: Rata-rata harmonik antara Precision dan Recall (berguna jika kelas tidak seimbang).</p>
+<p>Confusion Matrix: Menunjukkan peta kesalahan. Jika ada kesalahan prediksi, biasanya terjadi antara Versicolor dan Virginica, sesuai dengan prediksi kita pada tahapan EDA (karena sebaran datanya beririsan).</p>
+</section>
+<section id="kesimpulan">
+<h2>7. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Permalink to this heading">#</a></h2>
+<p>Berdasarkan analisis dan percobaan di atas, dapat ditarik beberapa kesimpulan:</p>
+<ul class="simple">
+<li><p>Model Gaussian Naive Bayes berhasil mengklasifikasikan spesies bunga Iris dengan akurasi yang sangat memuaskan (umumnya mencapai di atas 95% untuk dataset ini).</p></li>
+<li><p>Algoritma bekerja dengan baik berkat distribusi fitur (khususnya petal length dan petal width) yang memang mendekati distribusi normal dan memiliki pemisahan klaster yang cukup baik antar kelas.</p></li>
+<li><p>Kelebihan utama dari model ini adalah kecepatan pelatihan, kemudahan interpretasi secara matematis, dan tidak perlunya proses feature scaling.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="analisis_knn_kesuburan_tanah.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analisis Klasifikasi Kesuburan Tanah dengan K-Nearest Neighbors (KNN)</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teori-dasar-probabilitas-dan-teorema-bayes">1. Teori Dasar Probabilitas dan Teorema Bayes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-naive-bayes-menangani-data-numerik">2. Gaussian Naive Bayes (Menangani Data Numerik)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-python-tingkat-lanjut">3. Implementasi Python Tingkat Lanjut</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-data-preprocessing">4. Persiapan Data (Preprocessing)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pelatihan-model-dan-bedah-parameter-matematis">5. Pelatihan Model dan Bedah Parameter Matematis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediksi-dan-evaluasi-model">6. Prediksi dan Evaluasi Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">7. Kesimpulan</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Okan Syailendra Wahyudi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
