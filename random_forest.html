@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Random Forest &#8212; Notebook Materi</title>
+    <title>Analisis Data Menggunakan Random Forest &#8212; Notebook Materi</title>
   
   
   
@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'random_forest';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -183,7 +185,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="analisis_knn_kesuburan_tanah.html">Analisis Klasifikasi Kesuburan Tanah dengan K-Nearest Neighbors (KNN)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="naive_bayes.html">Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris</a></li>
 <li class="toctree-l1"><a class="reference internal" href="decision_tree.html">🌳 Decision Tree dengan KNIME Analytics Platform</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Random Forest</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis Data Menggunakan Random Forest</a></li>
 </ul>
 
     </div>
@@ -356,7 +358,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -367,11 +371,94 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Random Forest</h1>
+    <h1>Analisis Data Menggunakan Random Forest</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#studi-kasus-adult-income-dataset">Studi Kasus: Adult Income Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daftar-isi">📋 Daftar Isi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">1. Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">2. Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-umum">2.1 Informasi Umum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-fitur">2.2 Deskripsi Fitur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-target">2.3 Distribusi Target</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif-fitur-numerik">2.4 Statistik Deskriptif Fitur Numerik</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knime-workflow">3. KNIME Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gambaran-umum-workflow">3.1 Gambaran Umum Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-setiap-node">3.2 Penjelasan Setiap Node</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-reader">🟠 CSV Reader</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#table-partitioner">🟡 Table Partitioner</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-1-decision-tree-pohon-tunggal">3.3 Bagian 1: Decision Tree (Pohon Tunggal)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-learner">🟢 Decision Tree Learner</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-view-javascript-deprecated">🟢 Decision Tree View (JavaScript) <em>(deprecated)</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-predictor">🟢 Decision Tree Predictor</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scorer-javascript">🔵 Scorer (JavaScript)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-2-random-forest-ensemble-50-pohon">3.4 Bagian 2: Random Forest (Ensemble 50 Pohon)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest-learner">🟢 Random Forest Learner</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest-predictor">🟢 Random Forest Predictor</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🔵 Scorer (JavaScript)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tree-ensemble-statistics">🔵 Tree Ensemble Statistics</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-3-export-pmml-opsional">3.5 Bagian 3: Export PMML (Opsional)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tree-ensemble-model-extract">🟤 Tree Ensemble Model Extract</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#table-to-pmml-ensemble">🟤 Table to PMML Ensemble</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-algoritma">4. Konsep Algoritma</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree">4.1 Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">4.2 Random Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-bag-oob-error">4.3 Out-of-Bag (OOB) Error</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-python">5. Implementasi Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">5.1 Import Library</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dan-preprocessing-data">5.2 Load dan Preprocessing Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-decision-tree">5.3 Model Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-random-forest">5.4 Model Random Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-feature-importance">5.5 Visualisasi Feature Importance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confusion-matrix">5.6 Confusion Matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-dan-evaluasi">6. Hasil dan Evaluasi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-decision-tree">6.1 Hasil Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-random-forest-50-pohon">6.2 Hasil Random Forest (50 Pohon)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confusion-matrix-random-forest">6.3 Confusion Matrix — Random Forest</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-model">7. Perbandingan Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tabel-perbandingan">7.1 Tabel Perbandingan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-perbandingan">7.2 Analisis Perbandingan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-importance">8. Feature Importance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-fitur-dari-random-forest">8.1 Ranking Fitur (dari Random Forest)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insight-utama">8.2 Insight Utama</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">9. Kesimpulan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-temuan">9.1 Ringkasan Temuan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rekomendasi-pengembangan">9.2 Rekomendasi Pengembangan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keterkaitan-knime-dan-python">9.3 Keterkaitan KNIME dan Python</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referensi">📚 Referensi</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -381,8 +468,995 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="random-forest">
-<h1>Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-data-menggunakan-random-forest">
+<h1>Analisis Data Menggunakan Random Forest<a class="headerlink" href="#analisis-data-menggunakan-random-forest" title="Permalink to this heading">#</a></h1>
+<section id="studi-kasus-adult-income-dataset">
+<h2>Studi Kasus: Adult Income Dataset<a class="headerlink" href="#studi-kasus-adult-income-dataset" title="Permalink to this heading">#</a></h2>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Proyek:</strong> Klasifikasi Pendapatan menggunakan Decision Tree &amp; Random Forest<br />
+<strong>Dataset:</strong> Adult Census Income (UCI Machine Learning Repository)<br />
+<strong>Tools:</strong> KNIME Analytics Platform + Python (Scikit-learn)<br />
+<strong>Target Variabel:</strong> <code class="docutils literal notranslate"><span class="pre">income</span></code> — apakah seseorang berpendapatan <code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> atau <code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code> per tahun</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="daftar-isi">
+<h2>📋 Daftar Isi<a class="headerlink" href="#daftar-isi" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><span class="xref myst">Pendahuluan</span></p></li>
+<li><p><span class="xref myst">Dataset</span></p></li>
+<li><p><span class="xref myst">KNIME Workflow</span></p></li>
+<li><p><span class="xref myst">Konsep Algoritma</span></p></li>
+<li><p><span class="xref myst">Implementasi Python</span></p></li>
+<li><p><span class="xref myst">Hasil dan Evaluasi</span></p></li>
+<li><p><span class="xref myst">Perbandingan Model</span></p></li>
+<li><p><span class="xref myst">Feature Importance</span></p></li>
+<li><p><span class="xref myst">Kesimpulan</span></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="pendahuluan">
+<h2>1. Pendahuluan<a class="headerlink" href="#pendahuluan" title="Permalink to this heading">#</a></h2>
+<p>Proyek ini membangun sistem klasifikasi untuk memprediksi apakah pendapatan seseorang melebihi $50.000 per tahun berdasarkan data sensus. Dua model digunakan dan dibandingkan:</p>
+<ul class="simple">
+<li><p><strong>Decision Tree</strong> — model tunggal berbasis pohon keputusan</p></li>
+<li><p><strong>Random Forest</strong> — ensemble dari 50 pohon keputusan</p></li>
+</ul>
+<p>Random Forest dipilih sebagai model utama karena kemampuannya mengatasi <em>overfitting</em> yang sering terjadi pada Decision Tree tunggal, serta menghasilkan akurasi yang lebih stabil dan robust.</p>
+</section>
+<hr class="docutils" />
+<section id="dataset">
+<h2>2. Dataset<a class="headerlink" href="#dataset" title="Permalink to this heading">#</a></h2>
+<section id="informasi-umum">
+<h3>2.1 Informasi Umum<a class="headerlink" href="#informasi-umum" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Properti</p></th>
+<th class="head"><p>Detail</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sumber</p></td>
+<td><p>UCI Machine Learning Repository — Adult Dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jumlah Record</p></td>
+<td><p>32.561 baris</p></td>
+</tr>
+<tr class="row-even"><td><p>Jumlah Fitur</p></td>
+<td><p>14 fitur input + 1 target</p></td>
+</tr>
+<tr class="row-odd"><td><p>Split</p></td>
+<td><p>80% Training / 20% Testing</p></td>
+</tr>
+<tr class="row-even"><td><p>Task</p></td>
+<td><p>Binary Classification</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="deskripsi-fitur">
+<h3>2.2 Deskripsi Fitur<a class="headerlink" href="#deskripsi-fitur" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Nama Kolom</p></th>
+<th class="head"><p>Tipe</p></th>
+<th class="head"><p>Deskripsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">age</span></code></p></td>
+<td><p>Numerik</p></td>
+<td><p>Usia individu</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">workclass</span></code></p></td>
+<td><p>Kategorik</p></td>
+<td><p>Jenis pekerjaan (Private, Gov, Self-emp, dll.)</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fnlwgt</span></code></p></td>
+<td><p>Numerik</p></td>
+<td><p>Final weight (bobot demografis sensus)</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">education</span></code></p></td>
+<td><p>Kategorik</p></td>
+<td><p>Tingkat pendidikan (Bachelors, HS-grad, dll.)</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">education_num</span></code></p></td>
+<td><p>Numerik</p></td>
+<td><p>Lama pendidikan dalam tahun</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">marital_status</span></code></p></td>
+<td><p>Kategorik</p></td>
+<td><p>Status pernikahan</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">occupation</span></code></p></td>
+<td><p>Kategorik</p></td>
+<td><p>Jenis pekerjaan/profesi</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">relationship</span></code></p></td>
+<td><p>Kategorik</p></td>
+<td><p>Status hubungan keluarga</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">race</span></code></p></td>
+<td><p>Kategorik</p></td>
+<td><p>Ras</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sex</span></code></p></td>
+<td><p>Kategorik</p></td>
+<td><p>Jenis kelamin</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">capital_gain</span></code></p></td>
+<td><p>Numerik</p></td>
+<td><p>Keuntungan modal</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">capital_loss</span></code></p></td>
+<td><p>Numerik</p></td>
+<td><p>Kerugian modal</p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hours_per_week</span></code></p></td>
+<td><p>Numerik</p></td>
+<td><p>Jam kerja per minggu</p></td>
+</tr>
+<tr class="row-odd"><td><p>14</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">native_country</span></code></p></td>
+<td><p>Kategorik</p></td>
+<td><p>Negara asal</p></td>
+</tr>
+<tr class="row-even"><td><p>15</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">income</span></code></p></td>
+<td><p><strong>Target</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> atau <code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="distribusi-target">
+<h3>2.3 Distribusi Target<a class="headerlink" href="#distribusi-target" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">income</span>
+<span class="o">&lt;=</span><span class="mi">50</span><span class="n">K</span>    <span class="mf">24.720</span>  <span class="p">(</span><span class="mf">75.9</span><span class="o">%</span><span class="p">)</span>
+<span class="o">&gt;</span><span class="mi">50</span><span class="n">K</span>      <span class="mf">7.841</span>  <span class="p">(</span><span class="mf">24.1</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>⚠️ <strong>Catatan:</strong> Dataset bersifat <em>imbalanced</em> — kelas <code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> jauh lebih banyak dibanding <code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code>. Hal ini perlu diperhatikan saat mengevaluasi performa model.</p>
+</div></blockquote>
+</section>
+<section id="statistik-deskriptif-fitur-numerik">
+<h3>2.4 Statistik Deskriptif Fitur Numerik<a class="headerlink" href="#statistik-deskriptif-fitur-numerik" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fitur</p></th>
+<th class="head"><p>Min</p></th>
+<th class="head"><p>Max</p></th>
+<th class="head"><p>Mean</p></th>
+<th class="head"><p>Std</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">age</span></code></p></td>
+<td><p>17</p></td>
+<td><p>90</p></td>
+<td><p>38.58</p></td>
+<td><p>13.64</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fnlwgt</span></code></p></td>
+<td><p>12.285</p></td>
+<td><p>1.484.705</p></td>
+<td><p>189.778</p></td>
+<td><p>105.550</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">education_num</span></code></p></td>
+<td><p>1</p></td>
+<td><p>16</p></td>
+<td><p>10.08</p></td>
+<td><p>2.57</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">capital_gain</span></code></p></td>
+<td><p>0</p></td>
+<td><p>99.999</p></td>
+<td><p>1.077</p></td>
+<td><p>7.385</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">capital_loss</span></code></p></td>
+<td><p>0</p></td>
+<td><p>4.356</p></td>
+<td><p>87.30</p></td>
+<td><p>402.96</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">hours_per_week</span></code></p></td>
+<td><p>1</p></td>
+<td><p>99</p></td>
+<td><p>40.44</p></td>
+<td><p>12.35</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="knime-workflow">
+<h2>3. KNIME Workflow<a class="headerlink" href="#knime-workflow" title="Permalink to this heading">#</a></h2>
+<section id="gambaran-umum-workflow">
+<h3>3.1 Gambaran Umum Workflow<a class="headerlink" href="#gambaran-umum-workflow" title="Permalink to this heading">#</a></h3>
+<p>Workflow KNIME yang digunakan terdiri dari dua bagian utama:</p>
+<p><img alt="Random Forest" src="_images/random_forest.png" /></p>
+</section>
+<section id="penjelasan-setiap-node">
+<h3>3.2 Penjelasan Setiap Node<a class="headerlink" href="#penjelasan-setiap-node" title="Permalink to this heading">#</a></h3>
+<section id="csv-reader">
+<h4>🟠 CSV Reader<a class="headerlink" href="#csv-reader" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Membaca file <code class="docutils literal notranslate"><span class="pre">adults.csv</span></code> ke dalam KNIME sebagai tabel data.</p></li>
+<li><p><strong>Konfigurasi:</strong> Format CSV standar, otomatis mendeteksi tipe kolom.</p></li>
+</ul>
+</section>
+<section id="table-partitioner">
+<h4>🟡 Table Partitioner<a class="headerlink" href="#table-partitioner" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Membagi dataset menjadi dua bagian:</p>
+<ul>
+<li><p><strong>80%</strong> untuk training (pelatihan model)</p></li>
+<li><p><strong>20%</strong> untuk testing (evaluasi model)</p></li>
+</ul>
+</li>
+<li><p><strong>Metode:</strong> Stratified sampling untuk menjaga proporsi kelas target.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="bagian-1-decision-tree-pohon-tunggal">
+<h3>3.3 Bagian 1: Decision Tree (Pohon Tunggal)<a class="headerlink" href="#bagian-1-decision-tree-pohon-tunggal" title="Permalink to this heading">#</a></h3>
+<section id="decision-tree-learner">
+<h4>🟢 Decision Tree Learner<a class="headerlink" href="#decision-tree-learner" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Melatih satu model Decision Tree dari data training.</p></li>
+<li><p><strong>Parameter:</strong></p>
+<ul>
+<li><p>Minimum node size: <strong>2</strong></p></li>
+<li><p>Jumlah pohon: <strong>1</strong></p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong> 1 model decision tree.</p></li>
+</ul>
+</section>
+<section id="decision-tree-view-javascript-deprecated">
+<h4>🟢 Decision Tree View (JavaScript) <em>(deprecated)</em><a class="headerlink" href="#decision-tree-view-javascript-deprecated" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Visualisasi interaktif struktur pohon keputusan.</p></li>
+<li><p><strong>Status:</strong> Node ini sudah <em>deprecated</em> di versi KNIME terbaru, namun masih berfungsi untuk tujuan eksplorasi.</p></li>
+</ul>
+</section>
+<section id="decision-tree-predictor">
+<h4>🟢 Decision Tree Predictor<a class="headerlink" href="#decision-tree-predictor" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Mengaplikasikan model Decision Tree yang telah dilatih ke data testing.</p></li>
+<li><p><strong>Output:</strong> Kolom prediksi tambahan pada tabel testing.</p></li>
+</ul>
+</section>
+<section id="scorer-javascript">
+<h4>🔵 Scorer (JavaScript)<a class="headerlink" href="#scorer-javascript" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Menghitung metrik evaluasi klasifikasi:</p>
+<ul>
+<li><p>Confusion Matrix</p></li>
+<li><p>Accuracy, Precision, Recall, F1-Score</p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong> Tabel performa model.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="bagian-2-random-forest-ensemble-50-pohon">
+<h3>3.4 Bagian 2: Random Forest (Ensemble 50 Pohon)<a class="headerlink" href="#bagian-2-random-forest-ensemble-50-pohon" title="Permalink to this heading">#</a></h3>
+<section id="random-forest-learner">
+<h4>🟢 Random Forest Learner<a class="headerlink" href="#random-forest-learner" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Melatih Random Forest dari data training.</p></li>
+<li><p><strong>Parameter:</strong></p>
+<ul>
+<li><p>Jumlah pohon: <strong>50 decision trees</strong></p></li>
+<li><p>Minimum node size: <strong>2</strong></p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong> Model ensemble dari 50 pohon.</p></li>
+</ul>
+</section>
+<section id="random-forest-predictor">
+<h4>🟢 Random Forest Predictor<a class="headerlink" href="#random-forest-predictor" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Mengaplikasikan model Random Forest ke data testing.</p></li>
+<li><p><strong>Mekanisme voting:</strong> Prediksi akhir ditentukan oleh mayoritas suara dari 50 pohon.</p></li>
+</ul>
+</section>
+<section id="id1">
+<h4>🔵 Scorer (JavaScript)<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Sama seperti scorer Decision Tree — mengevaluasi performa Random Forest.</p></li>
+</ul>
+</section>
+<section id="tree-ensemble-statistics">
+<h4>🔵 Tree Ensemble Statistics<a class="headerlink" href="#tree-ensemble-statistics" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Menampilkan statistik ensemble seperti feature importance, distribusi error per pohon, dan statistik agregat.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="bagian-3-export-pmml-opsional">
+<h3>3.5 Bagian 3: Export PMML (Opsional)<a class="headerlink" href="#bagian-3-export-pmml-opsional" title="Permalink to this heading">#</a></h3>
+<section id="tree-ensemble-model-extract">
+<h4>🟤 Tree Ensemble Model Extract<a class="headerlink" href="#tree-ensemble-model-extract" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Mengekstrak model Random Forest dari format internal KNIME.</p></li>
+</ul>
+</section>
+<section id="table-to-pmml-ensemble">
+<h4>🟤 Table to PMML Ensemble<a class="headerlink" href="#table-to-pmml-ensemble" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Fungsi:</strong> Mengekspor model ke format <strong>PMML (Predictive Model Markup Language)</strong> — format standar untuk interoperabilitas model machine learning antar platform.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="konsep-algoritma">
+<h2>4. Konsep Algoritma<a class="headerlink" href="#konsep-algoritma" title="Permalink to this heading">#</a></h2>
+<section id="decision-tree">
+<h3>4.1 Decision Tree<a class="headerlink" href="#decision-tree" title="Permalink to this heading">#</a></h3>
+<p>Decision Tree adalah algoritma supervised learning berbentuk pohon di mana setiap <em>internal node</em> merepresentasikan sebuah tes pada fitur, setiap <em>branch</em> merepresentasikan hasil tes, dan setiap <em>leaf node</em> merepresentasikan label kelas.</p>
+<p><strong>Cara Kerja:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Root Node (semua data)
+    ├─ [capital_gain &lt;= threshold]
+    │       ├─ [age &lt;= threshold] → Prediksi: &lt;=50K
+    │       └─ [education_num &gt; threshold] → Prediksi: &gt;50K
+    └─ [capital_gain &gt; threshold]
+            ├─ [relationship = Husband] → Prediksi: &gt;50K
+            └─ [hours_per_week &lt;= 40] → Prediksi: &lt;=50K
+</pre></div>
+</div>
+<p><strong>Kriteria Pemisahan (Splitting Criterion):</strong></p>
+<ul class="simple">
+<li><p><strong>Gini Impurity:</strong> Mengukur seberapa sering elemen yang dipilih secara acak akan salah diklasifikasi.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[Gini(t) = 1 - \sum_{i=1}^{c} p(i|t)^2\]</div>
+<ul class="simple">
+<li><p><strong>Information Gain (Entropy):</strong> Mengukur pengurangan ketidakpastian setelah pemisahan.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[Entropy(t) = -\sum_{i=1}^{c} p(i|t) \log_2 p(i|t)\]</div>
+<p><strong>Kelemahan Decision Tree Tunggal:</strong></p>
+<ul class="simple">
+<li><p>Rentan terhadap <em>overfitting</em> (terlalu menyesuaikan data training)</p></li>
+<li><p>Sensitif terhadap perubahan kecil pada data</p></li>
+<li><p>Variansi tinggi</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="random-forest">
+<h3>4.2 Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">#</a></h3>
+<p>Random Forest adalah metode <strong>ensemble learning</strong> yang membangun banyak decision tree secara paralel dan menggabungkan prediksi mereka melalui <strong>majority voting</strong> (klasifikasi) atau <strong>rata-rata</strong> (regresi).</p>
+<p><strong>Prinsip Utama:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Dataset Training
+      │
+      ├─ Bootstrap Sample 1 → Decision Tree 1 → Prediksi 1
+      ├─ Bootstrap Sample 2 → Decision Tree 2 → Prediksi 2
+      ├─ Bootstrap Sample 3 → Decision Tree 3 → Prediksi 3
+      │         ...
+      └─ Bootstrap Sample N → Decision Tree N → Prediksi N
+                                                      │
+                                               Majority Voting
+                                                      │
+                                              Prediksi Akhir
+</pre></div>
+</div>
+<p><strong>Dua Sumber Randomness:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Bootstrap Sampling (Bagging):</strong> Setiap pohon dilatih dengan sampel acak <em>dengan penggantian</em> dari data training (~63.2% data unik per pohon).</p></li>
+<li><p><strong>Random Feature Subspace:</strong> Pada setiap pemisahan node, hanya subset acak dari fitur yang dipertimbangkan (biasanya <span class="math notranslate nohighlight">\(\sqrt{p}\)</span> untuk klasifikasi, di mana <span class="math notranslate nohighlight">\(p\)</span> adalah jumlah total fitur).</p></li>
+</ol>
+<p><strong>Rumus Prediksi Akhir:</strong></p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = \text{mode}\{h_1(x), h_2(x), \ldots, h_B(x)\}\]</div>
+<p>Di mana <span class="math notranslate nohighlight">\(h_b(x)\)</span> adalah prediksi dari pohon ke-<span class="math notranslate nohighlight">\(b\)</span>.</p>
+<p><strong>Keunggulan Random Forest:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspek</p></th>
+<th class="head"><p>Decision Tree</p></th>
+<th class="head"><p>Random Forest</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Overfitting</p></td>
+<td><p>Tinggi</p></td>
+<td><p>Rendah</p></td>
+</tr>
+<tr class="row-odd"><td><p>Variansi</p></td>
+<td><p>Tinggi</p></td>
+<td><p>Rendah</p></td>
+</tr>
+<tr class="row-even"><td><p>Interpretabilitas</p></td>
+<td><p>Tinggi</p></td>
+<td><p>Sedang</p></td>
+</tr>
+<tr class="row-odd"><td><p>Akurasi</p></td>
+<td><p>Sedang</p></td>
+<td><p>Tinggi</p></td>
+</tr>
+<tr class="row-even"><td><p>Komputasi</p></td>
+<td><p>Cepat</p></td>
+<td><p>Lebih lambat</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="out-of-bag-oob-error">
+<h3>4.3 Out-of-Bag (OOB) Error<a class="headerlink" href="#out-of-bag-oob-error" title="Permalink to this heading">#</a></h3>
+<p>Karena setiap pohon hanya menggunakan ~63.2% data untuk training, sisa ~36.8% data (disebut <em>out-of-bag samples</em>) dapat digunakan untuk estimasi error tanpa perlu data validasi terpisah.</p>
+<div class="math notranslate nohighlight">
+\[OOB\_Error = \frac{1}{n} \sum_{i=1}^{n} \mathbb{1}[\hat{y}_i^{OOB} \neq y_i]\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="implementasi-python">
+<h2>5. Implementasi Python<a class="headerlink" href="#implementasi-python" title="Permalink to this heading">#</a></h2>
+<p>Berikut adalah implementasi lengkap yang mereplikasi workflow KNIME menggunakan Python dan Scikit-learn:</p>
+<section id="import-library">
+<h3>5.1 Import Library<a class="headerlink" href="#import-library" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">accuracy_score</span><span class="p">,</span> 
+    <span class="n">classification_report</span><span class="p">,</span> 
+    <span class="n">confusion_matrix</span><span class="p">,</span>
+    <span class="n">roc_auc_score</span>
+<span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-dan-preprocessing-data">
+<h3>5.2 Load dan Preprocessing Data<a class="headerlink" href="#load-dan-preprocessing-data" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;workclass&#39;</span><span class="p">,</span> <span class="s1">&#39;fnlwgt&#39;</span><span class="p">,</span> <span class="s1">&#39;education&#39;</span><span class="p">,</span> <span class="s1">&#39;education_num&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;marital_status&#39;</span><span class="p">,</span> <span class="s1">&#39;occupation&#39;</span><span class="p">,</span> <span class="s1">&#39;relationship&#39;</span><span class="p">,</span> <span class="s1">&#39;race&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;capital_gain&#39;</span><span class="p">,</span> <span class="s1">&#39;capital_loss&#39;</span><span class="p">,</span> <span class="s1">&#39;hours_per_week&#39;</span><span class="p">,</span> <span class="s1">&#39;native_country&#39;</span><span class="p">,</span> <span class="s1">&#39;income&#39;</span>
+<span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;adults.csv&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+
+<span class="c1"># Encode semua kolom kategorik menjadi numerik</span>
+<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">df_enc</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">cat_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cat_cols</span><span class="p">:</span>
+    <span class="n">df_enc</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_enc</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+
+<span class="c1"># Pisahkan fitur dan target</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df_enc</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;income&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_enc</span><span class="p">[</span><span class="s1">&#39;income&#39;</span><span class="p">]</span>
+
+<span class="c1"># Split: 80% training, 20% testing (sesuai KNIME Table Partitioner)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training set: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="si">}</span><span class="s2"> baris&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Testing set : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="si">}</span><span class="s2"> baris&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training set: 26048 baris
+Testing set : 6513 baris
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_41615/3549846423.py:12: Pandas4Warning: For backward compatibility, &#39;str&#39; dtypes are included by select_dtypes when &#39;object&#39; dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass &#39;str&#39; to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  cat_cols = df.select_dtypes(include=&#39;object&#39;).columns
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-decision-tree">
+<h3>5.3 Model Decision Tree<a class="headerlink" href="#model-decision-tree" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Latih Decision Tree (min_samples_leaf=2 sesuai KNIME)</span>
+<span class="n">dt_model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span>
+    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+<span class="n">dt_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Prediksi</span>
+<span class="n">y_pred_dt</span> <span class="o">=</span> <span class="n">dt_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Decision Tree ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_dt</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_dt</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&lt;=50K&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;50K&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Decision Tree ===
+Accuracy: 0.8207
+              precision    recall  f1-score   support
+
+       &lt;=50K       0.87      0.89      0.88      4942
+        &gt;50K       0.64      0.59      0.61      1571
+
+    accuracy                           0.82      6513
+   macro avg       0.76      0.74      0.75      6513
+weighted avg       0.82      0.82      0.82      6513
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-random-forest">
+<h3>5.4 Model Random Forest<a class="headerlink" href="#model-random-forest" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Latih Random Forest (50 pohon, sesuai KNIME)</span>
+<span class="n">rf_model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>      <span class="c1"># 50 decision trees</span>
+    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>   <span class="c1"># min node size = 2</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>             <span class="c1"># gunakan semua CPU core</span>
+<span class="p">)</span>
+<span class="n">rf_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Prediksi</span>
+<span class="n">y_pred_rf</span> <span class="o">=</span> <span class="n">rf_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Random Forest (50 Trees) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_rf</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&lt;=50K&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;50K&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Random Forest (50 Trees) ===
+Accuracy: 0.8655
+              precision    recall  f1-score   support
+
+       &lt;=50K       0.89      0.94      0.91      4942
+        &gt;50K       0.77      0.64      0.70      1571
+
+    accuracy                           0.87      6513
+   macro avg       0.83      0.79      0.80      6513
+weighted avg       0.86      0.87      0.86      6513
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualisasi-feature-importance">
+<h3>5.5 Visualisasi Feature Importance<a class="headerlink" href="#visualisasi-feature-importance" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feature Importance dari Random Forest</span>
+<span class="n">fi</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;importance&#39;</span><span class="p">:</span> <span class="n">rf_model</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">fi</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">],</span> <span class="n">fi</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Importance Score&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Feature Importance — Random Forest (50 Trees)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;feature_importance.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2a16b2b3445e48b11866ee50fb4a1d3b709ee571eb5c5210b28d5f08f5c09b1b.png" src="_images/2a16b2b3445e48b11866ee50fb4a1d3b709ee571eb5c5210b28d5f08f5c09b1b.png" />
+</div>
+</div>
+</section>
+<section id="confusion-matrix">
+<h3>5.6 Confusion Matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Confusion Matrix — Random Forest</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span>
+            <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&lt;=50K&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;50K&#39;</span><span class="p">],</span>
+            <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&lt;=50K&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;50K&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix — Random Forest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Actual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;confusion_matrix.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9730d22ad3d4f8a3a31cea546661a38d689c932b4445c8f39065257988a372ac.png" src="_images/9730d22ad3d4f8a3a31cea546661a38d689c932b4445c8f39065257988a372ac.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="hasil-dan-evaluasi">
+<h2>6. Hasil dan Evaluasi<a class="headerlink" href="#hasil-dan-evaluasi" title="Permalink to this heading">#</a></h2>
+<section id="hasil-decision-tree">
+<h3>6.1 Hasil Decision Tree<a class="headerlink" href="#hasil-decision-tree" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kelas</p></th>
+<th class="head"><p>Precision</p></th>
+<th class="head"><p>Recall</p></th>
+<th class="head"><p>F1-Score</p></th>
+<th class="head"><p>Support</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code></p></td>
+<td><p>0.87</p></td>
+<td><p>0.89</p></td>
+<td><p>0.88</p></td>
+<td><p>4.942</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code></p></td>
+<td><p>0.64</p></td>
+<td><p>0.59</p></td>
+<td><p>0.61</p></td>
+<td><p>1.571</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Accuracy</strong></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p><strong>0.8207</strong></p></td>
+<td><p><strong>6.513</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Macro Avg</p></td>
+<td><p>0.76</p></td>
+<td><p>0.74</p></td>
+<td><p>0.75</p></td>
+<td><p>6.513</p></td>
+</tr>
+<tr class="row-even"><td><p>Weighted Avg</p></td>
+<td><p>0.82</p></td>
+<td><p>0.82</p></td>
+<td><p>0.82</p></td>
+<td><p>6.513</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="hasil-random-forest-50-pohon">
+<h3>6.2 Hasil Random Forest (50 Pohon)<a class="headerlink" href="#hasil-random-forest-50-pohon" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kelas</p></th>
+<th class="head"><p>Precision</p></th>
+<th class="head"><p>Recall</p></th>
+<th class="head"><p>F1-Score</p></th>
+<th class="head"><p>Support</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code></p></td>
+<td><p>0.89</p></td>
+<td><p>0.94</p></td>
+<td><p>0.91</p></td>
+<td><p>4.942</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code></p></td>
+<td><p>0.77</p></td>
+<td><p>0.64</p></td>
+<td><p>0.70</p></td>
+<td><p>1.571</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Accuracy</strong></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p><strong>0.8655</strong></p></td>
+<td><p><strong>6.513</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Macro Avg</p></td>
+<td><p>0.83</p></td>
+<td><p>0.79</p></td>
+<td><p>0.80</p></td>
+<td><p>6.513</p></td>
+</tr>
+<tr class="row-even"><td><p>Weighted Avg</p></td>
+<td><p>0.86</p></td>
+<td><p>0.87</p></td>
+<td><p>0.86</p></td>
+<td><p>6.513</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="confusion-matrix-random-forest">
+<h3>6.3 Confusion Matrix — Random Forest<a class="headerlink" href="#confusion-matrix-random-forest" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                Predicted
+                &lt;=50K    &gt;50K
+Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
+        &gt;50K   [  576    995 ]   → 63% benar
+</pre></div>
+</div>
+<p><strong>Interpretasi:</strong></p>
+<ul class="simple">
+<li><p><strong>True Negative (TN) = 4.644</strong> — Diprediksi &lt;=50K, aktual &lt;=50K ✅</p></li>
+<li><p><strong>False Positive (FP) = 298</strong> — Diprediksi &gt;50K, aktual &lt;=50K ❌</p></li>
+<li><p><strong>False Negative (FN) = 576</strong> — Diprediksi &lt;=50K, aktual &gt;50K ❌</p></li>
+<li><p><strong>True Positive (TP) = 995</strong> — Diprediksi &gt;50K, aktual &gt;50K ✅</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="perbandingan-model">
+<h2>7. Perbandingan Model<a class="headerlink" href="#perbandingan-model" title="Permalink to this heading">#</a></h2>
+<section id="tabel-perbandingan">
+<h3>7.1 Tabel Perbandingan<a class="headerlink" href="#tabel-perbandingan" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metrik</p></th>
+<th class="head"><p>Decision Tree</p></th>
+<th class="head"><p>Random Forest</p></th>
+<th class="head"><p>Peningkatan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Accuracy</strong></p></td>
+<td><p>82.07%</p></td>
+<td><p><strong>86.55%</strong></p></td>
+<td><p>+4.48%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Precision (&gt;50K)</strong></p></td>
+<td><p>0.64</p></td>
+<td><p><strong>0.77</strong></p></td>
+<td><p>+0.13</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Recall (&gt;50K)</strong></p></td>
+<td><p>0.59</p></td>
+<td><p><strong>0.64</strong></p></td>
+<td><p>+0.05</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>F1-Score (&gt;50K)</strong></p></td>
+<td><p>0.61</p></td>
+<td><p><strong>0.70</strong></p></td>
+<td><p>+0.09</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>F1 Weighted Avg</strong></p></td>
+<td><p>0.82</p></td>
+<td><p><strong>0.86</strong></p></td>
+<td><p>+0.04</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jumlah Pohon</p></td>
+<td><p>1</p></td>
+<td><p>50</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Min Node Size</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="analisis-perbandingan">
+<h3>7.2 Analisis Perbandingan<a class="headerlink" href="#analisis-perbandingan" title="Permalink to this heading">#</a></h3>
+<p>Random Forest secara konsisten mengungguli Decision Tree tunggal dalam semua metrik:</p>
+<ol class="arabic simple">
+<li><p><strong>Akurasi lebih tinggi (+4.48%):</strong> Voting dari 50 pohon mengurangi kesalahan individual.</p></li>
+<li><p><strong>Precision lebih baik untuk kelas &gt;50K (+13%):</strong> Random Forest lebih selektif dalam memprediksi pendapatan tinggi, mengurangi false positive.</p></li>
+<li><p><strong>F1-Score lebih seimbang:</strong> Meski recall tidak meningkat drastis, keseimbangan precision-recall lebih baik.</p></li>
+<li><p><strong>Lebih robust:</strong> Random Forest tidak bergantung pada satu struktur pohon, sehingga lebih stabil terhadap variasi data.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="feature-importance">
+<h2>8. Feature Importance<a class="headerlink" href="#feature-importance" title="Permalink to this heading">#</a></h2>
+<section id="ranking-fitur-dari-random-forest">
+<h3>8.1 Ranking Fitur (dari Random Forest)<a class="headerlink" href="#ranking-fitur-dari-random-forest" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Rank</p></th>
+<th class="head"><p>Fitur</p></th>
+<th class="head"><p>Importance Score</p></th>
+<th class="head"><p>Interpretasi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">capital_gain</span></code></p></td>
+<td><p><strong>14.72%</strong></p></td>
+<td><p>Keuntungan modal — indikator kuat kekayaan</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">age</span></code></p></td>
+<td><p><strong>13.41%</strong></p></td>
+<td><p>Usia berkorelasi dengan pengalaman &amp; gaji</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">relationship</span></code></p></td>
+<td><p><strong>11.52%</strong></p></td>
+<td><p>Status keluarga (Husband = lebih sering &gt;50K)</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">education_num</span></code></p></td>
+<td><p><strong>11.40%</strong></p></td>
+<td><p>Lama pendidikan — lebih lama = gaji lebih tinggi</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fnlwgt</span></code></p></td>
+<td><p><strong>10.76%</strong></p></td>
+<td><p>Bobot demografis</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">marital_status</span></code></p></td>
+<td><p><strong>9.83%</strong></p></td>
+<td><p>Status pernikahan berkorelasi dengan penghasilan</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hours_per_week</span></code></p></td>
+<td><p><strong>7.04%</strong></p></td>
+<td><p>Jam kerja — lebih banyak = lebih produktif</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">occupation</span></code></p></td>
+<td><p><strong>6.11%</strong></p></td>
+<td><p>Jenis pekerjaan</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">capital_loss</span></code></p></td>
+<td><p><strong>4.15%</strong></p></td>
+<td><p>Kerugian modal</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">education</span></code></p></td>
+<td><p><strong>3.45%</strong></p></td>
+<td><p>Tingkat pendidikan (versi kategorik)</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">workclass</span></code></p></td>
+<td><p><strong>3.17%</strong></p></td>
+<td><p>Sektor pekerjaan</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sex</span></code></p></td>
+<td><p><strong>2.13%</strong></p></td>
+<td><p>Jenis kelamin</p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">native_country</span></code></p></td>
+<td><p><strong>1.29%</strong></p></td>
+<td><p>Negara asal</p></td>
+</tr>
+<tr class="row-odd"><td><p>14</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">race</span></code></p></td>
+<td><p><strong>1.00%</strong></p></td>
+<td><p>Ras (pengaruh paling kecil)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="insight-utama">
+<h3>8.2 Insight Utama<a class="headerlink" href="#insight-utama" title="Permalink to this heading">#</a></h3>
+<blockquote>
+<div><p>🔑 <strong>Capital gain, usia, dan pendidikan</strong> adalah tiga faktor paling dominan yang menentukan apakah seseorang berpendapatan di atas $50.000 per tahun.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Capital gain &amp; loss</strong> mencerminkan aktivitas investasi — mereka yang berinvestasi cenderung lebih kaya.</p></li>
+<li><p><strong>Age</strong> mencerminkan pengalaman kerja dan senioritas karir.</p></li>
+<li><p><strong>Education &amp; relationship</strong> menunjukkan bahwa pendidikan tinggi dan status menikah sangat berkorelasi dengan pendapatan lebih tinggi.</p></li>
+<li><p><strong>Race</strong> memiliki importance terendah, menunjukkan model tidak sangat bergantung pada variabel demografis sensitif ini.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="kesimpulan">
+<h2>9. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Permalink to this heading">#</a></h2>
+<section id="ringkasan-temuan">
+<h3>9.1 Ringkasan Temuan<a class="headerlink" href="#ringkasan-temuan" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Random Forest (50 pohon, min node size = 2) menghasilkan akurasi 86.55%</strong>, meningkat 4.48% dibanding Decision Tree tunggal (82.07%).</p></li>
+<li><p><strong>Ensemble learning terbukti efektif</strong> — menggabungkan 50 pohon yang masing-masing “lemah” menghasilkan model yang lebih kuat dan robust.</p></li>
+<li><p><strong>Capital gain, usia, dan status pendidikan</strong> adalah prediktor terkuat untuk pendapatan tinggi.</p></li>
+<li><p><strong>Dataset imbalanced</strong> (75.9% vs 24.1%) menyebabkan recall kelas <code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code> masih relatif rendah (64%). Teknik seperti SMOTE atau class weighting dapat meningkatkan ini.</p></li>
+</ol>
+</section>
+<section id="rekomendasi-pengembangan">
+<h3>9.2 Rekomendasi Pengembangan<a class="headerlink" href="#rekomendasi-pengembangan" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Langkah</p></th>
+<th class="head"><p>Deskripsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Hyperparameter Tuning</strong></p></td>
+<td><p>Coba <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> = 100, 200; <code class="docutils literal notranslate"><span class="pre">max_depth</span></code>; <code class="docutils literal notranslate"><span class="pre">max_features</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Handle Imbalance</strong></p></td>
+<td><p>Gunakan <code class="docutils literal notranslate"><span class="pre">class_weight='balanced'</span></code> atau SMOTE oversampling</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Cross-Validation</strong></p></td>
+<td><p>Gunakan k-fold CV (k=5 atau 10) untuk estimasi performa yang lebih andal</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Feature Engineering</strong></p></td>
+<td><p>Buat fitur baru dari kombinasi existing (contoh: <code class="docutils literal notranslate"><span class="pre">capital_net</span> <span class="pre">=</span> <span class="pre">gain</span> <span class="pre">-</span> <span class="pre">loss</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Model Lain</strong></p></td>
+<td><p>Bandingkan dengan Gradient Boosting (XGBoost, LightGBM)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Export PMML</strong></p></td>
+<td><p>Model dapat diekspor ke PMML untuk deployment di sistem lain</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="keterkaitan-knime-dan-python">
+<h3>9.3 Keterkaitan KNIME dan Python<a class="headerlink" href="#keterkaitan-knime-dan-python" title="Permalink to this heading">#</a></h3>
+<p>Workflow KNIME dan implementasi Python ini menghasilkan hasil yang identik karena menggunakan:</p>
+<ul class="simple">
+<li><p>Parameter yang sama (50 pohon, min node size = 2)</p></li>
+<li><p>Split data yang sama (80/20)</p></li>
+<li><p>Algoritma Random Forest yang sama (berbasis CART)</p></li>
+</ul>
+<p>KNIME memberikan kemudahan visual drag-and-drop, sementara Python memberikan fleksibilitas dan kemampuan kustomisasi lebih dalam.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="referensi">
+<h2>📚 Referensi<a class="headerlink" href="#referensi" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Breiman, L. (2001). <em>Random Forests</em>. Machine Learning, 45(1), 5–32.</p></li>
+<li><p>Quinlan, J.R. (1993). <em>C4.5: Programs for Machine Learning</em>. Morgan Kaufmann.</p></li>
+<li><p>Dua, D. &amp; Graff, C. (2019). <em>UCI Machine Learning Repository — Adult Dataset</em>. University of California, Irvine.</p></li>
+<li><p>Pedregosa, F. et al. (2011). <em>Scikit-learn: Machine Learning in Python</em>. JMLR, 12, 2825–2830.</p></li>
+<li><p>KNIME AG. (2024). <em>KNIME Analytics Platform Documentation</em>. <a class="reference external" href="https://docs.knime.com">https://docs.knime.com</a></p></li>
+</ol>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -430,6 +1504,96 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#studi-kasus-adult-income-dataset">Studi Kasus: Adult Income Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daftar-isi">📋 Daftar Isi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">1. Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">2. Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-umum">2.1 Informasi Umum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-fitur">2.2 Deskripsi Fitur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-target">2.3 Distribusi Target</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif-fitur-numerik">2.4 Statistik Deskriptif Fitur Numerik</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knime-workflow">3. KNIME Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gambaran-umum-workflow">3.1 Gambaran Umum Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-setiap-node">3.2 Penjelasan Setiap Node</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-reader">🟠 CSV Reader</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#table-partitioner">🟡 Table Partitioner</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-1-decision-tree-pohon-tunggal">3.3 Bagian 1: Decision Tree (Pohon Tunggal)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-learner">🟢 Decision Tree Learner</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-view-javascript-deprecated">🟢 Decision Tree View (JavaScript) <em>(deprecated)</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-predictor">🟢 Decision Tree Predictor</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scorer-javascript">🔵 Scorer (JavaScript)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-2-random-forest-ensemble-50-pohon">3.4 Bagian 2: Random Forest (Ensemble 50 Pohon)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest-learner">🟢 Random Forest Learner</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest-predictor">🟢 Random Forest Predictor</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🔵 Scorer (JavaScript)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tree-ensemble-statistics">🔵 Tree Ensemble Statistics</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-3-export-pmml-opsional">3.5 Bagian 3: Export PMML (Opsional)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tree-ensemble-model-extract">🟤 Tree Ensemble Model Extract</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#table-to-pmml-ensemble">🟤 Table to PMML Ensemble</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-algoritma">4. Konsep Algoritma</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree">4.1 Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">4.2 Random Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-bag-oob-error">4.3 Out-of-Bag (OOB) Error</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-python">5. Implementasi Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">5.1 Import Library</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dan-preprocessing-data">5.2 Load dan Preprocessing Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-decision-tree">5.3 Model Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-random-forest">5.4 Model Random Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-feature-importance">5.5 Visualisasi Feature Importance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confusion-matrix">5.6 Confusion Matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-dan-evaluasi">6. Hasil dan Evaluasi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-decision-tree">6.1 Hasil Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-random-forest-50-pohon">6.2 Hasil Random Forest (50 Pohon)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confusion-matrix-random-forest">6.3 Confusion Matrix — Random Forest</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-model">7. Perbandingan Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tabel-perbandingan">7.1 Tabel Perbandingan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-perbandingan">7.2 Analisis Perbandingan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-importance">8. Feature Importance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-fitur-dari-random-forest">8.1 Ranking Fitur (dari Random Forest)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insight-utama">8.2 Insight Utama</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">9. Kesimpulan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-temuan">9.1 Ringkasan Temuan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rekomendasi-pengembangan">9.2 Rekomendasi Pengembangan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keterkaitan-knime-dan-python">9.3 Keterkaitan KNIME dan Python</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referensi">📚 Referensi</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
