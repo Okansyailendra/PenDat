@@ -12,3 +12,4 @@ chapters:
 - file: analisis_knn_kesuburan_tanah
 - file: naive_bayes
 - file: decision_tree
+- file: random_forest
