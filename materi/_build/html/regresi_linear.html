@@ -67,6 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'regresi_linear';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Analisis Data Menggunakan Random Forest" href="random_forest.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -129,8 +130,6 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -175,7 +174,7 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="markdown.html">Pengantar Penambangan Data (Data Mining)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Data Iris</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Mengukur Jarak Data (Distance Measurement)</a></li>
@@ -187,6 +186,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="naive_bayes.html">Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris</a></li>
 <li class="toctree-l1"><a class="reference internal" href="decision_tree.html">🌳 Decision Tree dengan KNIME Analytics Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="random_forest.html">Analisis Data Menggunakan Random Forest</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">📊 Regresi Linier (Linear Regression)</a></li>
 </ul>
 
     </div>
@@ -382,48 +382,37 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-regresi-linier">1. Apa itu Regresi Linier?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mengapa-penting-dipelajari">Mengapa penting dipelajari?</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-regresi-linier">1. Apa itu Regresi Linier?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-regresi-linier-sederhana">2. Model Regresi Linier Sederhana</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-regresi-linier-berganda-multiple">3. Model Regresi Linier Berganda (Multiple)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimasi-koefisien">4. Estimasi Koefisien</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-meminimalkan-sum-of-squared-residuals-ssr">Konsep: Meminimalkan Sum of Squared Residuals (SSR)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-analitik-ordinary-least-squares-ols">Rumus Analitik (Ordinary Least Squares / OLS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimasi-koefisien-ordinary-least-squares-ols">4. Estimasi Koefisien — Ordinary Least Squares (OLS)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-meminimalkan-sum-of-squared-residuals">Konsep: Meminimalkan Sum of Squared Residuals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solusi-analitik-ols">Solusi Analitik OLS</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-perhitungan-manual">5. Contoh Perhitungan Manual</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-susun-matriks-x-dan-y">Langkah 1: Susun Matriks X dan Y</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-hitung-x-t-x">Langkah 2: Hitung <span class="math notranslate nohighlight">\(X^T X\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-x-t-x-1">Langkah 3: Hitung <span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hitung-x-t-y">Langkah 4: Hitung <span class="math notranslate nohighlight">\(X^T Y\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-hitung-hat-beta">Langkah 5: Hitung <span class="math notranslate nohighlight">\(\hat{\beta}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-susun-matriks-x-dan-vektor-y">Langkah 1 — Susun Matriks <span class="math notranslate nohighlight">\(X\)</span> dan Vektor <span class="math notranslate nohighlight">\(Y\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-hitung-x-t-x">Langkah 2 — Hitung <span class="math notranslate nohighlight">\(X^T X\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-x-t-x-1">Langkah 3 — Hitung <span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hitung-x-t-y">Langkah 4 — Hitung <span class="math notranslate nohighlight">\(X^T Y\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-hitung-hat-mathbf-b">Langkah 5 — Hitung <span class="math notranslate nohighlight">\(\hat{\mathbf{b}}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-verifikasi-dengan-rumus-sederhana">Langkah 6 — Verifikasi dengan Rumus Sederhana</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-7-evaluasi-model-r-2">Langkah 7 — Evaluasi Model (<span class="math notranslate nohighlight">\(R^2\)</span>)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variabel-kategorikal-dummy-variables">6. Variabel Kategorikal (Dummy Variables)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-python">7. Code Python</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menggunakan-sklearn-linearregression">7.1 Menggunakan Sklearn (LinearRegression)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-analitik-ols-tanpa-library">7.2 Perhitungan Analitik OLS (Tanpa Library)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regresi-linier-berganda-multiple">7.3 Regresi Linier Berganda (Multiple)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menangani-variabel-kategorikal-dengan-pandas">7.4 Menangani Variabel Kategorikal dengan Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variabel-kategorikal-dummy-variables">6. Variabel Kategorikal — Dummy Variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-python">7. Implementasi Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menggunakan-scikit-learn">7.1 Menggunakan Scikit-learn</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-ols-analitik-dari-nol">7.2 Perhitungan OLS Analitik (dari Nol)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verifikasi-rumus-sxx-sxy">7.3 Verifikasi Rumus Sxx / Sxy</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-di-geogebra">8. Visualisasi di GeoGebra</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#link-geogebra">Link GeoGebra</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-membuat-regresi-linier-di-geogebra-classic">Cara Membuat Regresi Linier di GeoGebra Classic</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-input-data-sebagai-list">Langkah 1: Input Data sebagai List</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-buat-titik-titik">Langkah 2: Buat Titik-Titik</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-garis-regresi-otomatis">Langkah 3: Hitung Garis Regresi Otomatis</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-formula-manual-ols-opsional-untuk-verifikasi">Langkah 4: Formula Manual OLS (opsional, untuk verifikasi)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-visualisasi-residual">Langkah 5: Visualisasi Residual</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-hitung-r2-di-geogebra">Langkah 6: Hitung R² di GeoGebra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-interaktif-di-geogebra">8. Visualisasi Interaktif di GeoGebra</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-membuat-applet-sendiri-di-geogebra-classic">Cara Membuat Applet Sendiri di GeoGebra Classic</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-rumus-penting">9. Ringkasan Rumus Penting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-rumus">9. Ringkasan Rumus</a></li>
 </ul>
             </nav>
         </div>
@@ -439,18 +428,23 @@ document.write(`
 <h1>📊 Regresi Linier (Linear Regression)<a class="headerlink" href="#regresi-linier-linear-regression" title="Permalink to this heading">#</a></h1>
 <section id="apa-itu-regresi-linier">
 <h2>1. Apa itu Regresi Linier?<a class="headerlink" href="#apa-itu-regresi-linier" title="Permalink to this heading">#</a></h2>
-<p>Regresi Linier adalah metode <strong>supervised learning</strong> untuk memprediksi nilai <strong>kontinu</strong> (bukan kategori).
-Dalam peta machine learning:</p>
-<div class="pst-scrollable-table-container"><table class="table">
+<p>Regresi Linier adalah metode <strong>supervised learning</strong> untuk memprediksi nilai <strong>kontinu</strong> (bukan kategori). Dalam peta machine learning, posisinya adalah:</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Peta Machine Learning</span><a class="headerlink" href="#id1" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 37%" />
+<col style="width: 37%" />
+</colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p></p></th>
+<tr class="row-odd"><th class="head"></th>
 <th class="head"><p>Kontinu</p></th>
 <th class="head"><p>Kategorikal</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><strong>Supervised</strong></p></td>
-<td><p><strong>Regression</strong> ✅</p></td>
+<td><p><strong>Regression</strong> ✅ ← kita di sini</p></td>
 <td><p>Classification</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>Unsupervised</strong></p></td>
@@ -460,23 +454,30 @@ Dalam peta machine learning:</p>
 </tbody>
 </table>
 </div>
-<section id="mengapa-penting-dipelajari">
-<h3>Mengapa penting dipelajari?<a class="headerlink" href="#mengapa-penting-dipelajari" title="Permalink to this heading">#</a></h3>
+<div class="tip admonition">
+<p class="admonition-title">Mengapa Regresi Linier penting dipelajari?</p>
 <ul class="simple">
-<li><p>Banyak digunakan di industri dan akademik</p></li>
-<li><p>Komputasi cepat</p></li>
-<li><p>Mudah digunakan (tidak perlu banyak tuning)</p></li>
-<li><p>Sangat interpretable (mudah dijelaskan)</p></li>
-<li><p>Menjadi dasar banyak metode lainnya</p></li>
+<li><p><strong>Widely used</strong> — banyak digunakan di industri dan akademik</p></li>
+<li><p><strong>Runs fast</strong> — komputasi sangat cepat</p></li>
+<li><p><strong>Easy to use</strong> — tidak perlu banyak hyperparameter tuning</p></li>
+<li><p><strong>Highly interpretable</strong> — koefisien mudah dijelaskan secara intuitif</p></li>
+<li><p><strong>Basis for many methods</strong> — fondasi Ridge, Lasso, Logistic Regression, dsb.</p></li>
 </ul>
-</section>
+</div>
 </section>
 <hr class="docutils" />
 <section id="model-regresi-linier-sederhana">
 <h2>2. Model Regresi Linier Sederhana<a class="headerlink" href="#model-regresi-linier-sederhana" title="Permalink to this heading">#</a></h2>
+<p>Persamaan dasar regresi linier sederhana (satu prediktor):</p>
 <div class="math notranslate nohighlight">
-\[y = \beta_0 + \beta_1 x + \varepsilon\]</div>
-<div class="pst-scrollable-table-container"><table class="table">
+\[y = b_0 + b_1 x + \varepsilon\]</div>
+<div class="pst-scrollable-table-container"><table class="table" id="id2">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Komponen Model</span><a class="headerlink" href="#id2" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 25%" />
+<col style="width: 60%" />
+</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Simbol</p></th>
 <th class="head"><p>Nama</p></th>
@@ -486,23 +487,23 @@ Dalam peta machine learning:</p>
 <tbody>
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(y\)</span></p></td>
 <td><p>Response variable</p></td>
-<td><p>Nilai yang ingin diprediksi</p></td>
+<td><p>Nilai yang ingin diprediksi (target)</p></td>
 </tr>
 <tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
 <td><p>Input variable</p></td>
-<td><p>Variabel prediktor/fitur</p></td>
+<td><p>Variabel prediktor / fitur</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\beta_0\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(b_0\)</span></p></td>
 <td><p>Intercept</p></td>
-<td><p>Titik potong garis dengan sumbu-y</p></td>
+<td><p>Titik potong garis dengan sumbu-<span class="math notranslate nohighlight">\(y\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\beta_1\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(b_1\)</span></p></td>
 <td><p>Regression coefficient</p></td>
-<td><p>Kemiringan garis (<span class="math notranslate nohighlight">\(\Delta y / \Delta x\)</span>)</p></td>
+<td><p>Kemiringan garis <span class="math notranslate nohighlight">\(\left(\dfrac{\Delta y}{\Delta x}\right)\)</span></p></td>
 </tr>
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\varepsilon\)</span></p></td>
 <td><p>Residual</p></td>
-<td><p>Error / selisih prediksi dengan data asli</p></td>
+<td><p>Error — selisih nilai prediksi dengan data asli</p></td>
 </tr>
 </tbody>
 </table>
@@ -511,30 +512,56 @@ Dalam peta machine learning:</p>
 <hr class="docutils" />
 <section id="model-regresi-linier-berganda-multiple">
 <h2>3. Model Regresi Linier Berganda (Multiple)<a class="headerlink" href="#model-regresi-linier-berganda-multiple" title="Permalink to this heading">#</a></h2>
-<p>Untuk beberapa variabel input:</p>
+<p>Diperluas untuk beberapa variabel input sekaligus:</p>
 <div class="math notranslate nohighlight">
-\[y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n + \varepsilon\]</div>
+\[y = b_0 + b_1 x_1 + b_2 x_2 + \cdots + b_n x_n + \varepsilon\]</div>
+<p>Dalam notasi matriks yang lebih ringkas:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{y} = X\mathbf{b} + \boldsymbol{\varepsilon}\]</div>
+<p>di mana <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times (p+1)}\)</span> adalah matriks fitur yang sudah ditambah kolom 1 (bias).</p>
 </section>
 <hr class="docutils" />
-<section id="estimasi-koefisien">
-<h2>4. Estimasi Koefisien<a class="headerlink" href="#estimasi-koefisien" title="Permalink to this heading">#</a></h2>
-<section id="konsep-meminimalkan-sum-of-squared-residuals-ssr">
-<h3>Konsep: Meminimalkan Sum of Squared Residuals (SSR)<a class="headerlink" href="#konsep-meminimalkan-sum-of-squared-residuals-ssr" title="Permalink to this heading">#</a></h3>
+<section id="estimasi-koefisien-ordinary-least-squares-ols">
+<h2>4. Estimasi Koefisien — Ordinary Least Squares (OLS)<a class="headerlink" href="#estimasi-koefisien-ordinary-least-squares-ols" title="Permalink to this heading">#</a></h2>
+<section id="konsep-meminimalkan-sum-of-squared-residuals">
+<h3>Konsep: Meminimalkan Sum of Squared Residuals<a class="headerlink" href="#konsep-meminimalkan-sum-of-squared-residuals" title="Permalink to this heading">#</a></h3>
+<p>Kita mencari garis <span class="math notranslate nohighlight">\(\hat{y}\)</span> yang <strong>meminimalkan</strong> jumlah kuadrat error:</p>
 <div class="math notranslate nohighlight">
-\[SS_{residuals} = \sum_{i=1}^{N} (\hat{y}_i - y_i)^2\]</div>
-<p>Kita mencari garis yang meminimalkan jumlah kuadrat error antara nilai prediksi <span class="math notranslate nohighlight">\(\hat{y}\)</span> dan nilai aktual <span class="math notranslate nohighlight">\(y\)</span>.</p>
+\[SS_{\text{residuals}} = \sum_{i=1}^{N} \left(\hat{y}_i - y_i\right)^2\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Mengapa <em>dikuadratkan</em>? Agar nilai positif dan negatif tidak saling menghilangkan, dan memberikan penalti lebih besar untuk error yang besar.</p>
+</div>
 </section>
-<section id="rumus-analitik-ordinary-least-squares-ols">
-<h3>Rumus Analitik (Ordinary Least Squares / OLS)<a class="headerlink" href="#rumus-analitik-ordinary-least-squares-ols" title="Permalink to this heading">#</a></h3>
-<div class="math notranslate nohighlight">
-\[\boxed{\hat{\beta} = (X^T X)^{-1} X^T Y}\]</div>
-<p>Di mana:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(X\)</span> = Matriks fitur (dengan kolom pertama berisi angka 1 sebagai bias/intercept)</p></li>
-<li><p><span class="math notranslate nohighlight">\(Y\)</span> = Vektor target / response</p></li>
-<li><p><span class="math notranslate nohighlight">\(X^T\)</span> = Transpose dari matriks <span class="math notranslate nohighlight">\(X\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span> = Invers dari matriks <span class="math notranslate nohighlight">\((X^T X)\)</span></p></li>
-</ul>
+<section id="solusi-analitik-ols">
+<h3>Solusi Analitik OLS<a class="headerlink" href="#solusi-analitik-ols" title="Permalink to this heading">#</a></h3>
+<p>Melalui kalkulus (meminimalkan <span class="math notranslate nohighlight">\(SS_{res}\)</span> terhadap <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>), diperoleh formula tertutup:</p>
+<div class="math notranslate nohighlight" id="equation-eq-ols">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-ols" title="Permalink to this equation">#</a></span>\[\boxed{\hat{\mathbf{b}} = \left(X^T X\right)^{-1} X^T Y}\]</div>
+<p><strong>Keterangan:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Term</p></th>
+<th class="head"><p>Peran</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(X\)</span></p></td>
+<td><p>Matriks fitur (kolom pertama = 1 untuk intercept)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(Y\)</span></p></td>
+<td><p>Vektor target/response</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(X^T\)</span></p></td>
+<td><p>Transpose matriks <span class="math notranslate nohighlight">\(X\)</span> (baris ↔ kolom)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\((X^TX)^{-1}\)</span></p></td>
+<td><p>Invers matriks — hanya bisa dihitung jika <span class="math notranslate nohighlight">\(X^TX\)</span> <em>invertible</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Lihat persamaan <a class="reference internal" href="#equation-eq-ols">(1)</a> — ini adalah formula utama yang kita implementasikan di Python maupun GeoGebra.</p>
 </section>
 </section>
 <hr class="docutils" />
@@ -542,82 +569,199 @@ Dalam peta machine learning:</p>
 <h2>5. Contoh Perhitungan Manual<a class="headerlink" href="#contoh-perhitungan-manual" title="Permalink to this heading">#</a></h2>
 <section id="dataset">
 <h3>Dataset<a class="headerlink" href="#dataset" title="Permalink to this heading">#</a></h3>
-<div class="pst-scrollable-table-container"><table class="table">
+<div class="pst-scrollable-table-container"><table class="table" id="id3">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Data 7 Titik Observasi</span><a class="headerlink" href="#id3" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Observasi</p></th>
-<th class="head"><p>X (Prediktor)</p></th>
-<th class="head"><p>Y (Target)</p></th>
+<tr class="row-odd"><th class="head"><p>Titik</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(X\)</span> (Variabel Input)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(Y\)</span> (Variabel Respon)</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>1</p></td>
-<td><p>3.385</p></td>
-<td><p>44.5</p></td>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
 </tr>
-<tr class="row-odd"><td><p>2</p></td>
-<td><p>0.48</p></td>
-<td><p>15.5</p></td>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
 </tr>
-<tr class="row-even"><td><p>3</p></td>
-<td><p>1.35</p></td>
-<td><p>8.1</p></td>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
 </tr>
-<tr class="row-odd"><td><p>4</p></td>
-<td><p>465.0</p></td>
-<td><p>423.0</p></td>
+<tr class="row-odd"><td><p>D</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
 </tr>
-<tr class="row-even"><td><p>5</p></td>
-<td><p>36.33</p></td>
-<td><p>119.5</p></td>
+<tr class="row-even"><td><p>E</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-even"><td><p>G</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
-<section id="langkah-1-susun-matriks-x-dan-y">
-<h3>Langkah 1: Susun Matriks X dan Y<a class="headerlink" href="#langkah-1-susun-matriks-x-dan-y" title="Permalink to this heading">#</a></h3>
+<p><strong>Statistik dasar:</strong></p>
 <div class="math notranslate nohighlight">
-\[\begin{split}X = \begin{pmatrix} 1 &amp; 3.385 \\ 1 &amp; 0.48 \\ 1 &amp; 1.35 \\ 1 &amp; 465 \\ 1 &amp; 36.33 \end{pmatrix}, \quad Y = \begin{pmatrix} 44.5 \\ 15.5 \\ 8.1 \\ 423 \\ 119.5 \end{pmatrix}\end{split}\]</div>
-<blockquote>
-<div><p>Kolom pertama berisi angka 1 sebagai placeholder untuk intercept <span class="math notranslate nohighlight">\(\beta_0\)</span>.</p>
-</div></blockquote>
+\[\bar{x} = \frac{2+4+5+3+3+4+5}{7} = \frac{26}{7} \approx 3.714, \qquad \bar{y} = \frac{2+3+5+4+3+5+6}{7} = \frac{28}{7} = 4.0\]</div>
+</section>
+<section id="langkah-1-susun-matriks-x-dan-vektor-y">
+<h3>Langkah 1 — Susun Matriks <span class="math notranslate nohighlight">\(X\)</span> dan Vektor <span class="math notranslate nohighlight">\(Y\)</span><a class="headerlink" href="#langkah-1-susun-matriks-x-dan-vektor-y" title="Permalink to this heading">#</a></h3>
+<p>Tambahkan kolom <span class="math notranslate nohighlight">\(1\)</span> di paling kiri sebagai <em>placeholder</em> untuk intercept <span class="math notranslate nohighlight">\(b_0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}X = \begin{pmatrix} 1 &amp; 2 \\ 1 &amp; 4 \\ 1 &amp; 5 \\ 1 &amp; 3 \\ 1 &amp; 3 \\ 1 &amp; 4 \\ 1 &amp; 5 \end{pmatrix}, \qquad Y = \begin{pmatrix} 2 \\ 3 \\ 5 \\ 4 \\ 3 \\ 5 \\ 6 \end{pmatrix}\end{split}\]</div>
 </section>
 <section id="langkah-2-hitung-x-t-x">
-<h3>Langkah 2: Hitung <span class="math notranslate nohighlight">\(X^T X\)</span><a class="headerlink" href="#langkah-2-hitung-x-t-x" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 2 — Hitung <span class="math notranslate nohighlight">\(X^T X\)</span><a class="headerlink" href="#langkah-2-hitung-x-t-x" title="Permalink to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
-\[\begin{split}X^T X = \begin{pmatrix} 5 &amp; 506.54 \\ 506.54 &amp; 217558.38 \end{pmatrix}\end{split}\]</div>
+\[\begin{split}X^T X = \begin{pmatrix} 1&amp;1&amp;1&amp;1&amp;1&amp;1&amp;1 \\ 2&amp;4&amp;5&amp;3&amp;3&amp;4&amp;5 \end{pmatrix} \begin{pmatrix} 1&amp;2\\1&amp;4\\1&amp;5\\1&amp;3\\1&amp;3\\1&amp;4\\1&amp;5 \end{pmatrix} = \begin{pmatrix} 7 &amp; 26 \\ 26 &amp; 104 \end{pmatrix}\end{split}\]</div>
 </section>
 <section id="langkah-3-hitung-x-t-x-1">
-<h3>Langkah 3: Hitung <span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span><a class="headerlink" href="#langkah-3-hitung-x-t-x-1" title="Permalink to this heading">#</a></h3>
-<p>Invers matriks 2×2: tukar diagonal, bagi dengan determinan.</p>
+<h3>Langkah 3 — Hitung <span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span><a class="headerlink" href="#langkah-3-hitung-x-t-x-1" title="Permalink to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
-\[det = 5 \times 217558.38 - 506.54 \times 506.54\]</div>
+\[\det(X^TX) = 7 \times 104 - 26 \times 26 = 728 - 676 = 52\]</div>
 <div class="math notranslate nohighlight">
-\[\begin{split}(X^T X)^{-1} = \begin{pmatrix} 0.26 &amp; -6.1 \times 10^{-4} \\ -6.1 \times 10^{-4} &amp; 6.0 \times 10^{-6} \end{pmatrix}\end{split}\]</div>
+\[\begin{split}(X^T X)^{-1} = \frac{1}{52}\begin{pmatrix} 104 &amp; -26 \\ -26 &amp; 7 \end{pmatrix} = \begin{pmatrix} 2 &amp; -0.5 \\ -0.5 &amp; 0.1346 \end{pmatrix}\end{split}\]</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Hanya matriks <strong>persegi</strong> yang bisa diinvers. Karena <span class="math notranslate nohighlight">\(X^TX\)</span> selalu berukuran <span class="math notranslate nohighlight">\((p+1)\times(p+1)\)</span>, maka selalu bisa diinvers (selama tidak ada multicollinearity sempurna).</p>
+</div>
 </section>
 <section id="langkah-4-hitung-x-t-y">
-<h3>Langkah 4: Hitung <span class="math notranslate nohighlight">\(X^T Y\)</span><a class="headerlink" href="#langkah-4-hitung-x-t-y" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 4 — Hitung <span class="math notranslate nohighlight">\(X^T Y\)</span><a class="headerlink" href="#langkah-4-hitung-x-t-y" title="Permalink to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
-\[\begin{split}X^T Y = \begin{pmatrix} 610.6 \\ 201205.4 \end{pmatrix}\end{split}\]</div>
+\[\begin{split}X^T Y = \begin{pmatrix} 1&amp;1&amp;1&amp;1&amp;1&amp;1&amp;1 \\ 2&amp;4&amp;5&amp;3&amp;3&amp;4&amp;5 \end{pmatrix} \begin{pmatrix} 2\\3\\5\\4\\3\\5\\6 \end{pmatrix} = \begin{pmatrix} 28 \\ 112 \end{pmatrix}\end{split}\]</div>
 </section>
-<section id="langkah-5-hitung-hat-beta">
-<h3>Langkah 5: Hitung <span class="math notranslate nohighlight">\(\hat{\beta}\)</span><a class="headerlink" href="#langkah-5-hitung-hat-beta" title="Permalink to this heading">#</a></h3>
+<section id="langkah-5-hitung-hat-mathbf-b">
+<h3>Langkah 5 — Hitung <span class="math notranslate nohighlight">\(\hat{\mathbf{b}}\)</span><a class="headerlink" href="#langkah-5-hitung-hat-mathbf-b" title="Permalink to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{pmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \end{pmatrix} = \begin{pmatrix} 0.26 &amp; -6.1 \times 10^{-4} \\ -6.1 \times 10^{-4} &amp; 6.0 \times 10^{-6} \end{pmatrix} \begin{pmatrix} 610.6 \\ 201205.4 \end{pmatrix} = \begin{pmatrix} 37.201 \\ 0.838 \end{pmatrix}\end{split}\]</div>
-<p><strong>Hasil:</strong> <span class="math notranslate nohighlight">\(\hat{y} = 37.201 + 0.838 \cdot x\)</span></p>
+\[\begin{split}\begin{pmatrix} \hat{b}_0 \\ \hat{b}_1 \end{pmatrix} = \begin{pmatrix} 2 &amp; -0.5 \\ -0.5 &amp; 0.1346 \end{pmatrix} \begin{pmatrix} 28 \\ 112 \end{pmatrix} = \begin{pmatrix} 2(28) + (-0.5)(112) \\ (-0.5)(28) + (0.1346)(112) \end{pmatrix} = \begin{pmatrix} 0 \\ 1.0769 \end{pmatrix}\end{split}\]</div>
+<div class="important admonition">
+<p class="admonition-title">Hasil Akhir</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = 0 + 1.0769 \cdot x \approx 1.077x\]</div>
+<p>Artinya: setiap kenaikan 1 unit <span class="math notranslate nohighlight">\(x\)</span>, nilai <span class="math notranslate nohighlight">\(y\)</span> naik rata-rata <strong>±1.077 unit</strong>. Intercept <span class="math notranslate nohighlight">\(b_0 = 0\)</span> berarti garis melewati titik asal.</p>
+</div>
+</section>
+<section id="langkah-6-verifikasi-dengan-rumus-sederhana">
+<h3>Langkah 6 — Verifikasi dengan Rumus Sederhana<a class="headerlink" href="#langkah-6-verifikasi-dengan-rumus-sederhana" title="Permalink to this heading">#</a></h3>
+<p>Untuk regresi sederhana (1 prediktor), ada rumus alternatif yang lebih ringkas:</p>
+<div class="math notranslate nohighlight">
+\[S_{xx} = \sum(x_i - \bar{x})^2 = 7.4286, \qquad S_{xy} = \sum(x_i - \bar{x})(y_i - \bar{y}) = 8.0\]</div>
+<div class="math notranslate nohighlight">
+\[b_1 = \frac{S_{xy}}{S_{xx}} = \frac{8.0}{7.4286} \approx 1.0769 \checkmark\]</div>
+<div class="math notranslate nohighlight">
+\[b_0 = \bar{y} - b_1\bar{x} = 4.0 - 1.0769 \times 3.7143 \approx 0 \checkmark\]</div>
+</section>
+<section id="langkah-7-evaluasi-model-r-2">
+<h3>Langkah 7 — Evaluasi Model (<span class="math notranslate nohighlight">\(R^2\)</span>)<a class="headerlink" href="#langkah-7-evaluasi-model-r-2" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table" id="id4">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">Prediksi vs Aktual</span><a class="headerlink" href="#id4" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Titik</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(x\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\hat{y} = 1.077x\)</span></p></th>
+<th class="head"><p>Residual <span class="math notranslate nohighlight">\((y - \hat{y})\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2.154</p></td>
+<td><p>−0.154</p></td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>4.308</p></td>
+<td><p>−1.308</p></td>
+</tr>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5.385</p></td>
+<td><p>−0.385</p></td>
+</tr>
+<tr class="row-odd"><td><p>D</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>3.231</p></td>
+<td><p>+0.769</p></td>
+</tr>
+<tr class="row-even"><td><p>E</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3.231</p></td>
+<td><p>−0.231</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>4.308</p></td>
+<td><p>+0.692</p></td>
+</tr>
+<tr class="row-even"><td><p>G</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>5.385</p></td>
+<td><p>+0.615</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="math notranslate nohighlight">
+\[SS_{res} = \sum(y_i - \hat{y}_i)^2 = 3.385, \qquad SS_{tot} = \sum(y_i - \bar{y})^2 = 12.0\]</div>
+<div class="math notranslate nohighlight">
+\[R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{3.385}{12.0} \approx 0.718\]</div>
+<p>Model menjelaskan sekitar <strong>71.8%</strong> variasi data.</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="variabel-kategorikal-dummy-variables">
-<h2>6. Variabel Kategorikal (Dummy Variables)<a class="headerlink" href="#variabel-kategorikal-dummy-variables" title="Permalink to this heading">#</a></h2>
-<p>Untuk variabel kategorikal dengan <span class="math notranslate nohighlight">\(k\)</span> level, buat <span class="math notranslate nohighlight">\(k-1\)</span> variabel binary (dummy).</p>
-<p><strong>Contoh:</strong> Variabel <code class="docutils literal notranslate"><span class="pre">Major</span></code> dengan <span class="math notranslate nohighlight">\(k=4\)</span> (CS, Engineering, Business, Literature)</p>
-<div class="pst-scrollable-table-container"><table class="table">
+<h2>6. Variabel Kategorikal — Dummy Variables<a class="headerlink" href="#variabel-kategorikal-dummy-variables" title="Permalink to this heading">#</a></h2>
+<p>Untuk variabel kategorikal dengan <span class="math notranslate nohighlight">\(k\)</span> level, kita buat <span class="math notranslate nohighlight">\(k-1\)</span> variabel binary (dummy).</p>
+<div class="note admonition">
+<p class="admonition-title">Mengapa <span class="math notranslate nohighlight">\(k-1\)</span> dan bukan <span class="math notranslate nohighlight">\(k\)</span>?</p>
+<p>Karena <span class="math notranslate nohighlight">\(k-1\)</span> dummy sudah cukup merepresentasikan semua kemungkinan. Menggunakan <span class="math notranslate nohighlight">\(k\)</span> dummy menyebabkan <strong>multicollinearity</strong> — kondisi di mana dua atau lebih prediktor berkorelasi sempurna, membuat matriks <span class="math notranslate nohighlight">\(X^TX\)</span> tidak bisa diinvers.</p>
+</div>
+<p><strong>Contoh:</strong> variabel <code class="docutils literal notranslate"><span class="pre">Major</span></code> dengan <span class="math notranslate nohighlight">\(k=4\)</span> level.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id5">
+<caption><span class="caption-number">Table 5 </span><span class="caption-text">Encoding Dummy Variables</span><a class="headerlink" href="#id5" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 10%" />
+</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Major</p></th>
 <th class="head"><p>Engineering</p></th>
 <th class="head"><p>Business</p></th>
 <th class="head"><p>Literature</p></th>
+<th class="head"><p>(ref.)</p></th>
 </tr>
 </thead>
 <tbody>
@@ -625,262 +769,197 @@ Dalam peta machine learning:</p>
 <td><p>0</p></td>
 <td><p>0</p></td>
 <td><p>0</p></td>
+<td><p>← referensi</p></td>
 </tr>
 <tr class="row-odd"><td><p>Engineering</p></td>
 <td><p>1</p></td>
 <td><p>0</p></td>
 <td><p>0</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>Business</p></td>
 <td><p>0</p></td>
 <td><p>1</p></td>
 <td><p>0</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>Literature</p></td>
 <td><p>0</p></td>
 <td><p>0</p></td>
 <td><p>1</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 </div>
-<blockquote>
-<div><p>“Computer Science” menjadi <strong>referensi</strong> (semua 0).
-Kenapa <span class="math notranslate nohighlight">\(k-1\)</span>? Untuk menghindari <strong>multicollinearity</strong> (korelasi sempurna antar prediktor).</p>
-</div></blockquote>
 <p><strong>Tipe data kategorikal:</strong></p>
 <ul class="simple">
-<li><p><strong>Nominal</strong> (tidak berurutan): gunakan dummy variables</p></li>
-<li><p><strong>Ordinal</strong> (berurutan, mis. skala Likert): bisa dikodekan sebagai integer 1, 2, 3, 4, 5</p></li>
+<li><p><strong>Nominal</strong> (tidak berurutan) → gunakan dummy variables seperti di atas</p></li>
+<li><p><strong>Ordinal</strong> (berurutan, mis. skala Likert) → bisa dikodekan sebagai integer <code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5</span></code></p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="code-python">
-<h2>7. Code Python<a class="headerlink" href="#code-python" title="Permalink to this heading">#</a></h2>
-<section id="menggunakan-sklearn-linearregression">
-<h3>7.1 Menggunakan Sklearn (LinearRegression)<a class="headerlink" href="#menggunakan-sklearn-linearregression" title="Permalink to this heading">#</a></h3>
+<section id="implementasi-python">
+<h2>7. Implementasi Python<a class="headerlink" href="#implementasi-python" title="Permalink to this heading">#</a></h2>
+<section id="menggunakan-scikit-learn">
+<h3>7.1 Menggunakan Scikit-learn<a class="headerlink" href="#menggunakan-scikit-learn" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
 
-<span class="c1"># Dataset</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.385</span><span class="p">,</span> <span class="mf">0.48</span><span class="p">,</span> <span class="mf">1.35</span><span class="p">,</span> <span class="mf">465.0</span><span class="p">,</span> <span class="mf">36.33</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">44.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mf">423.0</span><span class="p">,</span> <span class="mf">119.5</span><span class="p">])</span>
+<span class="c1"># ── Dataset (7 titik A–G) ──────────────────────────────────</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s2">&quot;ABCDEFG&quot;</span><span class="p">)</span>
 
-<span class="c1"># Membuat dan melatih model</span>
+<span class="c1"># ── Latih model ────────────────────────────────────────────</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
 
-<span class="c1"># Koefisien hasil</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Intercept (β₀): </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Koefisien (β₁): </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Intercept  b₀ : </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Koefisien  b₁ : </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1"># Prediksi</span>
-<span class="n">X_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">Y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_pred</span><span class="p">)</span>
+<span class="c1"># ── Prediksi &amp; visualisasi ─────────────────────────────────</span>
+<span class="n">X_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">Y_line</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_line</span><span class="p">)</span>
 
-<span class="c1"># Visualisasi</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data Asli&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_pred</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;y = </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">x&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;X (Prediktor)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Y (Target)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Regresi Linier dengan Sklearn&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;steelblue&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">lbl</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span>
+                 <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_line</span><span class="p">,</span> <span class="n">Y_line</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tomato&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;ŷ = </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X (Variabel Input)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y (Variabel Respon)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Regresi Linier — Dataset A–G&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept (β₀): 37.2009
-Koefisien (β₁): 0.8382
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept  b₀ : -0.0000
+Koefisien  b₁ : 1.0769
 </pre></div>
 </div>
-<img alt="_images/36295e4b36370cf76e8c42d18e51ee0ca65fec0231a4fba953676166909d3c28.png" src="_images/36295e4b36370cf76e8c42d18e51ee0ca65fec0231a4fba953676166909d3c28.png" />
+<img alt="_images/ac5e4654ee2d7ed6ffd18f79c04aadee2d3561f4d499b638183855b928cc7524.png" src="_images/ac5e4654ee2d7ed6ffd18f79c04aadee2d3561f4d499b638183855b928cc7524.png" />
 </div>
 </div>
 </section>
-<section id="perhitungan-analitik-ols-tanpa-library">
-<h3>7.2 Perhitungan Analitik OLS (Tanpa Library)<a class="headerlink" href="#perhitungan-analitik-ols-tanpa-library" title="Permalink to this heading">#</a></h3>
+<section id="perhitungan-ols-analitik-dari-nol">
+<h3>7.2 Perhitungan OLS Analitik (dari Nol)<a class="headerlink" href="#perhitungan-ols-analitik-dari-nol" title="Permalink to this heading">#</a></h3>
+<p>Implementasi langsung formula <a class="reference internal" href="#equation-eq-ols">(1)</a> tanpa library ML:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="c1"># Dataset</span>
-<span class="n">X_raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.385</span><span class="p">,</span> <span class="mf">0.48</span><span class="p">,</span> <span class="mf">1.35</span><span class="p">,</span> <span class="mf">465.0</span><span class="p">,</span> <span class="mf">36.33</span><span class="p">])</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">44.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mf">423.0</span><span class="p">,</span> <span class="mf">119.5</span><span class="p">])</span>
+<span class="c1"># ── Data ───────────────────────────────────────────────────</span>
+<span class="n">X_raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">Y</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s2">&quot;ABCDEFG&quot;</span><span class="p">)</span>
 
-<span class="c1"># Tambahkan kolom 1 untuk intercept</span>
-<span class="n">ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">X_raw</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">ones</span><span class="p">,</span> <span class="n">X_raw</span><span class="p">])</span>
+<span class="c1"># ── Susun matriks X (tambah kolom 1 untuk intercept) ───────</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_raw</span><span class="p">)),</span> <span class="n">X_raw</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matriks X:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matriks X:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-
-<span class="c1"># Hitung X^T X</span>
-<span class="n">XTX</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">X^T X:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">XTX</span><span class="p">)</span>
-
-<span class="c1"># Hitung (X^T X)^-1</span>
+<span class="c1"># ── Hitung komponen OLS ────────────────────────────────────</span>
+<span class="n">XTX</span>     <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span>          <span class="c1"># [[7, 26], [26, 104]]</span>
 <span class="n">XTX_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">XTX</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(X^T X)^-1:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">XTX_inv</span><span class="p">)</span>
+<span class="n">XTY</span>     <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Y</span>          <span class="c1"># [28, 112]</span>
 
-<span class="c1"># Hitung X^T Y</span>
-<span class="n">XTY</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Y</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">X^T Y:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">XTY</span><span class="p">)</span>
+<span class="c1"># ── Koefisien b ────────────────────────────────────────────</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">XTX_inv</span> <span class="o">@</span> <span class="n">XTY</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">b₀ (intercept) = </span><span class="si">{</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;b₁ (slope)     = </span><span class="si">{</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1"># Hitung beta = (X^T X)^-1 X^T Y</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="n">XTX_inv</span> <span class="o">@</span> <span class="n">XTY</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Koefisien β:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  β₀ (intercept) = </span><span class="si">{</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  β₁ (slope)     = </span><span class="si">{</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1"># Prediksi</span>
-<span class="n">Y_hat</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Prediksi vs Aktual:&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  X=</span><span class="si">{</span><span class="n">X_raw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">7.3f</span><span class="si">}</span><span class="s2"> | Y_aktual=</span><span class="si">{</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2"> | Y_prediksi=</span><span class="si">{</span><span class="n">Y_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">7.3f</span><span class="si">}</span><span class="s2"> | error=</span><span class="si">{</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">Y_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1"># Evaluasi: R-squared</span>
+<span class="c1"># ── Prediksi &amp; evaluasi ────────────────────────────────────</span>
+<span class="n">Y_hat</span>  <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">b</span>
 <span class="n">SS_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Y_hat</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">SS_tot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">Y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">R2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">SS_res</span> <span class="o">/</span> <span class="n">SS_tot</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">R² Score: </span><span class="si">{</span><span class="n">R2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">SS_tot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">R2</span>     <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">SS_res</span> <span class="o">/</span> <span class="n">SS_tot</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Prediksi vs Aktual:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">lbl</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">yh</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">X_raw</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Y_hat</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">lbl</span><span class="si">}</span><span class="s2">: x=</span><span class="si">{</span><span class="n">xi</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  y=</span><span class="si">{</span><span class="n">yi</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  ŷ=</span><span class="si">{</span><span class="n">yh</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  e=</span><span class="si">{</span><span class="n">yi</span><span class="o">-</span><span class="n">yh</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">SS_res = </span><span class="si">{</span><span class="n">SS_res</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SS_tot = </span><span class="si">{</span><span class="n">SS_tot</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R²     = </span><span class="si">{</span><span class="n">R2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matriks X:
-[[  1.      3.385]
- [  1.      0.48 ]
- [  1.      1.35 ]
- [  1.    465.   ]
- [  1.     36.33 ]]
+ [[1. 2.]
+ [1. 4.]
+ [1. 5.]
+ [1. 3.]
+ [1. 3.]
+ [1. 4.]
+ [1. 5.]]
 
-X^T X:
-[[5.0000000e+00 5.0654500e+02]
- [5.0654500e+02 2.1755838e+05]]
-
-(X^T X)^-1:
-[[ 2.61738831e-01 -6.09411121e-04]
- [-6.09411121e-04  6.01537002e-06]]
-
-X^T Y:
-[   610.6    201205.4425]
-
-Koefisien β:
-  β₀ (intercept) = 37.2009
-  β₁ (slope)     = 0.8382
+b₀ (intercept) = 0.0000
+b₁ (slope)     = 1.0769
 
 Prediksi vs Aktual:
-  X=  3.385 | Y_aktual=  44.5 | Y_prediksi= 40.038 | error=+4.462
-  X=  0.480 | Y_aktual=  15.5 | Y_prediksi= 37.603 | error=-22.103
-  X=  1.350 | Y_aktual=   8.1 | Y_prediksi= 38.332 | error=-30.232
-  X=465.000 | Y_aktual= 423.0 | Y_prediksi=426.973 | error=-3.973
-  X= 36.330 | Y_aktual= 119.5 | Y_prediksi= 67.653 | error=+51.847
+  A: x=2  y=2  ŷ=2.154  e=-0.154
+  B: x=4  y=3  ŷ=4.308  e=-1.308
+  C: x=5  y=5  ŷ=5.385  e=-0.385
+  D: x=3  y=4  ŷ=3.231  e=+0.769
+  E: x=3  y=3  ŷ=3.231  e=-0.231
+  F: x=4  y=5  ŷ=4.308  e=+0.692
+  G: x=5  y=6  ŷ=5.385  e=+0.615
 
-R² Score: 0.9659
+SS_res = 3.3846
+SS_tot = 12.0000
+R²     = 0.7179
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="regresi-linier-berganda-multiple">
-<h3>7.3 Regresi Linier Berganda (Multiple)<a class="headerlink" href="#regresi-linier-berganda-multiple" title="Permalink to this heading">#</a></h3>
+<section id="verifikasi-rumus-sxx-sxy">
+<h3>7.3 Verifikasi Rumus Sxx / Sxy<a class="headerlink" href="#verifikasi-rumus-sxx-sxy" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
 
-<span class="c1"># Contoh dataset dengan 2 prediktor</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-<span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-<span class="n">Y</span>  <span class="o">=</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">X1</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">X2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">X_raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">Y</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">])</span>
+<span class="n">x_bar</span> <span class="o">=</span> <span class="n">X_raw</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>   <span class="c1"># 3.7143</span>
+<span class="n">y_bar</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>       <span class="c1"># 4.0</span>
 
-<span class="c1"># Split data</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">Sxx</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X_raw</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>          <span class="c1"># 7.4286</span>
+<span class="n">Sxy</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X_raw</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y_bar</span><span class="p">))</span> <span class="c1"># 8.0</span>
 
-<span class="c1"># Model</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">Sxy</span> <span class="o">/</span> <span class="n">Sxx</span>
+<span class="n">b0</span> <span class="o">=</span> <span class="n">y_bar</span> <span class="o">-</span> <span class="n">b1</span> <span class="o">*</span> <span class="n">x_bar</span>
 
-<span class="c1"># Evaluasi</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β₀ (intercept): </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β₁ (X1):        </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β₂ (X2):        </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MSE:            </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R² Score:       </span><span class="si">{</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x̄    = </span><span class="si">{</span><span class="n">x_bar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ȳ    = </span><span class="si">{</span><span class="n">y_bar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sxx  = </span><span class="si">{</span><span class="n">Sxx</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sxy  = </span><span class="si">{</span><span class="n">Sxy</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;b₁   = Sxy/Sxx = </span><span class="si">{</span><span class="n">b1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;b₀   = ȳ - b₁x̄ = </span><span class="si">{</span><span class="n">b0</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Persamaan: ŷ = </span><span class="si">{</span><span class="n">b0</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">b1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>β₀ (intercept): 3.0532
-β₁ (X1):        2.0895
-β₂ (X2):        5.0136
-MSE:            0.1362
-R² Score:       0.9940
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="menangani-variabel-kategorikal-dengan-pandas">
-<h3>7.4 Menangani Variabel Kategorikal dengan Pandas<a class="headerlink" href="#menangani-variabel-kategorikal-dengan-pandas" title="Permalink to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x̄    = 3.7143
+ȳ    = 4.0000
+Sxx  = 7.4286
+Sxy  = 8.0000
+b₁   = Sxy/Sxx = 1.0769
+b₀   = ȳ - b₁x̄ = 0.0000
 
-<span class="c1"># Dataset dengan kolom kategorikal</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;Major&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;CS&#39;</span><span class="p">,</span> <span class="s1">&#39;Engineering&#39;</span><span class="p">,</span> <span class="s1">&#39;Business&#39;</span><span class="p">,</span> <span class="s1">&#39;Literature&#39;</span><span class="p">,</span> <span class="s1">&#39;Business&#39;</span><span class="p">,</span> <span class="s1">&#39;Engineering&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;GPA&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.8</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">],</span>
-    <span class="s1">&#39;Salary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">95000</span><span class="p">,</span> <span class="mi">88000</span><span class="p">,</span> <span class="mi">75000</span><span class="p">,</span> <span class="mi">70000</span><span class="p">,</span> <span class="mi">72000</span><span class="p">,</span> <span class="mi">90000</span><span class="p">]</span>
-<span class="p">})</span>
-
-<span class="c1"># One-hot encoding (k-1 dummy variables, drop_first=True)</span>
-<span class="n">data_encoded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Major&#39;</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_encoded</span><span class="p">)</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">data_encoded</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Salary&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">data_encoded</span><span class="p">[</span><span class="s1">&#39;Salary&#39;</span><span class="p">]</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Intercept: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">coef</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">coef</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   GPA  Salary  Major_CS  Major_Engineering  Major_Literature
-0  3.8   95000      True              False             False
-1  3.5   88000     False               True             False
-2  3.2   75000     False              False             False
-3  3.6   70000     False              False              True
-4  3.0   72000     False              False             False
-5  3.7   90000     False               True             False
-
-Intercept: 34750.00
-GPA: 12500.00
-Major_CS: 12750.00
-Major_Engineering: 9250.00
-Major_Literature: -9750.00
+Persamaan: ŷ = 0.0000 + 1.0769x
 </pre></div>
 </div>
 </div>
@@ -888,127 +967,147 @@ Major_Literature: -9750.00
 </section>
 </section>
 <hr class="docutils" />
-<section id="visualisasi-di-geogebra">
-<h2>8. Visualisasi di GeoGebra<a class="headerlink" href="#visualisasi-di-geogebra" title="Permalink to this heading">#</a></h2>
-<section id="link-geogebra">
-<h3>Link GeoGebra<a class="headerlink" href="#link-geogebra" title="Permalink to this heading">#</a></h3>
-<p>🔗 <strong><a class="reference external" href="https://www.geogebra.org/m/xC6zq7Zv">Buka GeoGebra Linear Regression</a></strong></p>
-<p>Atau buat sendiri di: <a class="reference external" href="https://www.geogebra.org/classic">https://www.geogebra.org/classic</a></p>
-</section>
-<hr class="docutils" />
-<section id="cara-membuat-regresi-linier-di-geogebra-classic">
-<h3>Cara Membuat Regresi Linier di GeoGebra Classic<a class="headerlink" href="#cara-membuat-regresi-linier-di-geogebra-classic" title="Permalink to this heading">#</a></h3>
-<section id="langkah-1-input-data-sebagai-list">
-<h4>Langkah 1: Input Data sebagai List<a class="headerlink" href="#langkah-1-input-data-sebagai-list" title="Permalink to this heading">#</a></h4>
-<p>Masukkan perintah berikut di <strong>Input Bar</strong> (baris bawah):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Daftar titik data</span>
-<span class="n">X_data</span> <span class="o">=</span> <span class="p">{</span><span class="mf">3.385</span><span class="p">,</span> <span class="mf">0.48</span><span class="p">,</span> <span class="mf">1.35</span><span class="p">,</span> <span class="mi">465</span><span class="p">,</span> <span class="mf">36.33</span><span class="p">}</span>
-<span class="n">Y_data</span> <span class="o">=</span> <span class="p">{</span><span class="mf">44.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mi">423</span><span class="p">,</span> <span class="mf">119.5</span><span class="p">}</span>
+<section id="visualisasi-interaktif-di-geogebra">
+<h2>8. Visualisasi Interaktif di GeoGebra<a class="headerlink" href="#visualisasi-interaktif-di-geogebra" title="Permalink to this heading">#</a></h2>
+<p>Applet di bawah ini memuat langsung dari GeoGebra dan sudah berisi dataset A–G beserta garis regresi, residual, dan nilai <span class="math notranslate nohighlight">\(R^2\)</span> yang dihitung secara otomatis. Kamu bisa <strong>menggeser titik</strong> untuk melihat bagaimana garis regresi berubah secara real-time.</p>
+<div style="position: relative; width: 100%; padding-bottom: 0; margin: 1.5rem 0;">
+  <iframe src="https://www.geogebra.org/classic/jrurjnhb?embed" width="800" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
+</div><section id="cara-membuat-applet-sendiri-di-geogebra-classic">
+<h3>Cara Membuat Applet Sendiri di GeoGebra Classic<a class="headerlink" href="#cara-membuat-applet-sendiri-di-geogebra-classic" title="Permalink to this heading">#</a></h3>
+<p>Jika ingin membuat dari nol dengan data A–G, buka <a class="reference external" href="https://www.geogebra.org/classic">https://www.geogebra.org/classic</a> lalu ketik perintah berikut <strong>satu per satu</strong> di <strong>Input Bar</strong> (baris paling bawah layar):</p>
+<p><strong>① Input data:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>X_data = {2, 4, 5, 3, 3, 4, 5}
+Y_data = {2, 3, 5, 4, 3, 5, 6}
 </pre></div>
 </div>
-</section>
-<section id="langkah-2-buat-titik-titik">
-<h4>Langkah 2: Buat Titik-Titik<a class="headerlink" href="#langkah-2-buat-titik-titik" title="Permalink to this heading">#</a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Buat list titik</span>
-<span class="n">titik</span> <span class="o">=</span> <span class="n">Zip</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">X_data</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Y_data</span><span class="p">)</span>
+<p><strong>② Buat 7 titik (A–G):</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A = (2, 2)
+B = (4, 3)
+C = (5, 5)
+D = (3, 4)
+E = (3, 3)
+F = (4, 5)
+G = (5, 6)
 </pre></div>
 </div>
-<p>Atau input manual tiap titik:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3.385</span><span class="p">,</span> <span class="mf">44.5</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.48</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">)</span>
-<span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.35</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">)</span>
-<span class="n">D</span> <span class="o">=</span> <span class="p">(</span><span class="mi">465</span><span class="p">,</span> <span class="mi">423</span><span class="p">)</span>
-<span class="n">E</span> <span class="o">=</span> <span class="p">(</span><span class="mf">36.33</span><span class="p">,</span> <span class="mf">119.5</span><span class="p">)</span>
+<p><strong>③ Fit garis regresi otomatis:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>garis = FitLine({A, B, C, D, E, F, G})
 </pre></div>
 </div>
-</section>
-<section id="langkah-3-hitung-garis-regresi-otomatis">
-<h4>Langkah 3: Hitung Garis Regresi Otomatis<a class="headerlink" href="#langkah-3-hitung-garis-regresi-otomatis" title="Permalink to this heading">#</a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Regresi linier otomatis dari list titik</span>
-<span class="n">garis</span> <span class="o">=</span> <span class="n">FitLine</span><span class="p">({</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">E</span><span class="p">})</span>
+<p><strong>④ Hitung koefisien OLS manual (verifikasi):</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>x_bar = Mean(X_data)
+y_bar = Mean(Y_data)
+Sxx   = Sum(Zip((x - x_bar)^2, x, X_data))
+Sxy   = Sum(Zip((x - x_bar)(y - y_bar), x, X_data, y, Y_data))
+b1    = Sxy / Sxx
+b0    = y_bar - b1 * x_bar
 </pre></div>
 </div>
-<p>GeoGebra akan menampilkan persamaan garis regresi secara otomatis!</p>
-</section>
-<section id="langkah-4-formula-manual-ols-opsional-untuk-verifikasi">
-<h4>Langkah 4: Formula Manual OLS (opsional, untuk verifikasi)<a class="headerlink" href="#langkah-4-formula-manual-ols-opsional-untuk-verifikasi" title="Permalink to this heading">#</a></h4>
-<p>Hitung komponen OLS secara manual di GeoGebra:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Jumlah data</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
-
-<span class="c1"># Mean</span>
-<span class="n">x_bar</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">(</span><span class="n">X_data</span><span class="p">)</span>
-<span class="n">y_bar</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">(</span><span class="n">Y_data</span><span class="p">)</span>
-
-<span class="c1"># Komponen regresi</span>
-<span class="n">Sxx</span> <span class="o">=</span> <span class="n">Sum</span><span class="p">(</span><span class="n">Zip</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">X_data</span><span class="p">))</span>
-<span class="n">Sxy</span> <span class="o">=</span> <span class="n">Sum</span><span class="p">(</span><span class="n">Zip</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_bar</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">X_data</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Y_data</span><span class="p">))</span>
-
-<span class="c1"># Koefisien</span>
-<span class="n">beta1</span> <span class="o">=</span> <span class="n">Sxy</span> <span class="o">/</span> <span class="n">Sxx</span>
-<span class="n">beta0</span> <span class="o">=</span> <span class="n">y_bar</span> <span class="o">-</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_bar</span>
-
-<span class="c1"># Tampilkan persamaan</span>
-<span class="n">persamaan</span> <span class="o">=</span> <span class="s2">&quot;y = &quot;</span> <span class="o">+</span> <span class="n">beta0</span> <span class="o">+</span> <span class="s2">&quot; + &quot;</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">+</span> <span class="s2">&quot;x&quot;</span>
+<p><strong>⑤ Gambar residual (segmen vertikal tiap titik ke garis):</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>res_A = Segment(A, (x(A), b0 + b1 * x(A)))
+res_B = Segment(B, (x(B), b0 + b1 * x(B)))
+res_C = Segment(C, (x(C), b0 + b1 * x(C)))
+res_D = Segment(D, (x(D), b0 + b1 * x(D)))
+res_E = Segment(E, (x(E), b0 + b1 * x(E)))
+res_F = Segment(F, (x(F), b0 + b1 * x(F)))
+res_G = Segment(G, (x(G), b0 + b1 * x(G)))
 </pre></div>
 </div>
-</section>
-<section id="langkah-5-visualisasi-residual">
-<h4>Langkah 5: Visualisasi Residual<a class="headerlink" href="#langkah-5-visualisasi-residual" title="Permalink to this heading">#</a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gambar residual (garis dari titik ke garis regresi)</span>
-<span class="n">residual_A</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">(</span><span class="n">A</span><span class="p">)))</span>
-<span class="n">residual_B</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">B</span><span class="p">),</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">(</span><span class="n">B</span><span class="p">)))</span>
-<span class="n">residual_C</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">(</span><span class="n">C</span><span class="p">)))</span>
-<span class="n">residual_D</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">D</span><span class="p">),</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">(</span><span class="n">D</span><span class="p">)))</span>
-<span class="n">residual_E</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">E</span><span class="p">),</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">(</span><span class="n">E</span><span class="p">)))</span>
+<p><strong>⑥ Hitung <span class="math notranslate nohighlight">\(R^2\)</span>:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Y_hat  = Map(b0 + b1 * x, X_data)
+SS_res = Sum(Zip((y - yh)^2, y, Y_data, yh, Y_hat))
+SS_tot = Sum(Zip((y - y_bar)^2, y, Y_data))
+R2     = 1 - SS_res / SS_tot
 </pre></div>
 </div>
-</section>
-<section id="langkah-6-hitung-r2-di-geogebra">
-<h4>Langkah 6: Hitung R² di GeoGebra<a class="headerlink" href="#langkah-6-hitung-r2-di-geogebra" title="Permalink to this heading">#</a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Y prediksi</span>
-<span class="n">Y_hat</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">X_data</span><span class="p">)</span>
-
-<span class="c1"># SS_residuals dan SS_total</span>
-<span class="n">SS_res</span> <span class="o">=</span> <span class="n">Sum</span><span class="p">(</span><span class="n">Zip</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">yhat</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Y_data</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">Y_hat</span><span class="p">))</span>
-<span class="n">SS_tot</span> <span class="o">=</span> <span class="n">Sum</span><span class="p">(</span><span class="n">Zip</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_bar</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Y_data</span><span class="p">))</span>
-
-<span class="c1"># R-squared</span>
-<span class="n">R2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">SS_res</span> <span class="o">/</span> <span class="n">SS_tot</span>
+<blockquote>
+<div><p>Hasil yang diharapkan: <code class="docutils literal notranslate"><span class="pre">b0</span> <span class="pre">=</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">b1</span> <span class="pre">≈</span> <span class="pre">1.0769</span></code>, <code class="docutils literal notranslate"><span class="pre">R2</span> <span class="pre">≈</span> <span class="pre">0.718</span></code></p>
+</div></blockquote>
+<p><strong>⑦ Simpan dan embed ke Jupyter Book:</strong></p>
+<p>Setelah selesai, klik <strong>Share</strong> → <strong>Embed</strong> di GeoGebra, lalu salin <code class="docutils literal notranslate"><span class="pre">material</span> <span class="pre">id</span></code> dari URL-nya (contoh: <code class="docutils literal notranslate"><span class="pre">jqbhrbmd</span></code>) dan gunakan template berikut di file <code class="docutils literal notranslate"><span class="pre">.md</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>```{raw} html
+&lt;iframe
+  src=&quot;https://www.geogebra.org/material/iframe/id/MATERIAL_ID/width/800/height/500/border/888888/sfsb/true/sdz/true&quot;
+  width=&quot;100%&quot;
+  height=&quot;500px&quot;
+  style=&quot;border: 1px solid #ccc; border-radius: 8px;&quot;
+  allowfullscreen&gt;
+&lt;/iframe&gt;
+```
 </pre></div>
 </div>
-</section>
+<p>Ganti <code class="docutils literal notranslate"><span class="pre">MATERIAL_ID</span></code> dengan ID applet milikmu.</p>
 </section>
 </section>
 <hr class="docutils" />
-<section id="ringkasan-rumus-penting">
-<h2>9. Ringkasan Rumus Penting<a class="headerlink" href="#ringkasan-rumus-penting" title="Permalink to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="table">
+<section id="ringkasan-rumus">
+<h2>9. Ringkasan Rumus<a class="headerlink" href="#ringkasan-rumus" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table" id="id6">
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">Kumpulan Rumus Penting</span><a class="headerlink" href="#id6" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 55%" />
+</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Rumus</p></th>
 <th class="head"><p>Keterangan</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\hat{\beta} = (X^T X)^{-1} X^T Y\)</span></p></td>
-<td><p>OLS estimator koefisien</p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\hat{\mathbf{b}} = (X^T X)^{-1} X^T Y\)</span></p></td>
+<td><p>OLS estimator — rumus utama</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(SS_{res} = \sum (\hat{y}_i - y_i)^2\)</span></p></td>
-<td><p>Sum of Squared Residuals</p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(SS_{\text{res}} = \sum_{i=1}^N (\hat{y}_i - y_i)^2\)</span></p></td>
+<td><p>Sum of Squared Residuals (yang diminimalkan)</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R^2 = 1 - \frac{SS_{res}}{SS_{tot}}\)</span></p></td>
-<td><p>Koefisien determinasi</p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R^2 = 1 - \dfrac{SS_{\text{res}}}{SS_{\text{tot}}}\)</span></p></td>
+<td><p>Koefisien determinasi (0–1, makin besar makin baik)</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\beta_1 = \frac{S_{xy}}{S_{xx}}\)</span></p></td>
-<td><p>Slope (regresi sederhana)</p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(b_1 = \dfrac{S_{xy}}{S_{xx}}\)</span></p></td>
+<td><p>Slope — regresi sederhana</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\beta_0 = \bar{y} - \beta_1 \bar{x}\)</span></p></td>
-<td><p>Intercept (regresi sederhana)</p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(b_0 = \bar{y} - b_1 \bar{x}\)</span></p></td>
+<td><p>Intercept — regresi sederhana</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(SS_{\text{tot}} = \sum (y_i - \bar{y})^2\)</span></p></td>
+<td><p>Total variabilitas data</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Hasil untuk dataset A–G ini:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Nilai</p></th>
+<th class="head"><p>Hasil</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(b_0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(b_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\approx 1.0769\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Persamaan</p></td>
+<td><p><span class="math notranslate nohighlight">\(\hat{y} = 1.077x\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\approx 0.718\)</span></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <hr class="docutils" />
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Materi lanjutan yang berhubungan:</p>
+<ul class="simple">
+<li><p><strong>Ridge Regression</strong> — OLS dengan regularisasi L2: <span class="math notranslate nohighlight">\(\hat{b} = (X^TX + \lambda I)^{-1}X^TY\)</span></p></li>
+<li><p><strong>Lasso Regression</strong> — regularisasi L1 (menghasilkan sparse coefficients)</p></li>
+<li><p><strong>Logistic Regression</strong> — klasifikasi berbasis regresi linier</p></li>
+</ul>
+</div>
 <p><em>Referensi: Slide Linear Regression — Supervised Learning</em></p>
 </section>
 </section>
@@ -1043,6 +1142,15 @@ Major_Literature: -9750.00
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="random_forest.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analisis Data Menggunakan Random Forest</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
@@ -1059,48 +1167,37 @@ Major_Literature: -9750.00
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-regresi-linier">1. Apa itu Regresi Linier?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mengapa-penting-dipelajari">Mengapa penting dipelajari?</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-regresi-linier">1. Apa itu Regresi Linier?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-regresi-linier-sederhana">2. Model Regresi Linier Sederhana</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-regresi-linier-berganda-multiple">3. Model Regresi Linier Berganda (Multiple)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimasi-koefisien">4. Estimasi Koefisien</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-meminimalkan-sum-of-squared-residuals-ssr">Konsep: Meminimalkan Sum of Squared Residuals (SSR)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-analitik-ordinary-least-squares-ols">Rumus Analitik (Ordinary Least Squares / OLS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimasi-koefisien-ordinary-least-squares-ols">4. Estimasi Koefisien — Ordinary Least Squares (OLS)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-meminimalkan-sum-of-squared-residuals">Konsep: Meminimalkan Sum of Squared Residuals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solusi-analitik-ols">Solusi Analitik OLS</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-perhitungan-manual">5. Contoh Perhitungan Manual</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-susun-matriks-x-dan-y">Langkah 1: Susun Matriks X dan Y</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-hitung-x-t-x">Langkah 2: Hitung <span class="math notranslate nohighlight">\(X^T X\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-x-t-x-1">Langkah 3: Hitung <span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hitung-x-t-y">Langkah 4: Hitung <span class="math notranslate nohighlight">\(X^T Y\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-hitung-hat-beta">Langkah 5: Hitung <span class="math notranslate nohighlight">\(\hat{\beta}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-susun-matriks-x-dan-vektor-y">Langkah 1 — Susun Matriks <span class="math notranslate nohighlight">\(X\)</span> dan Vektor <span class="math notranslate nohighlight">\(Y\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-hitung-x-t-x">Langkah 2 — Hitung <span class="math notranslate nohighlight">\(X^T X\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-x-t-x-1">Langkah 3 — Hitung <span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hitung-x-t-y">Langkah 4 — Hitung <span class="math notranslate nohighlight">\(X^T Y\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-hitung-hat-mathbf-b">Langkah 5 — Hitung <span class="math notranslate nohighlight">\(\hat{\mathbf{b}}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-verifikasi-dengan-rumus-sederhana">Langkah 6 — Verifikasi dengan Rumus Sederhana</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-7-evaluasi-model-r-2">Langkah 7 — Evaluasi Model (<span class="math notranslate nohighlight">\(R^2\)</span>)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variabel-kategorikal-dummy-variables">6. Variabel Kategorikal (Dummy Variables)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-python">7. Code Python</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menggunakan-sklearn-linearregression">7.1 Menggunakan Sklearn (LinearRegression)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-analitik-ols-tanpa-library">7.2 Perhitungan Analitik OLS (Tanpa Library)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regresi-linier-berganda-multiple">7.3 Regresi Linier Berganda (Multiple)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menangani-variabel-kategorikal-dengan-pandas">7.4 Menangani Variabel Kategorikal dengan Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variabel-kategorikal-dummy-variables">6. Variabel Kategorikal — Dummy Variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-python">7. Implementasi Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menggunakan-scikit-learn">7.1 Menggunakan Scikit-learn</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-ols-analitik-dari-nol">7.2 Perhitungan OLS Analitik (dari Nol)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verifikasi-rumus-sxx-sxy">7.3 Verifikasi Rumus Sxx / Sxy</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-di-geogebra">8. Visualisasi di GeoGebra</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#link-geogebra">Link GeoGebra</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-membuat-regresi-linier-di-geogebra-classic">Cara Membuat Regresi Linier di GeoGebra Classic</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-input-data-sebagai-list">Langkah 1: Input Data sebagai List</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-buat-titik-titik">Langkah 2: Buat Titik-Titik</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-garis-regresi-otomatis">Langkah 3: Hitung Garis Regresi Otomatis</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-formula-manual-ols-opsional-untuk-verifikasi">Langkah 4: Formula Manual OLS (opsional, untuk verifikasi)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-visualisasi-residual">Langkah 5: Visualisasi Residual</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-hitung-r2-di-geogebra">Langkah 6: Hitung R² di GeoGebra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-interaktif-di-geogebra">8. Visualisasi Interaktif di GeoGebra</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-membuat-applet-sendiri-di-geogebra-classic">Cara Membuat Applet Sendiri di GeoGebra Classic</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-rumus-penting">9. Ringkasan Rumus Penting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-rumus">9. Ringkasan Rumus</a></li>
 </ul>
   </nav></div>
 

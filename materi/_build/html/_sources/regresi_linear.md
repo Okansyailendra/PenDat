@@ -16,62 +16,112 @@ kernelspec:
 
 ## 1. Apa itu Regresi Linier?
 
-Regresi Linier adalah metode **supervised learning** untuk memprediksi nilai **kontinu** (bukan kategori).
-Dalam peta machine learning:
+Regresi Linier adalah metode **supervised learning** untuk memprediksi nilai **kontinu** (bukan kategori). Dalam peta machine learning, posisinya adalah:
 
-| | Kontinu | Kategorikal |
-|---|---|---|
-| **Supervised** | **Regression** ✅ | Classification |
-| **Unsupervised** | Dimension Reduction | Clustering |
+```{list-table} Peta Machine Learning
+:header-rows: 1
+:widths: 25 35 35
 
-### Mengapa penting dipelajari?
-- Banyak digunakan di industri dan akademik
-- Komputasi cepat
-- Mudah digunakan (tidak perlu banyak tuning)
-- Sangat interpretable (mudah dijelaskan)
-- Menjadi dasar banyak metode lainnya
+* -
+  - Kontinu
+  - Kategorikal
+* - **Supervised**
+  - **Regression** ✅ ← kita di sini
+  - Classification
+* - **Unsupervised**
+  - Dimension Reduction
+  - Clustering
+```
+
+:::{admonition} Mengapa Regresi Linier penting dipelajari?
+:class: tip
+
+- **Widely used** — banyak digunakan di industri dan akademik
+- **Runs fast** — komputasi sangat cepat
+- **Easy to use** — tidak perlu banyak hyperparameter tuning
+- **Highly interpretable** — koefisien mudah dijelaskan secara intuitif
+- **Basis for many methods** — fondasi Ridge, Lasso, Logistic Regression, dsb.
+:::
 
 ---
 
 ## 2. Model Regresi Linier Sederhana
 
-$$y = \beta_0 + \beta_1 x + \varepsilon$$
+Persamaan dasar regresi linier sederhana (satu prediktor):
 
-| Simbol | Nama | Keterangan |
-|--------|------|------------|
-| $y$ | Response variable | Nilai yang ingin diprediksi |
-| $x$ | Input variable | Variabel prediktor/fitur |
-| $\beta_0$ | Intercept | Titik potong garis dengan sumbu-y |
-| $\beta_1$ | Regression coefficient | Kemiringan garis ($\Delta y / \Delta x$) |
-| $\varepsilon$ | Residual | Error / selisih prediksi dengan data asli |
+$$y = b_0 + b_1 x + \varepsilon$$
+
+```{list-table} Komponen Model
+:header-rows: 1
+:widths: 15 25 60
+
+* - Simbol
+  - Nama
+  - Keterangan
+* - $y$
+  - Response variable
+  - Nilai yang ingin diprediksi (target)
+* - $x$
+  - Input variable
+  - Variabel prediktor / fitur
+* - $b_0$
+  - Intercept
+  - Titik potong garis dengan sumbu-$y$
+* - $b_1$
+  - Regression coefficient
+  - Kemiringan garis $\left(\dfrac{\Delta y}{\Delta x}\right)$
+* - $\varepsilon$
+  - Residual
+  - Error — selisih nilai prediksi dengan data asli
+```
 
 ---
 
 ## 3. Model Regresi Linier Berganda (Multiple)
 
-Untuk beberapa variabel input:
+Diperluas untuk beberapa variabel input sekaligus:
 
-$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n + \varepsilon$$
+$$y = b_0 + b_1 x_1 + b_2 x_2 + \cdots + b_n x_n + \varepsilon$$
+
+Dalam notasi matriks yang lebih ringkas:
+
+$$\mathbf{y} = X\mathbf{b} + \boldsymbol{\varepsilon}$$
+
+di mana $X \in \mathbb{R}^{n \times (p+1)}$ adalah matriks fitur yang sudah ditambah kolom 1 (bias).
 
 ---
 
-## 4. Estimasi Koefisien
+## 4. Estimasi Koefisien — Ordinary Least Squares (OLS)
 
-### Konsep: Meminimalkan Sum of Squared Residuals (SSR)
+### Konsep: Meminimalkan Sum of Squared Residuals
 
-$$SS_{residuals} = \sum_{i=1}^{N} (\hat{y}_i - y_i)^2$$
+Kita mencari garis $\hat{y}$ yang **meminimalkan** jumlah kuadrat error:
 
-Kita mencari garis yang meminimalkan jumlah kuadrat error antara nilai prediksi $\hat{y}$ dan nilai aktual $y$.
+$$SS_{\text{residuals}} = \sum_{i=1}^{N} \left(\hat{y}_i - y_i\right)^2$$
 
-### Rumus Analitik (Ordinary Least Squares / OLS)
+:::{note}
+Mengapa *dikuadratkan*? Agar nilai positif dan negatif tidak saling menghilangkan, dan memberikan penalti lebih besar untuk error yang besar.
+:::
 
-$$\boxed{\hat{\beta} = (X^T X)^{-1} X^T Y}$$
+### Solusi Analitik OLS
 
-Di mana:
-- $X$ = Matriks fitur (dengan kolom pertama berisi angka 1 sebagai bias/intercept)
-- $Y$ = Vektor target / response
-- $X^T$ = Transpose dari matriks $X$
-- $(X^T X)^{-1}$ = Invers dari matriks $(X^T X)$
+Melalui kalkulus (meminimalkan $SS_{res}$ terhadap $\mathbf{b}$), diperoleh formula tertutup:
+
+```{math}
+:label: eq-ols
+\boxed{\hat{\mathbf{b}} = \left(X^T X\right)^{-1} X^T Y}
+```
+
+**Keterangan:**
+
+| Term | Peran |
+|------|-------|
+| $X$ | Matriks fitur (kolom pertama = 1 untuk intercept) |
+| $Y$ | Vektor target/response |
+| $X^T$ | Transpose matriks $X$ (baris ↔ kolom) |
+| $(X^TX)^{-1}$ | Invers matriks — hanya bisa dihitung jika $X^TX$ *invertible* |
+
+Lihat persamaan {eq}`eq-ols` — ini adalah formula utama yang kita implementasikan di Python maupun GeoGebra.
 
 ---
 
@@ -79,324 +129,434 @@ Di mana:
 
 ### Dataset
 
-| Observasi | X (Prediktor) | Y (Target) |
-|-----------|--------------|------------|
-| 1 | 3.385 | 44.5 |
-| 2 | 0.48 | 15.5 |
-| 3 | 1.35 | 8.1 |
-| 4 | 465.0 | 423.0 |
-| 5 | 36.33 | 119.5 |
+```{list-table} Data 7 Titik Observasi
+:header-rows: 1
+:widths: 20 40 40
 
-### Langkah 1: Susun Matriks X dan Y
+* - Titik
+  - $X$ (Variabel Input)
+  - $Y$ (Variabel Respon)
+* - A
+  - 2
+  - 2
+* - B
+  - 4
+  - 3
+* - C
+  - 5
+  - 5
+* - D
+  - 3
+  - 4
+* - E
+  - 3
+  - 3
+* - F
+  - 4
+  - 5
+* - G
+  - 5
+  - 6
+```
 
-$$X = \begin{pmatrix} 1 & 3.385 \\ 1 & 0.48 \\ 1 & 1.35 \\ 1 & 465 \\ 1 & 36.33 \end{pmatrix}, \quad Y = \begin{pmatrix} 44.5 \\ 15.5 \\ 8.1 \\ 423 \\ 119.5 \end{pmatrix}$$
+**Statistik dasar:**
 
-> Kolom pertama berisi angka 1 sebagai placeholder untuk intercept $\beta_0$.
+$$\bar{x} = \frac{2+4+5+3+3+4+5}{7} = \frac{26}{7} \approx 3.714, \qquad \bar{y} = \frac{2+3+5+4+3+5+6}{7} = \frac{28}{7} = 4.0$$
 
-### Langkah 2: Hitung $X^T X$
+### Langkah 1 — Susun Matriks $X$ dan Vektor $Y$
 
-$$X^T X = \begin{pmatrix} 5 & 506.54 \\ 506.54 & 217558.38 \end{pmatrix}$$
+Tambahkan kolom $1$ di paling kiri sebagai *placeholder* untuk intercept $b_0$:
 
-### Langkah 3: Hitung $(X^T X)^{-1}$
+$$X = \begin{pmatrix} 1 & 2 \\ 1 & 4 \\ 1 & 5 \\ 1 & 3 \\ 1 & 3 \\ 1 & 4 \\ 1 & 5 \end{pmatrix}, \qquad Y = \begin{pmatrix} 2 \\ 3 \\ 5 \\ 4 \\ 3 \\ 5 \\ 6 \end{pmatrix}$$
 
-Invers matriks 2×2: tukar diagonal, bagi dengan determinan.
+### Langkah 2 — Hitung $X^T X$
 
-$$det = 5 \times 217558.38 - 506.54 \times 506.54$$
+$$X^T X = \begin{pmatrix} 1&1&1&1&1&1&1 \\ 2&4&5&3&3&4&5 \end{pmatrix} \begin{pmatrix} 1&2\\1&4\\1&5\\1&3\\1&3\\1&4\\1&5 \end{pmatrix} = \begin{pmatrix} 7 & 26 \\ 26 & 104 \end{pmatrix}$$
 
-$$(X^T X)^{-1} = \begin{pmatrix} 0.26 & -6.1 \times 10^{-4} \\ -6.1 \times 10^{-4} & 6.0 \times 10^{-6} \end{pmatrix}$$
+### Langkah 3 — Hitung $(X^T X)^{-1}$
 
-### Langkah 4: Hitung $X^T Y$
+$$\det(X^TX) = 7 \times 104 - 26 \times 26 = 728 - 676 = 52$$
 
-$$X^T Y = \begin{pmatrix} 610.6 \\ 201205.4 \end{pmatrix}$$
+$$(X^T X)^{-1} = \frac{1}{52}\begin{pmatrix} 104 & -26 \\ -26 & 7 \end{pmatrix} = \begin{pmatrix} 2 & -0.5 \\ -0.5 & 0.1346 \end{pmatrix}$$
 
-### Langkah 5: Hitung $\hat{\beta}$
+:::{warning}
+Hanya matriks **persegi** yang bisa diinvers. Karena $X^TX$ selalu berukuran $(p+1)\times(p+1)$, maka selalu bisa diinvers (selama tidak ada multicollinearity sempurna).
+:::
 
-$$\begin{pmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \end{pmatrix} = \begin{pmatrix} 0.26 & -6.1 \times 10^{-4} \\ -6.1 \times 10^{-4} & 6.0 \times 10^{-6} \end{pmatrix} \begin{pmatrix} 610.6 \\ 201205.4 \end{pmatrix} = \begin{pmatrix} 37.201 \\ 0.838 \end{pmatrix}$$
+### Langkah 4 — Hitung $X^T Y$
 
-**Hasil:** $\hat{y} = 37.201 + 0.838 \cdot x$
+$$X^T Y = \begin{pmatrix} 1&1&1&1&1&1&1 \\ 2&4&5&3&3&4&5 \end{pmatrix} \begin{pmatrix} 2\\3\\5\\4\\3\\5\\6 \end{pmatrix} = \begin{pmatrix} 28 \\ 112 \end{pmatrix}$$
+
+### Langkah 5 — Hitung $\hat{\mathbf{b}}$
+
+$$\begin{pmatrix} \hat{b}_0 \\ \hat{b}_1 \end{pmatrix} = \begin{pmatrix} 2 & -0.5 \\ -0.5 & 0.1346 \end{pmatrix} \begin{pmatrix} 28 \\ 112 \end{pmatrix} = \begin{pmatrix} 2(28) + (-0.5)(112) \\ (-0.5)(28) + (0.1346)(112) \end{pmatrix} = \begin{pmatrix} 0 \\ 1.0769 \end{pmatrix}$$
+
+:::{admonition} Hasil Akhir
+:class: important
+
+$$\hat{y} = 0 + 1.0769 \cdot x \approx 1.077x$$
+
+Artinya: setiap kenaikan 1 unit $x$, nilai $y$ naik rata-rata **±1.077 unit**. Intercept $b_0 = 0$ berarti garis melewati titik asal.
+:::
+
+### Langkah 6 — Verifikasi dengan Rumus Sederhana
+
+Untuk regresi sederhana (1 prediktor), ada rumus alternatif yang lebih ringkas:
+
+$$S_{xx} = \sum(x_i - \bar{x})^2 = 7.4286, \qquad S_{xy} = \sum(x_i - \bar{x})(y_i - \bar{y}) = 8.0$$
+
+$$b_1 = \frac{S_{xy}}{S_{xx}} = \frac{8.0}{7.4286} \approx 1.0769 \checkmark$$
+
+$$b_0 = \bar{y} - b_1\bar{x} = 4.0 - 1.0769 \times 3.7143 \approx 0 \checkmark$$
+
+### Langkah 7 — Evaluasi Model ($R^2$)
+
+```{list-table} Prediksi vs Aktual
+:header-rows: 1
+:widths: 10 15 15 20 20
+
+* - Titik
+  - $x$
+  - $y$
+  - $\hat{y} = 1.077x$
+  - Residual $(y - \hat{y})$
+* - A
+  - 2
+  - 2
+  - 2.154
+  - −0.154
+* - B
+  - 4
+  - 3
+  - 4.308
+  - −1.308
+* - C
+  - 5
+  - 5
+  - 5.385
+  - −0.385
+* - D
+  - 3
+  - 4
+  - 3.231
+  - +0.769
+* - E
+  - 3
+  - 3
+  - 3.231
+  - −0.231
+* - F
+  - 4
+  - 5
+  - 4.308
+  - +0.692
+* - G
+  - 5
+  - 6
+  - 5.385
+  - +0.615
+```
+
+$$SS_{res} = \sum(y_i - \hat{y}_i)^2 = 3.385, \qquad SS_{tot} = \sum(y_i - \bar{y})^2 = 12.0$$
+
+$$R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{3.385}{12.0} \approx 0.718$$
+
+Model menjelaskan sekitar **71.8%** variasi data.
 
 ---
 
-## 6. Variabel Kategorikal (Dummy Variables)
+## 6. Variabel Kategorikal — Dummy Variables
 
-Untuk variabel kategorikal dengan $k$ level, buat $k-1$ variabel binary (dummy).
+Untuk variabel kategorikal dengan $k$ level, kita buat $k-1$ variabel binary (dummy).
 
-**Contoh:** Variabel `Major` dengan $k=4$ (CS, Engineering, Business, Literature)
+:::{admonition} Mengapa $k-1$ dan bukan $k$?
+:class: note
 
-| Major | Engineering | Business | Literature |
-|-------|-------------|----------|------------|
-| Computer Science | 0 | 0 | 0 |
-| Engineering | 1 | 0 | 0 |
-| Business | 0 | 1 | 0 |
-| Literature | 0 | 0 | 1 |
+Karena $k-1$ dummy sudah cukup merepresentasikan semua kemungkinan. Menggunakan $k$ dummy menyebabkan **multicollinearity** — kondisi di mana dua atau lebih prediktor berkorelasi sempurna, membuat matriks $X^TX$ tidak bisa diinvers.
+:::
 
-> "Computer Science" menjadi **referensi** (semua 0).
-> Kenapa $k-1$? Untuk menghindari **multicollinearity** (korelasi sempurna antar prediktor).
+**Contoh:** variabel `Major` dengan $k=4$ level.
+
+```{list-table} Encoding Dummy Variables
+:header-rows: 1
+:widths: 30 20 20 20 10
+
+* - Major
+  - Engineering
+  - Business
+  - Literature
+  - (ref.)
+* - Computer Science
+  - 0
+  - 0
+  - 0
+  - ← referensi
+* - Engineering
+  - 1
+  - 0
+  - 0
+  -
+* - Business
+  - 0
+  - 1
+  - 0
+  -
+* - Literature
+  - 0
+  - 0
+  - 1
+  -
+```
 
 **Tipe data kategorikal:**
-- **Nominal** (tidak berurutan): gunakan dummy variables
-- **Ordinal** (berurutan, mis. skala Likert): bisa dikodekan sebagai integer 1, 2, 3, 4, 5
+
+- **Nominal** (tidak berurutan) → gunakan dummy variables seperti di atas
+- **Ordinal** (berurutan, mis. skala Likert) → bisa dikodekan sebagai integer `1, 2, 3, 4, 5`
 
 ---
 
-## 7. Code Python
+## 7. Implementasi Python
 
-### 7.1 Menggunakan Sklearn (LinearRegression)
+### 7.1 Menggunakan Scikit-learn
 
 ```{code-cell} ipython3
 import numpy as np
-import pandas as pd
-from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 
-# Dataset
-X = np.array([3.385, 0.48, 1.35, 465.0, 36.33]).reshape(-1, 1)
-Y = np.array([44.5, 15.5, 8.1, 423.0, 119.5])
+# ── Dataset (7 titik A–G) ──────────────────────────────────
+X = np.array([2, 4, 5, 3, 3, 4, 5], dtype=float).reshape(-1, 1)
+Y = np.array([2, 3, 5, 4, 3, 5, 6], dtype=float)
+labels = list("ABCDEFG")
 
-# Membuat dan melatih model
+# ── Latih model ────────────────────────────────────────────
 model = LinearRegression()
 model.fit(X, Y)
 
-# Koefisien hasil
-print(f"Intercept (β₀): {model.intercept_:.4f}")
-print(f"Koefisien (β₁): {model.coef_[0]:.4f}")
+print(f"Intercept  b₀ : {model.intercept_:.4f}")
+print(f"Koefisien  b₁ : {model.coef_[0]:.4f}")
 
-# Prediksi
-X_pred = np.linspace(min(X), max(X), 100).reshape(-1, 1)
-Y_pred = model.predict(X_pred)
+# ── Prediksi & visualisasi ─────────────────────────────────
+X_line = np.linspace(1.5, 5.5, 200).reshape(-1, 1)
+Y_line = model.predict(X_line)
 
-# Visualisasi
-plt.figure(figsize=(10, 6))
-plt.scatter(X, Y, color='blue', label='Data Asli', zorder=5)
-plt.plot(X_pred, Y_pred, color='red', label=f'y = {model.intercept_:.2f} + {model.coef_[0]:.3f}x')
-plt.xlabel('X (Prediktor)')
-plt.ylabel('Y (Target)')
-plt.title('Regresi Linier dengan Sklearn')
+plt.figure(figsize=(8, 5))
+plt.scatter(X, Y, color="steelblue", s=90, zorder=5)
+for i, lbl in enumerate(labels):
+    plt.annotate(lbl, (X[i, 0], Y[i]), textcoords="offset points",
+                 xytext=(6, 4), fontsize=10)
+plt.plot(X_line, Y_line, color="tomato", lw=2,
+         label=f"ŷ = {model.intercept_:.3f} + {model.coef_[0]:.3f}x")
+plt.xlabel("X (Variabel Input)")
+plt.ylabel("Y (Variabel Respon)")
+plt.title("Regresi Linier — Dataset A–G")
 plt.legend()
-plt.grid(True)
+plt.grid(alpha=0.3)
+plt.tight_layout()
 plt.show()
 ```
 
-### 7.2 Perhitungan Analitik OLS (Tanpa Library)
+### 7.2 Perhitungan OLS Analitik (dari Nol)
+
+Implementasi langsung formula {eq}`eq-ols` tanpa library ML:
 
 ```{code-cell} ipython3
 import numpy as np
 
-# Dataset
-X_raw = np.array([3.385, 0.48, 1.35, 465.0, 36.33])
-Y = np.array([44.5, 15.5, 8.1, 423.0, 119.5])
+# ── Data ───────────────────────────────────────────────────
+X_raw = np.array([2, 4, 5, 3, 3, 4, 5], dtype=float)
+Y     = np.array([2, 3, 5, 4, 3, 5, 6], dtype=float)
+labels = list("ABCDEFG")
 
-# Tambahkan kolom 1 untuk intercept
-ones = np.ones((len(X_raw), 1))
-X = np.column_stack([ones, X_raw])
+# ── Susun matriks X (tambah kolom 1 untuk intercept) ───────
+X = np.column_stack([np.ones(len(X_raw)), X_raw])
+print("Matriks X:\n", X)
 
-print("Matriks X:")
-print(X)
-
-# Hitung X^T X
-XTX = X.T @ X
-print("\nX^T X:")
-print(XTX)
-
-# Hitung (X^T X)^-1
+# ── Hitung komponen OLS ────────────────────────────────────
+XTX     = X.T @ X          # [[7, 26], [26, 104]]
 XTX_inv = np.linalg.inv(XTX)
-print("\n(X^T X)^-1:")
-print(XTX_inv)
+XTY     = X.T @ Y          # [28, 112]
 
-# Hitung X^T Y
-XTY = X.T @ Y
-print("\nX^T Y:")
-print(XTY)
+# ── Koefisien b ────────────────────────────────────────────
+b = XTX_inv @ XTY
+print(f"\nb₀ (intercept) = {b[0]:.4f}")
+print(f"b₁ (slope)     = {b[1]:.4f}")
 
-# Hitung beta = (X^T X)^-1 X^T Y
-beta = XTX_inv @ XTY
-print("\nKoefisien β:")
-print(f"  β₀ (intercept) = {beta[0]:.4f}")
-print(f"  β₁ (slope)     = {beta[1]:.4f}")
-
-# Prediksi
-Y_hat = X @ beta
-print("\nPrediksi vs Aktual:")
-for i in range(len(Y)):
-    print(f"  X={X_raw[i]:7.3f} | Y_aktual={Y[i]:6.1f} | Y_prediksi={Y_hat[i]:7.3f} | error={Y[i]-Y_hat[i]:+.3f}")
-
-# Evaluasi: R-squared
+# ── Prediksi & evaluasi ────────────────────────────────────
+Y_hat  = X @ b
 SS_res = np.sum((Y - Y_hat) ** 2)
-SS_tot = np.sum((Y - np.mean(Y)) ** 2)
-R2 = 1 - SS_res / SS_tot
-print(f"\nR² Score: {R2:.4f}")
+SS_tot = np.sum((Y - Y.mean()) ** 2)
+R2     = 1 - SS_res / SS_tot
+
+print("\nPrediksi vs Aktual:")
+for lbl, xi, yi, yh in zip(labels, X_raw, Y, Y_hat):
+    print(f"  {lbl}: x={xi:.0f}  y={yi:.0f}  ŷ={yh:.3f}  e={yi-yh:+.3f}")
+
+print(f"\nSS_res = {SS_res:.4f}")
+print(f"SS_tot = {SS_tot:.4f}")
+print(f"R²     = {R2:.4f}")
 ```
 
-### 7.3 Regresi Linier Berganda (Multiple)
+### 7.3 Verifikasi Rumus Sxx / Sxy
 
 ```{code-cell} ipython3
 import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
 
-# Contoh dataset dengan 2 prediktor
-np.random.seed(42)
-n = 100
-X1 = np.random.randn(n)
-X2 = np.random.randn(n)
-Y  = 3 + 2*X1 + 5*X2 + np.random.randn(n) * 0.5
+X_raw = np.array([2, 4, 5, 3, 3, 4, 5], dtype=float)
+Y     = np.array([2, 3, 5, 4, 3, 5, 6], dtype=float)
 
-X = np.column_stack([X1, X2])
+x_bar = X_raw.mean()   # 3.7143
+y_bar = Y.mean()       # 4.0
 
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+Sxx  = np.sum((X_raw - x_bar) ** 2)          # 7.4286
+Sxy  = np.sum((X_raw - x_bar) * (Y - y_bar)) # 8.0
 
-# Model
-model = LinearRegression()
-model.fit(X_train, y_train)
+b1 = Sxy / Sxx
+b0 = y_bar - b1 * x_bar
 
-# Evaluasi
-y_pred = model.predict(X_test)
-print(f"β₀ (intercept): {model.intercept_:.4f}")
-print(f"β₁ (X1):        {model.coef_[0]:.4f}")
-print(f"β₂ (X2):        {model.coef_[1]:.4f}")
-print(f"MSE:            {mean_squared_error(y_test, y_pred):.4f}")
-print(f"R² Score:       {r2_score(y_test, y_pred):.4f}")
-```
-
-### 7.4 Menangani Variabel Kategorikal dengan Pandas
-
-```{code-cell} ipython3
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-
-# Dataset dengan kolom kategorikal
-data = pd.DataFrame({
-    'Major': ['CS', 'Engineering', 'Business', 'Literature', 'Business', 'Engineering'],
-    'GPA': [3.8, 3.5, 3.2, 3.6, 3.0, 3.7],
-    'Salary': [95000, 88000, 75000, 70000, 72000, 90000]
-})
-
-# One-hot encoding (k-1 dummy variables, drop_first=True)
-data_encoded = pd.get_dummies(data, columns=['Major'], drop_first=True)
-print(data_encoded)
-
-X = data_encoded.drop('Salary', axis=1)
-y = data_encoded['Salary']
-
-model = LinearRegression()
-model.fit(X, y)
-print(f"\nIntercept: {model.intercept_:.2f}")
-for name, coef in zip(X.columns, model.coef_):
-    print(f"{name}: {coef:.2f}")
+print(f"x̄    = {x_bar:.4f}")
+print(f"ȳ    = {y_bar:.4f}")
+print(f"Sxx  = {Sxx:.4f}")
+print(f"Sxy  = {Sxy:.4f}")
+print(f"b₁   = Sxy/Sxx = {b1:.4f}")
+print(f"b₀   = ȳ - b₁x̄ = {b0:.4f}")
+print(f"\nPersamaan: ŷ = {b0:.4f} + {b1:.4f}x")
 ```
 
 ---
 
-## 8. Visualisasi di GeoGebra
+## 8. Visualisasi Interaktif di GeoGebra
 
-### Link GeoGebra
-🔗 **[Buka GeoGebra Linear Regression](https://www.geogebra.org/m/xC6zq7Zv)**
+Applet di bawah ini memuat langsung dari GeoGebra dan sudah berisi dataset A–G beserta garis regresi, residual, dan nilai $R^2$ yang dihitung secara otomatis. Kamu bisa **menggeser titik** untuk melihat bagaimana garis regresi berubah secara real-time.
 
-Atau buat sendiri di: [https://www.geogebra.org/classic](https://www.geogebra.org/classic)
-
----
-
-### Cara Membuat Regresi Linier di GeoGebra Classic
-
-#### Langkah 1: Input Data sebagai List
-
-Masukkan perintah berikut di **Input Bar** (baris bawah):
-
-```
-# Daftar titik data
-X_data = {3.385, 0.48, 1.35, 465, 36.33}
-Y_data = {44.5, 15.5, 8.1, 423, 119.5}
+```{raw} html
+<div style="position: relative; width: 100%; padding-bottom: 0; margin: 1.5rem 0;">
+  <iframe src="https://www.geogebra.org/classic/jrurjnhb?embed" width="800" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
+</div>
 ```
 
-#### Langkah 2: Buat Titik-Titik
+### Cara Membuat Applet Sendiri di GeoGebra Classic
 
-```
-# Buat list titik
-titik = Zip((x, y), x, X_data, y, Y_data)
-```
+Jika ingin membuat dari nol dengan data A–G, buka <https://www.geogebra.org/classic> lalu ketik perintah berikut **satu per satu** di **Input Bar** (baris paling bawah layar):
 
-Atau input manual tiap titik:
+**① Input data:**
 
-```
-A = (3.385, 44.5)
-B = (0.48, 15.5)
-C = (1.35, 8.1)
-D = (465, 423)
-E = (36.33, 119.5)
+```text
+X_data = {2, 4, 5, 3, 3, 4, 5}
+Y_data = {2, 3, 5, 4, 3, 5, 6}
 ```
 
-#### Langkah 3: Hitung Garis Regresi Otomatis
+**② Buat 7 titik (A–G):**
 
+```text
+A = (2, 2)
+B = (4, 3)
+C = (5, 5)
+D = (3, 4)
+E = (3, 3)
+F = (4, 5)
+G = (5, 6)
 ```
-# Regresi linier otomatis dari list titik
-garis = FitLine({A, B, C, D, E})
+
+**③ Fit garis regresi otomatis:**
+
+```text
+garis = FitLine({A, B, C, D, E, F, G})
 ```
 
-GeoGebra akan menampilkan persamaan garis regresi secara otomatis!
+**④ Hitung koefisien OLS manual (verifikasi):**
 
-#### Langkah 4: Formula Manual OLS (opsional, untuk verifikasi)
-
-Hitung komponen OLS secara manual di GeoGebra:
-
-```
-# Jumlah data
-n = 5
-
-# Mean
+```text
 x_bar = Mean(X_data)
 y_bar = Mean(Y_data)
-
-# Komponen regresi
-Sxx = Sum(Zip((x - x_bar)^2, x, X_data))
-Sxy = Sum(Zip((x - x_bar) * (y - y_bar), x, X_data, y, Y_data))
-
-# Koefisien
-beta1 = Sxy / Sxx
-beta0 = y_bar - beta1 * x_bar
-
-# Tampilkan persamaan
-persamaan = "y = " + beta0 + " + " + beta1 + "x"
+Sxx   = Sum(Zip((x - x_bar)^2, x, X_data))
+Sxy   = Sum(Zip((x - x_bar)(y - y_bar), x, X_data, y, Y_data))
+b1    = Sxy / Sxx
+b0    = y_bar - b1 * x_bar
 ```
 
-#### Langkah 5: Visualisasi Residual
+**⑤ Gambar residual (segmen vertikal tiap titik ke garis):**
 
+```text
+res_A = Segment(A, (x(A), b0 + b1 * x(A)))
+res_B = Segment(B, (x(B), b0 + b1 * x(B)))
+res_C = Segment(C, (x(C), b0 + b1 * x(C)))
+res_D = Segment(D, (x(D), b0 + b1 * x(D)))
+res_E = Segment(E, (x(E), b0 + b1 * x(E)))
+res_F = Segment(F, (x(F), b0 + b1 * x(F)))
+res_G = Segment(G, (x(G), b0 + b1 * x(G)))
 ```
-# Gambar residual (garis dari titik ke garis regresi)
-residual_A = Segment(A, (x(A), beta0 + beta1 * x(A)))
-residual_B = Segment(B, (x(B), beta0 + beta1 * x(B)))
-residual_C = Segment(C, (x(C), beta0 + beta1 * x(C)))
-residual_D = Segment(D, (x(D), beta0 + beta1 * x(D)))
-residual_E = Segment(E, (x(E), beta0 + beta1 * x(E)))
-```
 
-#### Langkah 6: Hitung R² di GeoGebra
+**⑥ Hitung $R^2$:**
 
-```
-# Y prediksi
-Y_hat = Map(beta0 + beta1 * x, X_data)
-
-# SS_residuals dan SS_total
-SS_res = Sum(Zip((y - yhat)^2, y, Y_data, yhat, Y_hat))
+```text
+Y_hat  = Map(b0 + b1 * x, X_data)
+SS_res = Sum(Zip((y - yh)^2, y, Y_data, yh, Y_hat))
 SS_tot = Sum(Zip((y - y_bar)^2, y, Y_data))
-
-# R-squared
-R2 = 1 - SS_res / SS_tot
+R2     = 1 - SS_res / SS_tot
 ```
 
+> Hasil yang diharapkan: `b0 = 0`, `b1 ≈ 1.0769`, `R2 ≈ 0.718`
+
+**⑦ Simpan dan embed ke Jupyter Book:**
+
+Setelah selesai, klik **Share** → **Embed** di GeoGebra, lalu salin `material id` dari URL-nya (contoh: `jqbhrbmd`) dan gunakan template berikut di file `.md`:
+
+````text
+```{raw} html
+<iframe
+  src="https://www.geogebra.org/material/iframe/id/MATERIAL_ID/width/800/height/500/border/888888/sfsb/true/sdz/true"
+  width="100%"
+  height="500px"
+  style="border: 1px solid #ccc; border-radius: 8px;"
+  allowfullscreen>
+</iframe>
+```
+````
+
+Ganti `MATERIAL_ID` dengan ID applet milikmu.
+
 ---
 
-## 9. Ringkasan Rumus Penting
+## 9. Ringkasan Rumus
 
-| Rumus | Keterangan |
-|-------|------------|
-| $\hat{\beta} = (X^T X)^{-1} X^T Y$ | OLS estimator koefisien |
-| $SS_{res} = \sum (\hat{y}_i - y_i)^2$ | Sum of Squared Residuals |
-| $R^2 = 1 - \frac{SS_{res}}{SS_{tot}}$ | Koefisien determinasi |
-| $\beta_1 = \frac{S_{xy}}{S_{xx}}$ | Slope (regresi sederhana) |
-| $\beta_0 = \bar{y} - \beta_1 \bar{x}$ | Intercept (regresi sederhana) |
+```{list-table} Kumpulan Rumus Penting
+:header-rows: 1
+:widths: 45 55
+
+* - Rumus
+  - Keterangan
+* - $\hat{\mathbf{b}} = (X^T X)^{-1} X^T Y$
+  - OLS estimator — rumus utama
+* - $SS_{\text{res}} = \sum_{i=1}^N (\hat{y}_i - y_i)^2$
+  - Sum of Squared Residuals (yang diminimalkan)
+* - $R^2 = 1 - \dfrac{SS_{\text{res}}}{SS_{\text{tot}}}$
+  - Koefisien determinasi (0–1, makin besar makin baik)
+* - $b_1 = \dfrac{S_{xy}}{S_{xx}}$
+  - Slope — regresi sederhana
+* - $b_0 = \bar{y} - b_1 \bar{x}$
+  - Intercept — regresi sederhana
+* - $SS_{\text{tot}} = \sum (y_i - \bar{y})^2$
+  - Total variabilitas data
+```
+
+**Hasil untuk dataset A–G ini:**
+
+| Nilai | Hasil |
+|-------|-------|
+| $b_0$ | $0$ |
+| $b_1$ | $\approx 1.0769$ |
+| Persamaan | $\hat{y} = 1.077x$ |
+| $R^2$ | $\approx 0.718$ |
 
 ---
+
+:::{seealso}
+Materi lanjutan yang berhubungan:
+
+- **Ridge Regression** — OLS dengan regularisasi L2: $\hat{b} = (X^TX + \lambda I)^{-1}X^TY$
+- **Lasso Regression** — regularisasi L1 (menghasilkan sparse coefficients)
+- **Logistic Regression** — klasifikasi berbasis regresi linier
+:::
 
 *Referensi: Slide Linear Regression — Supervised Learning*

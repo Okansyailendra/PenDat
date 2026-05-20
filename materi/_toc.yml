@@ -13,3 +13,4 @@ chapters:
 - file: naive_bayes
 - file: decision_tree
 - file: random_forest
+- file : regresi_linear
