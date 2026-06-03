@@ -14,3 +14,4 @@ chapters:
 - file: decision_tree
 - file: random_forest
 - file : regresi_linear
+- file: timeseries
