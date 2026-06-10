@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Mengukur Jarak Data (Distance Measurement) &#8212; Notebook Materi</title>
   
@@ -29,39 +28,35 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=1ae7504c"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'markdown-notebooks';</script>
@@ -165,7 +160,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -187,6 +193,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="naive_bayes.html">Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris</a></li>
 <li class="toctree-l1"><a class="reference internal" href="decision_tree.html">🌳 Decision Tree dengan KNIME Analytics Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="random_forest.html">Analisis Data Menggunakan Random Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresi_linear.html">📊 Regresi Linier (Linear Regression)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries.html">Peramalan Kadar <span class="math notranslate nohighlight">\(NO_2\)</span> di Daerah Gresik</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skforecast_explainability.html">🔍 Explainability pada Time Series Forecasting</a></li>
 </ul>
 
     </div>
@@ -216,9 +225,9 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -359,9 +368,9 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -417,11 +426,11 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="mengukur-jarak-data-distance-measurement">
-<h1>Mengukur Jarak Data (Distance Measurement)<a class="headerlink" href="#mengukur-jarak-data-distance-measurement" title="Permalink to this heading">#</a></h1>
+<h1>Mengukur Jarak Data (Distance Measurement)<a class="headerlink" href="#mengukur-jarak-data-distance-measurement" title="Link to this heading">#</a></h1>
 <p>Dalam <em>data mining</em>, mengukur jarak antara dua <em>data point</em> (baris data) sangat penting untuk mengetahui seberapa mirip atau berbedanya dua data tersebut. Semakin kecil jaraknya, semakin mirip karakteristik datanya.</p>
 <p>Berikut adalah dua metode perhitungan jarak yang paling umum digunakan:</p>
 <section id="euclidean-distance">
-<h2>1. Euclidean Distance<a class="headerlink" href="#euclidean-distance" title="Permalink to this heading">#</a></h2>
+<h2>1. Euclidean Distance<a class="headerlink" href="#euclidean-distance" title="Link to this heading">#</a></h2>
 <p>Euclidean distance adalah metrik jarak standar yang paling sering digunakan. Metrik ini mengukur panjang garis lurus terpendek antara dua titik dalam ruang <em>n-dimensional</em>.</p>
 <p><strong>Rumus:</strong>
 <span class="math notranslate nohighlight">\(d(x,y) = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2}\)</span></p>
@@ -433,30 +442,30 @@ document.write(`
 </ul>
 </section>
 <section id="manhattan-distance">
-<h2>2. Manhattan Distance<a class="headerlink" href="#manhattan-distance" title="Permalink to this heading">#</a></h2>
+<h2>2. Manhattan Distance<a class="headerlink" href="#manhattan-distance" title="Link to this heading">#</a></h2>
 <p>Manhattan distance (atau <em>City Block distance</em>) mengukur jarak absolut antar titik pada grid bersudut siku-siku (seperti pergerakan mobil di blok-blok jalanan kota), di mana kita hanya bisa bergerak secara vertikal dan horizontal.</p>
 <p><strong>Rumus:</strong>
 <span class="math notranslate nohighlight">\(d(x,y) = \sum_{i=1}^{n} |x_i - y_i|\)</span></p>
 </section>
 <hr class="docutils" />
 <section id="implementasi-pada-dataset-dengan-orange-data-mining">
-<h2>Implementasi pada Dataset dengan Orange Data Mining<a class="headerlink" href="#implementasi-pada-dataset-dengan-orange-data-mining" title="Permalink to this heading">#</a></h2>
+<h2>Implementasi pada Dataset dengan Orange Data Mining<a class="headerlink" href="#implementasi-pada-dataset-dengan-orange-data-mining" title="Link to this heading">#</a></h2>
 <p>Di bawah ini adalah hasil perhitungan <em>Distance Matrix</em> dari dua dataset berbeda yang dieksekusi menggunakan <em>tools</em> Orange Data Mining.</p>
 <section id="a-dataset-iris">
-<h3>A. Dataset Iris<a class="headerlink" href="#a-dataset-iris" title="Permalink to this heading">#</a></h3>
+<h3>A. Dataset Iris<a class="headerlink" href="#a-dataset-iris" title="Link to this heading">#</a></h3>
 <p>Dataset <code class="docutils literal notranslate"><span class="pre">IRIS.csv</span></code> berisi atribut numerik murni (panjang dan lebar <em>sepal</em> serta <em>petal</em>). Karena semua variabel inputnya berupa angka kontinu, metrik jarak seperti Euclidean sangat ideal digunakan di sini untuk mengelompokkan spesies bunga.</p>
 <p><strong>Hasil Perhitungan Jarak (Iris):</strong></p>
 <p><img alt="Hasil Orange - Iris" src="_images/iris.png" /></p>
 </section>
 <section id="b-dataset-student-performance-factors">
-<h3>B. Dataset Student Performance Factors<a class="headerlink" href="#b-dataset-student-performance-factors" title="Permalink to this heading">#</a></h3>
+<h3>B. Dataset Student Performance Factors<a class="headerlink" href="#b-dataset-student-performance-factors" title="Link to this heading">#</a></h3>
 <p>Dataset <code class="docutils literal notranslate"><span class="pre">StudentPerformanceFactors.csv</span></code> sedikit lebih kompleks karena merupakan <em>mixed data</em> (tipe data campuran). Dataset ini memiliki fitur numerik (seperti <code class="docutils literal notranslate"><span class="pre">Hours_Studied</span></code>, <code class="docutils literal notranslate"><span class="pre">Exam_Score</span></code>) dan juga kategorikal (seperti <code class="docutils literal notranslate"><span class="pre">Access_to_Resources</span></code>, <code class="docutils literal notranslate"><span class="pre">Gender</span></code>, <code class="docutils literal notranslate"><span class="pre">School_Type</span></code>). Dalam praktiknya, <em>tools</em> seperti Orange akan melakukan penyesuaian (seperti <em>encoding</em> data kategorikal menjadi numerik atau normalisasi) agar jarak antar siswa tetap bisa dihitung secara matematis.</p>
 <p><strong>Hasil Perhitungan Jarak (Student Performance):</strong></p>
 <p><img alt="Hasil Orange - Student Performance" src="_images/Student.png" /></p>
 </section>
 </section>
 <section id="minkowski-distance">
-<h2>3. Minkowski Distance<a class="headerlink" href="#minkowski-distance" title="Permalink to this heading">#</a></h2>
+<h2>3. Minkowski Distance<a class="headerlink" href="#minkowski-distance" title="Link to this heading">#</a></h2>
 <p>Minkowski distance sebenarnya adalah bentuk umum (generalisasi) dari jarak Euclidean dan Manhattan. Metrik ini memiliki parameter tambahan yaitu <span class="math notranslate nohighlight">\(p\)</span>.</p>
 <ul class="simple">
 <li><p>Jika <span class="math notranslate nohighlight">\(p = 1\)</span>, maka menjadi Manhattan Distance.</p></li>
@@ -467,14 +476,14 @@ document.write(`
 <p><em>Kapan digunakan?</em> Digunakan ketika kita ingin fleksibilitas dalam mengatur penalti terhadap perbedaan antar variabel dengan mengubah nilai <span class="math notranslate nohighlight">\(p\)</span>.</p>
 </section>
 <section id="chebyshev-distance">
-<h2>4. Chebyshev Distance<a class="headerlink" href="#chebyshev-distance" title="Permalink to this heading">#</a></h2>
+<h2>4. Chebyshev Distance<a class="headerlink" href="#chebyshev-distance" title="Link to this heading">#</a></h2>
 <p>Chebyshev distance (juga dikenal sebagai <em>chessboard distance</em>) mengukur jarak absolut maksimum antara fitur dari dua titik data. Bayangkan gerakan raja di papan catur yang bisa bergerak ke segala arah; jaraknya adalah jumlah langkah minimum yang dibutuhkan.</p>
 <p><strong>Rumus:</strong>
 <span class="math notranslate nohighlight">\(d(x,y) = \max_{i} |x_i - y_i|\)</span></p>
 <p><em>Kapan digunakan?</em> Sering digunakan dalam logistik atau ketika kita hanya peduli pada perbedaan terbesar (maksimum) di antara semua atribut data.</p>
 </section>
 <section id="cosine-distance-dan-cosine-similarity">
-<h2>5. Cosine Distance (dan Cosine Similarity)<a class="headerlink" href="#cosine-distance-dan-cosine-similarity" title="Permalink to this heading">#</a></h2>
+<h2>5. Cosine Distance (dan Cosine Similarity)<a class="headerlink" href="#cosine-distance-dan-cosine-similarity" title="Link to this heading">#</a></h2>
 <p>Berbeda dengan jarak sebelumnya yang mengukur panjang garis antar titik, Cosine mengukur <strong>sudut</strong> antara dua vektor data. Semakin kecil sudutnya, semakin mirip datanya, terlepas dari seberapa besar ukurannya (<em>magnitude</em>).</p>
 <p><strong>Rumus Cosine Similarity:</strong>
 <span class="math notranslate nohighlight">\(\text{sim}(x,y) = \frac{\sum_{i=1}^{n} x_i y_i}{\sqrt{\sum_{i=1}^{n} x_i^2} \sqrt{\sum_{i=1}^{n} y_i^2}}\)</span></p>
@@ -483,7 +492,7 @@ document.write(`
 <p><em>Kapan digunakan?</em> Sangat populer untuk <em>Text Mining</em> (seperti mengukur kemiripan dua dokumen teks) atau <em>Recommender Systems</em>.</p>
 </section>
 <section id="hamming-distance">
-<h2>6. Hamming Distance<a class="headerlink" href="#hamming-distance" title="Permalink to this heading">#</a></h2>
+<h2>6. Hamming Distance<a class="headerlink" href="#hamming-distance" title="Link to this heading">#</a></h2>
 <p>Hamming distance khusus digunakan untuk data <strong>kategorikal</strong> atau <em>binary</em> (0 dan 1). Jarak ini dihitung berdasarkan jumlah atribut yang nilainya berbeda antara dua data.</p>
 <p><strong>Rumus:</strong>
 <span class="math notranslate nohighlight">\(d(x,y) = \sum_{i=1}^{n} \delta(x_i, y_i)\)</span>
@@ -492,11 +501,11 @@ document.write(`
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="perhitungan-jarak-berdasarkan-tipe-atribut">
-<h1>Perhitungan Jarak Berdasarkan Tipe Atribut<a class="headerlink" href="#perhitungan-jarak-berdasarkan-tipe-atribut" title="Permalink to this heading">#</a></h1>
+<h1>Perhitungan Jarak Berdasarkan Tipe Atribut<a class="headerlink" href="#perhitungan-jarak-berdasarkan-tipe-atribut" title="Link to this heading">#</a></h1>
 <p>Dalam praktiknya, dataset jarang sekali hanya berisi satu tipe data. Misalnya, kita bisa memiliki kolom umur (angka), jenis kelamin (kategori), dan tingkat kepuasan (urutan/tingkatan). Kita tidak bisa menggunakan rumus Euclidean biasa untuk memproses kata seperti “Laki-laki” dan “Perempuan”.</p>
 <p>Oleh karena itu, perhitungan jarak harus disesuaikan dengan <strong>tipe atributnya</strong>. Berikut adalah penjelasan dan rumus untuk masing-masing tipe atribut:</p>
 <section id="atribut-numerik-kuantitatif">
-<h2>1. Atribut Numerik (Kuantitatif)<a class="headerlink" href="#atribut-numerik-kuantitatif" title="Permalink to this heading">#</a></h2>
+<h2>1. Atribut Numerik (Kuantitatif)<a class="headerlink" href="#atribut-numerik-kuantitatif" title="Link to this heading">#</a></h2>
 <p>Atribut numerik adalah data berupa angka yang memiliki makna matematis (contoh: <code class="docutils literal notranslate"><span class="pre">Exam_Score</span></code>, <code class="docutils literal notranslate"><span class="pre">Hours_Studied</span></code>, panjang daun).</p>
 <p>Untuk membandingkan dua data numerik, kita biasanya menghitung selisih absolutnya. Namun, karena rentang tiap kolom bisa berbeda (misal: nilai ujian 0-100, sedangkan jam belajar 1-10), kita wajib melakukan <strong>normalisasi</strong> agar tidak ada fitur yang mendominasi perhitungan jarak.</p>
 <p><strong>Rumus Jarak Atribut Numerik (Fitur ke-<span class="math notranslate nohighlight">\(f\)</span>):</strong>
@@ -509,14 +518,14 @@ $<span class="math notranslate nohighlight">\(d_{ij}^{(f)} = \frac{|x_{if} - x_{
 </ul>
 </section>
 <section id="atribut-nominal-kategorikal-tanpa-urutan">
-<h2>2. Atribut Nominal (Kategorikal Tanpa Urutan)<a class="headerlink" href="#atribut-nominal-kategorikal-tanpa-urutan" title="Permalink to this heading">#</a></h2>
+<h2>2. Atribut Nominal (Kategorikal Tanpa Urutan)<a class="headerlink" href="#atribut-nominal-kategorikal-tanpa-urutan" title="Link to this heading">#</a></h2>
 <p>Atribut nominal adalah data berupa kategori atau label yang tidak memiliki tingkatan (contoh: <code class="docutils literal notranslate"><span class="pre">Gender</span></code>, <code class="docutils literal notranslate"><span class="pre">School_Type</span></code>, <code class="docutils literal notranslate"><span class="pre">Internet_Access</span></code>).</p>
 <p>Karena tidak ada angka yang bisa dikurangkan, perhitungannya sangat sederhana: <strong>Jika nilainya sama, jaraknya 0. Jika nilainya berbeda, jaraknya 1.</strong> (Ini adalah dasar dari Hamming Distance).</p>
 <p><strong>Rumus Jarak Atribut Nominal:</strong>
 $<span class="math notranslate nohighlight">\(d_{ij}^{(f)} = \begin{cases} 0, &amp; \text{jika } x_{if} = x_{jf} \\ 1, &amp; \text{jika } x_{if} \neq x_{jf} \end{cases}\)</span>$</p>
 </section>
 <section id="atribut-ordinal-kategorikal-berurutan">
-<h2>3. Atribut Ordinal (Kategorikal Berurutan)<a class="headerlink" href="#atribut-ordinal-kategorikal-berurutan" title="Permalink to this heading">#</a></h2>
+<h2>3. Atribut Ordinal (Kategorikal Berurutan)<a class="headerlink" href="#atribut-ordinal-kategorikal-berurutan" title="Link to this heading">#</a></h2>
 <p>Atribut ordinal adalah data kategori yang memiliki urutan atau tingkatan bermakna (contoh: <code class="docutils literal notranslate"><span class="pre">Motivation_Level</span></code> = Low, Medium, High).</p>
 <p>Langkah perhitungannya:</p>
 <ol class="arabic simple">
@@ -529,7 +538,7 @@ $<span class="math notranslate nohighlight">\(d_{ij}^{(f)} = |z_{if} - z_{jf}|\)
 </ol>
 </section>
 <section id="atribut-biner-dua-nilai">
-<h2>4. Atribut Biner (Dua Nilai)<a class="headerlink" href="#atribut-biner-dua-nilai" title="Permalink to this heading">#</a></h2>
+<h2>4. Atribut Biner (Dua Nilai)<a class="headerlink" href="#atribut-biner-dua-nilai" title="Link to this heading">#</a></h2>
 <p>Biner adalah tipe khusus dari nominal yang hanya punya dua kemungkinan (contoh: Lulus/Gagal, Ya/Tidak).</p>
 <ul class="simple">
 <li><p><strong>Biner Simetris:</strong> Kedua nilai sama-sama penting (seperti Gender Laki-laki/Perempuan). Dihitung persis seperti atribut Nominal.</p></li>
@@ -538,7 +547,7 @@ $<span class="math notranslate nohighlight">\(d_{ij}^{(f)} = |z_{if} - z_{jf}|\)
 </section>
 <hr class="docutils" />
 <section id="menggabungkan-semuanya-gower-s-distance">
-<h2>Menggabungkan Semuanya: Gower’s Distance<a class="headerlink" href="#menggabungkan-semuanya-gower-s-distance" title="Permalink to this heading">#</a></h2>
+<h2>Menggabungkan Semuanya: Gower’s Distance<a class="headerlink" href="#menggabungkan-semuanya-gower-s-distance" title="Link to this heading">#</a></h2>
 <p>Ketika dataset kita memiliki campuran atribut numerik, nominal, dan ordinal (seperti dataset <strong>Student Performance</strong>), kita menggabungkan perhitungan di atas menjadi satu rumus umum yang disebut <strong>Gower’s Distance</strong>.</p>
 <p><strong>Rumus Keseluruhan:</strong>
 $<span class="math notranslate nohighlight">\(d(i,j) = \frac{\sum_{f=1}^{n} \delta_{ij}^{(f)} d_{ij}^{(f)}}{\sum_{f=1}^{n} \delta_{ij}^{(f)}}\)</span>$</p>
@@ -663,7 +672,7 @@ By Okan Syailendra Wahyudi
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>

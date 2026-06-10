@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Analisis Data Menggunakan Random Forest &#8212; Notebook Materi</title>
   
@@ -29,44 +28,41 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=1ae7504c"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'random_forest';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="📊 Regresi Linier (Linear Regression)" href="regresi_linear.html" />
     <link rel="prev" title="🌳 Decision Tree dengan KNIME Analytics Platform" href="decision_tree.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -164,7 +160,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -186,6 +193,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="naive_bayes.html">Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris</a></li>
 <li class="toctree-l1"><a class="reference internal" href="decision_tree.html">🌳 Decision Tree dengan KNIME Analytics Platform</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis Data Menggunakan Random Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresi_linear.html">📊 Regresi Linier (Linear Regression)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries.html">Peramalan Kadar <span class="math notranslate nohighlight">\(NO_2\)</span> di Daerah Gresik</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skforecast_explainability.html">🔍 Explainability pada Time Series Forecasting</a></li>
 </ul>
 
     </div>
@@ -215,9 +225,9 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -358,9 +368,9 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -469,9 +479,9 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="analisis-data-menggunakan-random-forest">
-<h1>Analisis Data Menggunakan Random Forest<a class="headerlink" href="#analisis-data-menggunakan-random-forest" title="Permalink to this heading">#</a></h1>
+<h1>Analisis Data Menggunakan Random Forest<a class="headerlink" href="#analisis-data-menggunakan-random-forest" title="Link to this heading">#</a></h1>
 <section id="studi-kasus-adult-income-dataset">
-<h2>Studi Kasus: Adult Income Dataset<a class="headerlink" href="#studi-kasus-adult-income-dataset" title="Permalink to this heading">#</a></h2>
+<h2>Studi Kasus: Adult Income Dataset<a class="headerlink" href="#studi-kasus-adult-income-dataset" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <blockquote>
 <div><p><strong>Proyek:</strong> Klasifikasi Pendapatan menggunakan Decision Tree &amp; Random Forest<br />
@@ -482,22 +492,22 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="daftar-isi">
-<h2>📋 Daftar Isi<a class="headerlink" href="#daftar-isi" title="Permalink to this heading">#</a></h2>
+<h2>📋 Daftar Isi<a class="headerlink" href="#daftar-isi" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p><span class="xref myst">Pendahuluan</span></p></li>
-<li><p><span class="xref myst">Dataset</span></p></li>
-<li><p><span class="xref myst">KNIME Workflow</span></p></li>
-<li><p><span class="xref myst">Konsep Algoritma</span></p></li>
-<li><p><span class="xref myst">Implementasi Python</span></p></li>
-<li><p><span class="xref myst">Hasil dan Evaluasi</span></p></li>
-<li><p><span class="xref myst">Perbandingan Model</span></p></li>
-<li><p><span class="xref myst">Feature Importance</span></p></li>
-<li><p><span class="xref myst">Kesimpulan</span></p></li>
+<li><p><a class="reference internal" href="#1-pendahuluan"><span class="xref myst">Pendahuluan</span></a></p></li>
+<li><p><a class="reference internal" href="#2-dataset"><span class="xref myst">Dataset</span></a></p></li>
+<li><p><a class="reference internal" href="#3-knime-workflow"><span class="xref myst">KNIME Workflow</span></a></p></li>
+<li><p><a class="reference internal" href="#4-konsep-algoritma"><span class="xref myst">Konsep Algoritma</span></a></p></li>
+<li><p><a class="reference internal" href="#5-implementasi-python"><span class="xref myst">Implementasi Python</span></a></p></li>
+<li><p><a class="reference internal" href="#6-hasil-dan-evaluasi"><span class="xref myst">Hasil dan Evaluasi</span></a></p></li>
+<li><p><a class="reference internal" href="#7-perbandingan-model"><span class="xref myst">Perbandingan Model</span></a></p></li>
+<li><p><a class="reference internal" href="#8-feature-importance"><span class="xref myst">Feature Importance</span></a></p></li>
+<li><p><a class="reference internal" href="#9-kesimpulan"><span class="xref myst">Kesimpulan</span></a></p></li>
 </ol>
 </section>
 <hr class="docutils" />
 <section id="pendahuluan">
-<h2>1. Pendahuluan<a class="headerlink" href="#pendahuluan" title="Permalink to this heading">#</a></h2>
+<h2>1. Pendahuluan<a class="headerlink" href="#pendahuluan" title="Link to this heading">#</a></h2>
 <p>Proyek ini membangun sistem klasifikasi untuk memprediksi apakah pendapatan seseorang melebihi $50.000 per tahun berdasarkan data sensus. Dua model digunakan dan dibandingkan:</p>
 <ul class="simple">
 <li><p><strong>Decision Tree</strong> — model tunggal berbasis pohon keputusan</p></li>
@@ -507,9 +517,9 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="dataset">
-<h2>2. Dataset<a class="headerlink" href="#dataset" title="Permalink to this heading">#</a></h2>
+<h2>2. Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
 <section id="informasi-umum">
-<h3>2.1 Informasi Umum<a class="headerlink" href="#informasi-umum" title="Permalink to this heading">#</a></h3>
+<h3>2.1 Informasi Umum<a class="headerlink" href="#informasi-umum" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Properti</p></th>
@@ -537,7 +547,7 @@ document.write(`
 </div>
 </section>
 <section id="deskripsi-fitur">
-<h3>2.2 Deskripsi Fitur<a class="headerlink" href="#deskripsi-fitur" title="Permalink to this heading">#</a></h3>
+<h3>2.2 Deskripsi Fitur<a class="headerlink" href="#deskripsi-fitur" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>#</p></th>
@@ -627,7 +637,7 @@ document.write(`
 </div>
 </section>
 <section id="distribusi-target">
-<h3>2.3 Distribusi Target<a class="headerlink" href="#distribusi-target" title="Permalink to this heading">#</a></h3>
+<h3>2.3 Distribusi Target<a class="headerlink" href="#distribusi-target" title="Link to this heading">#</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">income</span>
 <span class="o">&lt;=</span><span class="mi">50</span><span class="n">K</span>    <span class="mf">24.720</span>  <span class="p">(</span><span class="mf">75.9</span><span class="o">%</span><span class="p">)</span>
 <span class="o">&gt;</span><span class="mi">50</span><span class="n">K</span>      <span class="mf">7.841</span>  <span class="p">(</span><span class="mf">24.1</span><span class="o">%</span><span class="p">)</span>
@@ -638,7 +648,7 @@ document.write(`
 </div></blockquote>
 </section>
 <section id="statistik-deskriptif-fitur-numerik">
-<h3>2.4 Statistik Deskriptif Fitur Numerik<a class="headerlink" href="#statistik-deskriptif-fitur-numerik" title="Permalink to this heading">#</a></h3>
+<h3>2.4 Statistik Deskriptif Fitur Numerik<a class="headerlink" href="#statistik-deskriptif-fitur-numerik" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Fitur</p></th>
@@ -692,23 +702,23 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="knime-workflow">
-<h2>3. KNIME Workflow<a class="headerlink" href="#knime-workflow" title="Permalink to this heading">#</a></h2>
+<h2>3. KNIME Workflow<a class="headerlink" href="#knime-workflow" title="Link to this heading">#</a></h2>
 <section id="gambaran-umum-workflow">
-<h3>3.1 Gambaran Umum Workflow<a class="headerlink" href="#gambaran-umum-workflow" title="Permalink to this heading">#</a></h3>
+<h3>3.1 Gambaran Umum Workflow<a class="headerlink" href="#gambaran-umum-workflow" title="Link to this heading">#</a></h3>
 <p>Workflow KNIME yang digunakan terdiri dari dua bagian utama:</p>
 <p><img alt="Random Forest" src="_images/random_forest.png" /></p>
 </section>
 <section id="penjelasan-setiap-node">
-<h3>3.2 Penjelasan Setiap Node<a class="headerlink" href="#penjelasan-setiap-node" title="Permalink to this heading">#</a></h3>
+<h3>3.2 Penjelasan Setiap Node<a class="headerlink" href="#penjelasan-setiap-node" title="Link to this heading">#</a></h3>
 <section id="csv-reader">
-<h4>🟠 CSV Reader<a class="headerlink" href="#csv-reader" title="Permalink to this heading">#</a></h4>
+<h4>🟠 CSV Reader<a class="headerlink" href="#csv-reader" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Membaca file <code class="docutils literal notranslate"><span class="pre">adults.csv</span></code> ke dalam KNIME sebagai tabel data.</p></li>
 <li><p><strong>Konfigurasi:</strong> Format CSV standar, otomatis mendeteksi tipe kolom.</p></li>
 </ul>
 </section>
 <section id="table-partitioner">
-<h4>🟡 Table Partitioner<a class="headerlink" href="#table-partitioner" title="Permalink to this heading">#</a></h4>
+<h4>🟡 Table Partitioner<a class="headerlink" href="#table-partitioner" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Membagi dataset menjadi dua bagian:</p>
 <ul>
@@ -722,9 +732,9 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="bagian-1-decision-tree-pohon-tunggal">
-<h3>3.3 Bagian 1: Decision Tree (Pohon Tunggal)<a class="headerlink" href="#bagian-1-decision-tree-pohon-tunggal" title="Permalink to this heading">#</a></h3>
+<h3>3.3 Bagian 1: Decision Tree (Pohon Tunggal)<a class="headerlink" href="#bagian-1-decision-tree-pohon-tunggal" title="Link to this heading">#</a></h3>
 <section id="decision-tree-learner">
-<h4>🟢 Decision Tree Learner<a class="headerlink" href="#decision-tree-learner" title="Permalink to this heading">#</a></h4>
+<h4>🟢 Decision Tree Learner<a class="headerlink" href="#decision-tree-learner" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Melatih satu model Decision Tree dari data training.</p></li>
 <li><p><strong>Parameter:</strong></p>
@@ -737,21 +747,21 @@ document.write(`
 </ul>
 </section>
 <section id="decision-tree-view-javascript-deprecated">
-<h4>🟢 Decision Tree View (JavaScript) <em>(deprecated)</em><a class="headerlink" href="#decision-tree-view-javascript-deprecated" title="Permalink to this heading">#</a></h4>
+<h4>🟢 Decision Tree View (JavaScript) <em>(deprecated)</em><a class="headerlink" href="#decision-tree-view-javascript-deprecated" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Visualisasi interaktif struktur pohon keputusan.</p></li>
 <li><p><strong>Status:</strong> Node ini sudah <em>deprecated</em> di versi KNIME terbaru, namun masih berfungsi untuk tujuan eksplorasi.</p></li>
 </ul>
 </section>
 <section id="decision-tree-predictor">
-<h4>🟢 Decision Tree Predictor<a class="headerlink" href="#decision-tree-predictor" title="Permalink to this heading">#</a></h4>
+<h4>🟢 Decision Tree Predictor<a class="headerlink" href="#decision-tree-predictor" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Mengaplikasikan model Decision Tree yang telah dilatih ke data testing.</p></li>
 <li><p><strong>Output:</strong> Kolom prediksi tambahan pada tabel testing.</p></li>
 </ul>
 </section>
 <section id="scorer-javascript">
-<h4>🔵 Scorer (JavaScript)<a class="headerlink" href="#scorer-javascript" title="Permalink to this heading">#</a></h4>
+<h4>🔵 Scorer (JavaScript)<a class="headerlink" href="#scorer-javascript" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Menghitung metrik evaluasi klasifikasi:</p>
 <ul>
@@ -765,9 +775,9 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="bagian-2-random-forest-ensemble-50-pohon">
-<h3>3.4 Bagian 2: Random Forest (Ensemble 50 Pohon)<a class="headerlink" href="#bagian-2-random-forest-ensemble-50-pohon" title="Permalink to this heading">#</a></h3>
+<h3>3.4 Bagian 2: Random Forest (Ensemble 50 Pohon)<a class="headerlink" href="#bagian-2-random-forest-ensemble-50-pohon" title="Link to this heading">#</a></h3>
 <section id="random-forest-learner">
-<h4>🟢 Random Forest Learner<a class="headerlink" href="#random-forest-learner" title="Permalink to this heading">#</a></h4>
+<h4>🟢 Random Forest Learner<a class="headerlink" href="#random-forest-learner" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Melatih Random Forest dari data training.</p></li>
 <li><p><strong>Parameter:</strong></p>
@@ -780,20 +790,20 @@ document.write(`
 </ul>
 </section>
 <section id="random-forest-predictor">
-<h4>🟢 Random Forest Predictor<a class="headerlink" href="#random-forest-predictor" title="Permalink to this heading">#</a></h4>
+<h4>🟢 Random Forest Predictor<a class="headerlink" href="#random-forest-predictor" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Mengaplikasikan model Random Forest ke data testing.</p></li>
 <li><p><strong>Mekanisme voting:</strong> Prediksi akhir ditentukan oleh mayoritas suara dari 50 pohon.</p></li>
 </ul>
 </section>
 <section id="id1">
-<h4>🔵 Scorer (JavaScript)<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<h4>🔵 Scorer (JavaScript)<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Sama seperti scorer Decision Tree — mengevaluasi performa Random Forest.</p></li>
 </ul>
 </section>
 <section id="tree-ensemble-statistics">
-<h4>🔵 Tree Ensemble Statistics<a class="headerlink" href="#tree-ensemble-statistics" title="Permalink to this heading">#</a></h4>
+<h4>🔵 Tree Ensemble Statistics<a class="headerlink" href="#tree-ensemble-statistics" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Menampilkan statistik ensemble seperti feature importance, distribusi error per pohon, dan statistik agregat.</p></li>
 </ul>
@@ -801,15 +811,15 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="bagian-3-export-pmml-opsional">
-<h3>3.5 Bagian 3: Export PMML (Opsional)<a class="headerlink" href="#bagian-3-export-pmml-opsional" title="Permalink to this heading">#</a></h3>
+<h3>3.5 Bagian 3: Export PMML (Opsional)<a class="headerlink" href="#bagian-3-export-pmml-opsional" title="Link to this heading">#</a></h3>
 <section id="tree-ensemble-model-extract">
-<h4>🟤 Tree Ensemble Model Extract<a class="headerlink" href="#tree-ensemble-model-extract" title="Permalink to this heading">#</a></h4>
+<h4>🟤 Tree Ensemble Model Extract<a class="headerlink" href="#tree-ensemble-model-extract" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Mengekstrak model Random Forest dari format internal KNIME.</p></li>
 </ul>
 </section>
 <section id="table-to-pmml-ensemble">
-<h4>🟤 Table to PMML Ensemble<a class="headerlink" href="#table-to-pmml-ensemble" title="Permalink to this heading">#</a></h4>
+<h4>🟤 Table to PMML Ensemble<a class="headerlink" href="#table-to-pmml-ensemble" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Fungsi:</strong> Mengekspor model ke format <strong>PMML (Predictive Model Markup Language)</strong> — format standar untuk interoperabilitas model machine learning antar platform.</p></li>
 </ul>
@@ -818,9 +828,9 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="konsep-algoritma">
-<h2>4. Konsep Algoritma<a class="headerlink" href="#konsep-algoritma" title="Permalink to this heading">#</a></h2>
+<h2>4. Konsep Algoritma<a class="headerlink" href="#konsep-algoritma" title="Link to this heading">#</a></h2>
 <section id="decision-tree">
-<h3>4.1 Decision Tree<a class="headerlink" href="#decision-tree" title="Permalink to this heading">#</a></h3>
+<h3>4.1 Decision Tree<a class="headerlink" href="#decision-tree" title="Link to this heading">#</a></h3>
 <p>Decision Tree adalah algoritma supervised learning berbentuk pohon di mana setiap <em>internal node</em> merepresentasikan sebuah tes pada fitur, setiap <em>branch</em> merepresentasikan hasil tes, dan setiap <em>leaf node</em> merepresentasikan label kelas.</p>
 <p><strong>Cara Kerja:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Root Node (semua data)
@@ -852,7 +862,7 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="random-forest">
-<h3>4.2 Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">#</a></h3>
+<h3>4.2 Random Forest<a class="headerlink" href="#random-forest" title="Link to this heading">#</a></h3>
 <p>Random Forest adalah metode <strong>ensemble learning</strong> yang membangun banyak decision tree secara paralel dan menggabungkan prediksi mereka melalui <strong>majority voting</strong> (klasifikasi) atau <strong>rata-rata</strong> (regresi).</p>
 <p><strong>Prinsip Utama:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Dataset Training
@@ -912,7 +922,7 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="out-of-bag-oob-error">
-<h3>4.3 Out-of-Bag (OOB) Error<a class="headerlink" href="#out-of-bag-oob-error" title="Permalink to this heading">#</a></h3>
+<h3>4.3 Out-of-Bag (OOB) Error<a class="headerlink" href="#out-of-bag-oob-error" title="Link to this heading">#</a></h3>
 <p>Karena setiap pohon hanya menggunakan ~63.2% data untuk training, sisa ~36.8% data (disebut <em>out-of-bag samples</em>) dapat digunakan untuk estimasi error tanpa perlu data validasi terpisah.</p>
 <div class="math notranslate nohighlight">
 \[OOB\_Error = \frac{1}{n} \sum_{i=1}^{n} \mathbb{1}[\hat{y}_i^{OOB} \neq y_i]\]</div>
@@ -920,10 +930,10 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="implementasi-python">
-<h2>5. Implementasi Python<a class="headerlink" href="#implementasi-python" title="Permalink to this heading">#</a></h2>
+<h2>5. Implementasi Python<a class="headerlink" href="#implementasi-python" title="Link to this heading">#</a></h2>
 <p>Berikut adalah implementasi lengkap yang mereplikasi workflow KNIME menggunakan Python dan Scikit-learn:</p>
 <section id="import-library">
-<h3>5.1 Import Library<a class="headerlink" href="#import-library" title="Permalink to this heading">#</a></h3>
+<h3>5.1 Import Library<a class="headerlink" href="#import-library" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -946,7 +956,7 @@ document.write(`
 </div>
 </section>
 <section id="load-dan-preprocessing-data">
-<h3>5.2 Load dan Preprocessing Data<a class="headerlink" href="#load-dan-preprocessing-data" title="Permalink to this heading">#</a></h3>
+<h3>5.2 Load dan Preprocessing Data<a class="headerlink" href="#load-dan-preprocessing-data" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset</span>
@@ -982,7 +992,7 @@ document.write(`
 Testing set : 6513 baris
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_24431/3549846423.py:12: Pandas4Warning: For backward compatibility, &#39;str&#39; dtypes are included by select_dtypes when &#39;object&#39; dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass &#39;str&#39; to `include` to select them, or to `exclude` to remove them and silence this warning.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\OKAN\AppData\Local\Temp\ipykernel_11388\3549846423.py:12: Pandas4Warning: For backward compatibility, &#39;str&#39; dtypes are included by select_dtypes when &#39;object&#39; dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass &#39;str&#39; to `include` to select them, or to `exclude` to remove them and silence this warning.
 See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
   cat_cols = df.select_dtypes(include=&#39;object&#39;).columns
 </pre></div>
@@ -991,7 +1001,7 @@ See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-mi
 </div>
 </section>
 <section id="model-decision-tree">
-<h3>5.3 Model Decision Tree<a class="headerlink" href="#model-decision-tree" title="Permalink to this heading">#</a></h3>
+<h3>5.3 Model Decision Tree<a class="headerlink" href="#model-decision-tree" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Latih Decision Tree (min_samples_leaf=2 sesuai KNIME)</span>
@@ -1027,7 +1037,7 @@ weighted avg       0.82      0.82      0.82      6513
 </div>
 </section>
 <section id="model-random-forest">
-<h3>5.4 Model Random Forest<a class="headerlink" href="#model-random-forest" title="Permalink to this heading">#</a></h3>
+<h3>5.4 Model Random Forest<a class="headerlink" href="#model-random-forest" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Latih Random Forest (50 pohon, sesuai KNIME)</span>
@@ -1051,7 +1061,9 @@ weighted avg       0.82      0.82      0.82      6513
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Random Forest (50 Trees) ===
 Accuracy: 0.8655
-              precision    recall  f1-score   support
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
        &lt;=50K       0.89      0.94      0.91      4942
         &gt;50K       0.77      0.64      0.70      1571
@@ -1065,7 +1077,7 @@ weighted avg       0.86      0.87      0.86      6513
 </div>
 </section>
 <section id="visualisasi-feature-importance">
-<h3>5.5 Visualisasi Feature Importance<a class="headerlink" href="#visualisasi-feature-importance" title="Permalink to this heading">#</a></h3>
+<h3>5.5 Visualisasi Feature Importance<a class="headerlink" href="#visualisasi-feature-importance" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feature Importance dari Random Forest</span>
@@ -1085,12 +1097,12 @@ weighted avg       0.86      0.87      0.86      6513
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2a16b2b3445e48b11866ee50fb4a1d3b709ee571eb5c5210b28d5f08f5c09b1b.png" src="_images/2a16b2b3445e48b11866ee50fb4a1d3b709ee571eb5c5210b28d5f08f5c09b1b.png" />
+<img alt="_images/be3cd7d3f94f011114880eb376eb9261c3f755647cd62784864c9c0a6288b6b4.png" src="_images/be3cd7d3f94f011114880eb376eb9261c3f755647cd62784864c9c0a6288b6b4.png" />
 </div>
 </div>
 </section>
 <section id="confusion-matrix">
-<h3>5.6 Confusion Matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this heading">#</a></h3>
+<h3>5.6 Confusion Matrix<a class="headerlink" href="#confusion-matrix" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Confusion Matrix — Random Forest</span>
@@ -1110,16 +1122,16 @@ weighted avg       0.86      0.87      0.86      6513
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/9730d22ad3d4f8a3a31cea546661a38d689c932b4445c8f39065257988a372ac.png" src="_images/9730d22ad3d4f8a3a31cea546661a38d689c932b4445c8f39065257988a372ac.png" />
+<img alt="_images/98e3137743d43f28fba3afe2a22964b12386ad002e7bf6e1148c3701303b13e5.png" src="_images/98e3137743d43f28fba3afe2a22964b12386ad002e7bf6e1148c3701303b13e5.png" />
 </div>
 </div>
 </section>
 </section>
 <hr class="docutils" />
 <section id="hasil-dan-evaluasi">
-<h2>6. Hasil dan Evaluasi<a class="headerlink" href="#hasil-dan-evaluasi" title="Permalink to this heading">#</a></h2>
+<h2>6. Hasil dan Evaluasi<a class="headerlink" href="#hasil-dan-evaluasi" title="Link to this heading">#</a></h2>
 <section id="hasil-decision-tree">
-<h3>6.1 Hasil Decision Tree<a class="headerlink" href="#hasil-decision-tree" title="Permalink to this heading">#</a></h3>
+<h3>6.1 Hasil Decision Tree<a class="headerlink" href="#hasil-decision-tree" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Kelas</p></th>
@@ -1165,7 +1177,7 @@ weighted avg       0.86      0.87      0.86      6513
 </div>
 </section>
 <section id="hasil-random-forest-50-pohon">
-<h3>6.2 Hasil Random Forest (50 Pohon)<a class="headerlink" href="#hasil-random-forest-50-pohon" title="Permalink to this heading">#</a></h3>
+<h3>6.2 Hasil Random Forest (50 Pohon)<a class="headerlink" href="#hasil-random-forest-50-pohon" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Kelas</p></th>
@@ -1211,7 +1223,7 @@ weighted avg       0.86      0.87      0.86      6513
 </div>
 </section>
 <section id="confusion-matrix-random-forest">
-<h3>6.3 Confusion Matrix — Random Forest<a class="headerlink" href="#confusion-matrix-random-forest" title="Permalink to this heading">#</a></h3>
+<h3>6.3 Confusion Matrix — Random Forest<a class="headerlink" href="#confusion-matrix-random-forest" title="Link to this heading">#</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                Predicted
                 &lt;=50K    &gt;50K
 Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
@@ -1229,9 +1241,9 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
 </section>
 <hr class="docutils" />
 <section id="perbandingan-model">
-<h2>7. Perbandingan Model<a class="headerlink" href="#perbandingan-model" title="Permalink to this heading">#</a></h2>
+<h2>7. Perbandingan Model<a class="headerlink" href="#perbandingan-model" title="Link to this heading">#</a></h2>
 <section id="tabel-perbandingan">
-<h3>7.1 Tabel Perbandingan<a class="headerlink" href="#tabel-perbandingan" title="Permalink to this heading">#</a></h3>
+<h3>7.1 Tabel Perbandingan<a class="headerlink" href="#tabel-perbandingan" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Metrik</p></th>
@@ -1281,7 +1293,7 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
 </div>
 </section>
 <section id="analisis-perbandingan">
-<h3>7.2 Analisis Perbandingan<a class="headerlink" href="#analisis-perbandingan" title="Permalink to this heading">#</a></h3>
+<h3>7.2 Analisis Perbandingan<a class="headerlink" href="#analisis-perbandingan" title="Link to this heading">#</a></h3>
 <p>Random Forest secara konsisten mengungguli Decision Tree tunggal dalam semua metrik:</p>
 <ol class="arabic simple">
 <li><p><strong>Akurasi lebih tinggi (+4.48%):</strong> Voting dari 50 pohon mengurangi kesalahan individual.</p></li>
@@ -1293,9 +1305,9 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
 </section>
 <hr class="docutils" />
 <section id="feature-importance">
-<h2>8. Feature Importance<a class="headerlink" href="#feature-importance" title="Permalink to this heading">#</a></h2>
+<h2>8. Feature Importance<a class="headerlink" href="#feature-importance" title="Link to this heading">#</a></h2>
 <section id="ranking-fitur-dari-random-forest">
-<h3>8.1 Ranking Fitur (dari Random Forest)<a class="headerlink" href="#ranking-fitur-dari-random-forest" title="Permalink to this heading">#</a></h3>
+<h3>8.1 Ranking Fitur (dari Random Forest)<a class="headerlink" href="#ranking-fitur-dari-random-forest" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Rank</p></th>
@@ -1380,7 +1392,7 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
 </div>
 </section>
 <section id="insight-utama">
-<h3>8.2 Insight Utama<a class="headerlink" href="#insight-utama" title="Permalink to this heading">#</a></h3>
+<h3>8.2 Insight Utama<a class="headerlink" href="#insight-utama" title="Link to this heading">#</a></h3>
 <blockquote>
 <div><p>🔑 <strong>Capital gain, usia, dan pendidikan</strong> adalah tiga faktor paling dominan yang menentukan apakah seseorang berpendapatan di atas $50.000 per tahun.</p>
 </div></blockquote>
@@ -1394,9 +1406,9 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
 </section>
 <hr class="docutils" />
 <section id="kesimpulan">
-<h2>9. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Permalink to this heading">#</a></h2>
+<h2>9. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h2>
 <section id="ringkasan-temuan">
-<h3>9.1 Ringkasan Temuan<a class="headerlink" href="#ringkasan-temuan" title="Permalink to this heading">#</a></h3>
+<h3>9.1 Ringkasan Temuan<a class="headerlink" href="#ringkasan-temuan" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p><strong>Random Forest (50 pohon, min node size = 2) menghasilkan akurasi 86.55%</strong>, meningkat 4.48% dibanding Decision Tree tunggal (82.07%).</p></li>
 <li><p><strong>Ensemble learning terbukti efektif</strong> — menggabungkan 50 pohon yang masing-masing “lemah” menghasilkan model yang lebih kuat dan robust.</p></li>
@@ -1405,7 +1417,7 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
 </ol>
 </section>
 <section id="rekomendasi-pengembangan">
-<h3>9.2 Rekomendasi Pengembangan<a class="headerlink" href="#rekomendasi-pengembangan" title="Permalink to this heading">#</a></h3>
+<h3>9.2 Rekomendasi Pengembangan<a class="headerlink" href="#rekomendasi-pengembangan" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Langkah</p></th>
@@ -1436,7 +1448,7 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
 </div>
 </section>
 <section id="keterkaitan-knime-dan-python">
-<h3>9.3 Keterkaitan KNIME dan Python<a class="headerlink" href="#keterkaitan-knime-dan-python" title="Permalink to this heading">#</a></h3>
+<h3>9.3 Keterkaitan KNIME dan Python<a class="headerlink" href="#keterkaitan-knime-dan-python" title="Link to this heading">#</a></h3>
 <p>Workflow KNIME dan implementasi Python ini menghasilkan hasil yang identik karena menggunakan:</p>
 <ul class="simple">
 <li><p>Parameter yang sama (50 pohon, min node size = 2)</p></li>
@@ -1448,7 +1460,7 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
 </section>
 <hr class="docutils" />
 <section id="referensi">
-<h2>📚 Referensi<a class="headerlink" href="#referensi" title="Permalink to this heading">#</a></h2>
+<h2>📚 Referensi<a class="headerlink" href="#referensi" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Breiman, L. (2001). <em>Random Forests</em>. Machine Learning, 45(1), 5–32.</p></li>
 <li><p>Quinlan, J.R. (1993). <em>C4.5: Programs for Machine Learning</em>. Morgan Kaufmann.</p></li>
@@ -1497,6 +1509,15 @@ Actual  &lt;=50K  [ 4644    298 ]   → 94% benar
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">🌳 Decision Tree dengan KNIME Analytics Platform</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="regresi_linear.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">📊 Regresi Linier (Linear Regression)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -1614,7 +1635,7 @@ By Okan Syailendra Wahyudi
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>

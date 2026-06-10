@@ -1,0 +1,1535 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Explainability pada Time Series Forecasting &#8212; Notebook Materi</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=1ae7504c"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'skforecast_explainability';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Peramalan Kadar \(NO_2\) di Daerah Gresik" href="timeseries.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/foto.png" class="logo__image only-light" alt="Notebook Materi - Home"/>
+    <script>document.write(`<img src="_static/foto.png" class="logo__image only-dark" alt="Notebook Materi - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    👋 Hello, World!
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="markdown.html">Pengantar Penambangan Data (Data Mining)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Data Iris</a></li>
+<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Mengukur Jarak Data (Distance Measurement)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="distance.html">Pengukuran Jarak Data Campuran dengan Euclidean Distance</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="WKNN.html">Preprocessing: Missing Values (WKNN) &amp; Normalisasi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analisis_knn_kesuburan_tanah.html">Analisis Klasifikasi Kesuburan Tanah dengan K-Nearest Neighbors (KNN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="naive_bayes.html">Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decision_tree.html">🌳 Decision Tree dengan KNIME Analytics Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="random_forest.html">Analisis Data Menggunakan Random Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresi_linear.html">📊 Regresi Linier (Linear Regression)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries.html">Peramalan Kadar <span class="math notranslate nohighlight">\(NO_2\)</span> di Daerah Gresik</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Explainability pada Time Series Forecasting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fskforecast_explainability.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/skforecast_explainability.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Explainability pada Time Series Forecasting</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduksi-dari-skforecast-org-explainability">Reproduksi dari: skforecast.org — Explainability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisa-prediksi-tentang-apa">📌 1. Analisa Prediksi Tentang Apa?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teknik-explainability-yang-digunakan">Teknik Explainability yang digunakan:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instalasi-library">⚙️ Instalasi Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">📦 Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-data-training">📊 2. Bentuk Data Training</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-data">Sumber Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-setelah-agregasi-harian">Kolom setelah agregasi harian:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data-time-series">Visualisasi Data Time Series</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-lag">❓ 3. Apa Itu Lag?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ilustrasi-lags-7">Ilustrasi <code class="docutils literal notranslate"><span class="pre">lags</span> <span class="pre">=</span> <span class="pre">7</span></code>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-matriks-training-setelah-dibuat-lag">Bentuk matriks training setelah dibuat lag:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-dan-melatih-forecaster">🤖 Membuat dan Melatih Forecaster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proses-analisis-explainability">🧪 4. Proses Analisis Explainability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-1-model-specific-feature-importance">📊 Tahap 1: Model-Specific Feature Importance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-2-shap-values-summary-plot">📊 Tahap 2: SHAP Values — Summary Plot</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-shap-vs-feature-importance-biasa">Kelebihan SHAP vs Feature Importance biasa:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-membaca-shap-summary-plot">Cara membaca SHAP Summary Plot:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-3-shap-force-plot-waterfall-penjelasan-prediksi-individual">📊 Tahap 3: SHAP Force Plot + Waterfall — Penjelasan Prediksi Individual</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-4-shap-dependence-plot">📊 Tahap 4: SHAP Dependence Plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-5-permutation-feature-importance">📊 Tahap 5: Permutation Feature Importance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-6-partial-dependence-plot-pdp">📊 Tahap 6: Partial Dependence Plot (PDP)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-temuan-analisis">✅ Ringkasan Temuan Analisis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-paling-penting">Fitur Paling Penting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insight-dari-tiap-metode">Insight dari Tiap Metode:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">📚 Kesimpulan</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="explainability-pada-time-series-forecasting">
+<h1>Explainability pada Time Series Forecasting<a class="headerlink" href="#explainability-pada-time-series-forecasting" title="Link to this heading">#</a></h1>
+<section id="reproduksi-dari-skforecast-org-explainability">
+<h2>Reproduksi dari: <a class="reference external" href="https://skforecast.org/0.15.1/user_guides/explainability.html">skforecast.org — Explainability</a><a class="headerlink" href="#reproduksi-dari-skforecast-org-explainability" title="Link to this heading">#</a></h2>
+</section>
+<hr class="docutils" />
+<section id="analisa-prediksi-tentang-apa">
+<h2>📌 1. Analisa Prediksi Tentang Apa?<a class="headerlink" href="#analisa-prediksi-tentang-apa" title="Link to this heading">#</a></h2>
+<p>Tutorial ini melakukan <strong>prediksi permintaan listrik harian (Electricity Demand)</strong> di negara bagian <strong>Victoria, Australia</strong>.</p>
+<ul class="simple">
+<li><p><strong>Target (output)</strong>: Total konsumsi listrik per hari dalam satuan <strong>MW (Megawatt)</strong></p></li>
+<li><p><strong>Tujuan utama</strong>: Bukan hanya meramalkan, tetapi <strong>menjelaskan mengapa model membuat prediksi tersebut</strong> (<em>explainability</em>)</p></li>
+<li><p><strong>Dataset</strong>: <code class="docutils literal notranslate"><span class="pre">vic_electricity</span></code> — data setengah-jam dari 2012–2015, diagregasi menjadi <strong>harian</strong></p></li>
+</ul>
+<section id="teknik-explainability-yang-digunakan">
+<h3>Teknik Explainability yang digunakan:<a class="headerlink" href="#teknik-explainability-yang-digunakan" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Metode</p></th>
+<th class="head"><p>Scope</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Feature Importance (LightGBM)</p></td>
+<td><p>Global</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>SHAP Summary Plot</p></td>
+<td><p>Global</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>SHAP Force Plot + Waterfall</p></td>
+<td><p><strong>Lokal</strong> (per prediksi)</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>SHAP Dependence Plot</p></td>
+<td><p>Global</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Permutation Importance</p></td>
+<td><p>Global</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Partial Dependence Plot (PDP)</p></td>
+<td><p>Global</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="instalasi-library">
+<h2>⚙️ Instalasi Library<a class="headerlink" href="#instalasi-library" title="Link to this heading">#</a></h2>
+<p>Jalankan cell berikut <strong>sekali saja</strong>, lalu <strong>restart kernel</strong> sebelum lanjut ke cell berikutnya.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;skforecast&quot;</span><span class="p">,</span> <span class="s2">&quot;lightgbm&quot;</span><span class="p">,</span> <span class="s2">&quot;shap&quot;</span><span class="p">,</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span> <span class="s2">&quot;pandas&quot;</span><span class="p">,</span> <span class="s2">&quot;scikit-learn&quot;</span><span class="p">,</span> <span class="s2">&quot;-q&quot;</span>
+<span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Instalasi selesai! Silakan Restart Kernel (menu Kernel &gt; Restart Kernel).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Instalasi selesai! Silakan Restart Kernel (menu Kernel &gt; Restart Kernel).
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="import-library">
+<h2>📦 Import Library<a class="headerlink" href="#import-library" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Library</p></th>
+<th class="head"><p>Fungsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pandas</span></code></p></td>
+<td><p>Manipulasi dan analisis data tabular</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></p></td>
+<td><p>Visualisasi grafik</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lightgbm</span></code></p></td>
+<td><p>Model gradient boosting berbasis tree</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">skforecast</span></code></p></td>
+<td><p>Framework forecasting time series</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shap</span></code></p></td>
+<td><p>Menghitung dan memvisualisasikan SHAP values</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sklearn.inspection</span></code></p></td>
+<td><p>Permutation importance &amp; Partial Dependence Plot</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shap</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.inspection</span><span class="w"> </span><span class="kn">import</span> <span class="n">permutation_importance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.inspection</span><span class="w"> </span><span class="kn">import</span> <span class="n">PartialDependenceDisplay</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lightgbm</span><span class="w"> </span><span class="kn">import</span> <span class="n">LGBMRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skforecast.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skforecast.recursive</span><span class="w"> </span><span class="kn">import</span> <span class="n">ForecasterRecursive</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;lightgbm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Semua library berhasil diimport!&quot;</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">skforecast</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   skforecast : </span><span class="si">{</span><span class="n">skforecast</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   shap       : </span><span class="si">{</span><span class="n">shap</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lightgbm</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   lightgbm   : </span><span class="si">{</span><span class="n">lightgbm</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Semua library berhasil diimport!
+   skforecast : 0.22.0
+   shap       : 0.52.0
+   lightgbm   : 4.6.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="bentuk-data-training">
+<h2>📊 2. Bentuk Data Training<a class="headerlink" href="#bentuk-data-training" title="Link to this heading">#</a></h2>
+<section id="sumber-data">
+<h3>Sumber Data<a class="headerlink" href="#sumber-data" title="Link to this heading">#</a></h3>
+<p>Dataset <code class="docutils literal notranslate"><span class="pre">vic_electricity</span></code> dari paket <code class="docutils literal notranslate"><span class="pre">tsibbledata</span></code> (R), berisi konsumsi listrik Victoria, Australia dengan frekuensi setengah-jam.</p>
+</section>
+<section id="kolom-setelah-agregasi-harian">
+<h3>Kolom setelah agregasi harian:<a class="headerlink" href="#kolom-setelah-agregasi-harian" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kolom</p></th>
+<th class="head"><p>Peran</p></th>
+<th class="head"><p>Keterangan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Demand</span></code></p></td>
+<td><p><strong>Target (y)</strong></p></td>
+<td><p>Total konsumsi listrik per hari (sum)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Temperature</span></code></p></td>
+<td><p><strong>Fitur eksogen</strong></p></td>
+<td><p>Suhu rata-rata per hari (mean)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download dan load dataset</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">fetch_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;vic_electricity&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape data asli : </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">5 baris pertama:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭──────────────────────────── <span style="font-weight: bold">vic_electricity</span> ─────────────────────────────╮
+│ <span style="font-weight: bold">Description:</span>                                                             │
+│ Half-hourly electricity demand for Victoria, Australia                   │
+│                                                                          │
+│ <span style="font-weight: bold">Source:</span>                                                                  │
+│ O'Hara-Wild M, Hyndman R, Wang E, Godahewa R (2022).tsibbledata: Diverse │
+│ Datasets for 'tsibble'. https://tsibbledata.tidyverts.org/,              │
+│ https://github.com/tidyverts/tsibbledata/.                               │
+│ https://tsibbledata.tidyverts.org/reference/vic_elec.html                │
+│                                                                          │
+│ <span style="font-weight: bold">URL:</span>                                                                     │
+│ https://raw.githubusercontent.com/skforecast/skforecast-                 │
+│ datasets/main/data/vic_electricity.csv                                   │
+│                                                                          │
+│ <span style="font-weight: bold">Shape:</span> 52608 rows x 4 columns                                            │
+╰──────────────────────────────────────────────────────────────────────────╯
+</pre>
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape data asli : (52608, 4)
+
+5 baris pertama:
+                          Demand  Temperature        Date  Holiday
+Time                                                              
+2011-12-31 13:00:00  4382.825174        21.40  2012-01-01     True
+2011-12-31 13:30:00  4263.365526        21.05  2012-01-01     True
+2011-12-31 14:00:00  4048.966046        20.70  2012-01-01     True
+2011-12-31 14:30:00  3877.563330        20.55  2012-01-01     True
+2011-12-31 15:00:00  4036.229746        20.40  2012-01-01     True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Agregasi dari setengah-jam menjadi harian</span>
+<span class="c1"># Demand  : dijumlahkan (total per hari)</span>
+<span class="c1"># Temperature : dirata-ratakan (rata-rata per hari)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;Demand&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;Temperature&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape setelah agregasi : </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Periode data           : </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> s.d. </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">5 baris pertama:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape setelah agregasi : (1097, 2)
+Periode data           : 2011-12-31 s.d. 2014-12-31
+
+5 baris pertama:
+                   Demand  Temperature
+Time                                  
+2011-12-31   82531.745918    21.047727
+2012-01-01  227778.257304    26.578125
+2012-01-02  275490.988882    31.751042
+2012-01-03  258955.329422    24.567708
+2012-01-04  213792.376946    18.191667
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualisasi-data-time-series">
+<h3>Visualisasi Data Time Series<a class="headerlink" href="#visualisasi-data-time-series" title="Link to this heading">#</a></h3>
+<p>Plot di bawah menampilkan dua variabel utama:</p>
+<ul class="simple">
+<li><p><strong>Demand</strong> — konsumsi listrik harian (target prediksi)</p></li>
+<li><p><strong>Temperature</strong> — suhu rata-rata harian (fitur eksogen)</p></li>
+</ul>
+<p>Terlihat pola musiman yang jelas: konsumsi naik saat suhu sangat tinggi (musim panas) maupun sangat rendah (musim dingin).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisasi time series</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Demand&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Konsumsi Listrik Harian — Victoria, Australia&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Demand (MW)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Temperature&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tomato&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Suhu Rata-rata Harian — Melbourne&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Temperature (°C)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/37a6f2d343e756320feffe8ec9ea1566844fabbadd627eec6e321f9e063c1c3a.png" src="_images/37a6f2d343e756320feffe8ec9ea1566844fabbadd627eec6e321f9e063c1c3a.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="apa-itu-lag">
+<h2>❓ 3. Apa Itu Lag?<a class="headerlink" href="#apa-itu-lag" title="Link to this heading">#</a></h2>
+<p><strong>Lag</strong> adalah nilai dari <strong>waktu sebelumnya</strong> yang dijadikan fitur input untuk memprediksi nilai saat ini.</p>
+<p>Model ML seperti LightGBM <strong>tidak mengerti urutan waktu</strong> secara otomatis.<br />
+Dengan lag, time series diubah menjadi <strong>tabel regresi biasa</strong> yang bisa diproses model.</p>
+<section id="ilustrasi-lags-7">
+<h3>Ilustrasi <code class="docutils literal notranslate"><span class="pre">lags</span> <span class="pre">=</span> <span class="pre">7</span></code>:<a class="headerlink" href="#ilustrasi-lags-7" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Hari ini (target) ← diprediksi dari:
+  lag_1 = demand kemarin        (t-1)
+  lag_2 = demand 2 hari lalu    (t-2)
+  lag_3 = demand 3 hari lalu    (t-3)
+  ...       ...
+  lag_7 = demand 7 hari lalu    (t-7)
+  + Temperature hari ini (eksogen)
+</pre></div>
+</div>
+</section>
+<section id="bentuk-matriks-training-setelah-dibuat-lag">
+<h3>Bentuk matriks training setelah dibuat lag:<a class="headerlink" href="#bentuk-matriks-training-setelah-dibuat-lag" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>lag_1</p></th>
+<th class="head"><p>lag_2</p></th>
+<th class="head"><p>…</p></th>
+<th class="head"><p>lag_7</p></th>
+<th class="head"><p>Temperature</p></th>
+<th class="head"><p><strong>y (target)</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>205338</p></td>
+<td><p>211066</p></td>
+<td><p>…</p></td>
+<td><p>82531</p></td>
+<td><p>24.09</p></td>
+<td><p><strong>200693</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>200693</p></td>
+<td><p>205338</p></td>
+<td><p>…</p></td>
+<td><p>227778</p></td>
+<td><p>20.22</p></td>
+<td><p><strong>200061</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="membuat-dan-melatih-forecaster">
+<h2>🤖 Membuat dan Melatih Forecaster<a class="headerlink" href="#membuat-dan-melatih-forecaster" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ForecasterRecursive</span></code> secara otomatis:</p>
+<ol class="arabic simple">
+<li><p>Membuat fitur lag dari time series</p></li>
+<li><p>Melatih model LightGBM menggunakan fitur-fitur tersebut</p></li>
+<li><p>Saat prediksi, output sebelumnya dipakai sebagai input (strategi rekursif)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Buat dan latih forecaster</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">ForecasterRecursive</span><span class="p">(</span>
+    <span class="n">estimator</span> <span class="o">=</span> <span class="n">LGBMRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">lags</span>      <span class="o">=</span> <span class="mi">7</span>
+<span class="p">)</span>
+
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">y</span>    <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Demand&#39;</span><span class="p">],</span>
+    <span class="n">exog</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Temperature&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Forecaster berhasil dilatih!&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">forecaster</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Forecaster berhasil dilatih!
+=================== 
+ForecasterRecursive 
+=================== 
+Estimator: LGBMRegressor 
+Lags: [1 2 3 4 5 6 7] 
+Window features: None 
+Window size: 7 
+Series name: Demand 
+Exogenous included: True 
+Exogenous names: Temperature 
+Categorical features: auto 
+Transformer for y: None 
+Transformer for exog: None 
+Weight function included: False 
+Differentiation order: None 
+Drop NaN from series: False 
+Training range: [Timestamp(&#39;2011-12-31 00:00:00&#39;), Timestamp(&#39;2014-12-31 00:00:00&#39;)] 
+Training index type: DatetimeIndex 
+Training index frequency: &lt;Day&gt; 
+Estimator parameters: 
+    {&#39;boosting_type&#39;: &#39;gbdt&#39;, &#39;class_weight&#39;: None, &#39;colsample_bytree&#39;: 1.0,
+    &#39;importance_type&#39;: &#39;split&#39;, &#39;learning_rate&#39;: 0.1, &#39;max_depth&#39;: -1,
+    &#39;min_child_samples&#39;: 20, &#39;min_child_weight&#39;: 0.001, &#39;min_split_gain&#39;: 0.0,
+    &#39;n_estimators&#39;: 100, &#39;n_jobs&#39;: None, &#39;num_leaves&#39;: 31, &#39;objective&#39;: None,
+    &#39;random_state&#39;: 123, &#39;reg_alpha&#39;: 0.0, &#39;reg_lambda&#39;: 0.0, &#39;subsample&#39;: 1.0,
+    &#39;subsample_for_bin&#39;: 200000, &#39;subsample_freq&#39;: 0, &#39;verbose&#39;: -1} 
+fit_kwargs: {} 
+Creation date: 2026-06-10 08:37:49 
+Last fit date: 2026-06-10 08:37:50 
+Skforecast version: 0.22.0 
+Python version: 3.14.3 
+Forecaster id: None 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Buat matriks training (X_train, y_train)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">create_train_X_y</span><span class="p">(</span>
+    <span class="n">y</span>    <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Demand&#39;</span><span class="p">],</span>
+    <span class="n">exog</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Temperature&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">55</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MATRIKS X_train (INPUT FITUR):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">55</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape  : </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> baris x </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> kolom)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kolom  : </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">5 baris pertama:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">55</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y_train (TARGET OUTPUT):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">55</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=======================================================
+MATRIKS X_train (INPUT FITUR):
+=======================================================
+Shape  : (1090, 8)  (1090 baris x 8 kolom)
+Kolom  : [&#39;lag_1&#39;, &#39;lag_2&#39;, &#39;lag_3&#39;, &#39;lag_4&#39;, &#39;lag_5&#39;, &#39;lag_6&#39;, &#39;lag_7&#39;, &#39;Temperature&#39;]
+
+5 baris pertama:
+                    lag_1          lag_2          lag_3          lag_4          lag_5          lag_6          lag_7  Temperature
+Time                                                                                                                            
+2012-01-07  205338.714620  211066.426550  213792.376946  258955.329422  275490.988882  227778.257304   82531.745918    24.098958
+2012-01-08  200693.270298  205338.714620  211066.426550  213792.376946  258955.329422  275490.988882  227778.257304    20.223958
+2012-01-09  200061.614738  200693.270298  205338.714620  211066.426550  213792.376946  258955.329422  275490.988882    19.161458
+2012-01-10  216201.836844  200061.614738  200693.270298  205338.714620  211066.426550  213792.376946  258955.329422    16.042708
+2012-01-11  217176.907910  216201.836844  200061.614738  200693.270298  205338.714620  211066.426550  213792.376946    14.815625
+
+=======================================================
+y_train (TARGET OUTPUT):
+=======================================================
+Time
+2012-01-07    200693.270298
+2012-01-08    200061.614738
+2012-01-09    216201.836844
+2012-01-10    217176.907910
+2012-01-11    217517.475010
+Freq: D
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="proses-analisis-explainability">
+<h2>🧪 4. Proses Analisis Explainability<a class="headerlink" href="#proses-analisis-explainability" title="Link to this heading">#</a></h2>
+<p>Ada <strong>6 tahap</strong> analisis untuk memahami perilaku model:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tahap</p></th>
+<th class="head"><p>Metode</p></th>
+<th class="head"><p>Pertanyaan yang dijawab</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Feature Importance</p></td>
+<td><p>Fitur mana yang paling sering dipakai model?</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>SHAP Summary Plot</p></td>
+<td><p>Fitur mana yang paling berpengaruh &amp; ke arah mana?</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>SHAP Force + Waterfall</p></td>
+<td><p>Mengapa model membuat prediksi X pada tanggal Y?</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>SHAP Dependence Plot</p></td>
+<td><p>Bagaimana hubungan fitur tertentu dengan prediksi?</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Permutation Importance</p></td>
+<td><p>Jika fitur ini diacak, seberapa buruk modelnya?</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Partial Dependence Plot</p></td>
+<td><p>Apa efek rata-rata fitur terhadap target?</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="tahap-1-model-specific-feature-importance">
+<h3>📊 Tahap 1: Model-Specific Feature Importance<a class="headerlink" href="#tahap-1-model-specific-feature-importance" title="Link to this heading">#</a></h3>
+<p>LightGBM menghitung pentingnya fitur berdasarkan <strong>berapa kali fitur digunakan untuk melakukan split</strong><br />
+di semua decision tree dalam ensemble. Semakin sering dipakai = semakin penting.</p>
+<p>skforecast menyediakan method <code class="docutils literal notranslate"><span class="pre">get_feature_importances()</span></code> untuk mengaksesnya langsung dari forecaster.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ambil feature importance dari forecaster</span>
+<span class="n">importance</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">get_feature_importances</span><span class="p">()</span>
+<span class="n">importance_sorted</span> <span class="o">=</span> <span class="n">importance</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Feature Importance (diurutkan):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">importance_sorted</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="c1"># Visualisasi</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">imp_asc</span> <span class="o">=</span> <span class="n">importance_sorted</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">imp_asc</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">],</span> <span class="n">imp_asc</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">],</span>
+               <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Feature Importance — LightGBM</span><span class="se">\n</span><span class="s1">(Jumlah split di decision tree)&#39;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Importance Score&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">bar</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">imp_asc</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Feature Importance (diurutkan):
+    feature  importance
+Temperature         535
+      lag_1         471
+      lag_2         377
+      lag_7         347
+      lag_3         345
+      lag_6         319
+      lag_4         311
+      lag_5         295
+</pre></div>
+</div>
+<img alt="_images/ea9599658e52e20c43d4060c93e413ee0bbcf3b37748ae83fa3141c42907a949.png" src="_images/ea9599658e52e20c43d4060c93e413ee0bbcf3b37748ae83fa3141c42907a949.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tahap-2-shap-values-summary-plot">
+<h3>📊 Tahap 2: SHAP Values — Summary Plot<a class="headerlink" href="#tahap-2-shap-values-summary-plot" title="Link to this heading">#</a></h3>
+<p><strong>SHAP (SHapley Additive exPlanations)</strong> berasal dari teori permainan kooperatif.<br />
+SHAP menghitung <strong>kontribusi marginal</strong> setiap fitur terhadap prediksi.</p>
+<section id="kelebihan-shap-vs-feature-importance-biasa">
+<h4>Kelebihan SHAP vs Feature Importance biasa:<a class="headerlink" href="#kelebihan-shap-vs-feature-importance-biasa" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Bisa global (semua data) maupun <strong>lokal</strong> (satu prediksi)</p></li>
+<li><p>Menampilkan <strong>arah pengaruh</strong> (positif = dorong naik, negatif = dorong turun)</p></li>
+<li><p>Konsisten secara matematis</p></li>
+</ul>
+</section>
+<section id="cara-membaca-shap-summary-plot">
+<h4>Cara membaca SHAP Summary Plot:<a class="headerlink" href="#cara-membaca-shap-summary-plot" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Sumbu Y</strong> → Fitur (diurutkan dari paling penting)</p></li>
+<li><p><strong>Sumbu X</strong> → Nilai SHAP (positif = dorong prediksi naik, negatif = dorong turun)</p></li>
+<li><p><strong>Warna titik</strong> → Nilai fitur (🔴 tinggi, 🔵 rendah)</p></li>
+</ul>
+<p>Untuk model berbasis tree (LightGBM), digunakan <strong>TreeExplainer</strong> yang sangat efisien.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Buat SHAP TreeExplainer menggunakan estimator internal forecaster</span>
+<span class="n">explainer</span>   <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="n">forecaster</span><span class="o">.</span><span class="n">estimator</span><span class="p">)</span>
+<span class="n">shap_values</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape SHAP values : </span><span class="si">{</span><span class="n">shap_values</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape X_train     : </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setiap baris = satu observasi, setiap kolom = nilai SHAP untuk satu fitur&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape SHAP values : (1090, 8)
+Shape X_train     : (1090, 8)
+Setiap baris = satu observasi, setiap kolom = nilai SHAP untuk satu fitur
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SHAP Summary Plot — Bar chart (global importance)</span>
+<span class="c1"># Menampilkan rata-rata |SHAP value| per fitur</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">shap_values</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/da2bdc9a8c6dc2bebf4a0915f3581f81a0a0a2497e6289011aa93e8f1f2ff2a9.png" src="_images/da2bdc9a8c6dc2bebf4a0915f3581f81a0a0a2497e6289011aa93e8f1f2ff2a9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SHAP Summary Plot — Beeswarm (distribusi + arah pengaruh)</span>
+<span class="c1"># Setiap titik = satu observasi</span>
+<span class="c1"># Warna merah = nilai fitur tinggi, biru = rendah</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">shap_values</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/75bdc8b94e0a6f6e1ef3c139701920d30fe37e9c9f7322fc46e282426c7fff2d.png" src="_images/75bdc8b94e0a6f6e1ef3c139701920d30fe37e9c9f7322fc46e282426c7fff2d.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="tahap-3-shap-force-plot-waterfall-penjelasan-prediksi-individual">
+<h3>📊 Tahap 3: SHAP Force Plot + Waterfall — Penjelasan Prediksi Individual<a class="headerlink" href="#tahap-3-shap-force-plot-waterfall-penjelasan-prediksi-individual" title="Link to this heading">#</a></h3>
+<p>Berbeda dengan summary plot yang bersifat global, <strong>Force Plot</strong> dan <strong>Waterfall Plot</strong><br />
+menjelaskan <strong>satu prediksi tertentu</strong> secara detail (<em>local explanation</em>).</p>
+<p>Cara membaca:</p>
+<ul class="simple">
+<li><p><strong>Base value (E[f(x)])</strong> → Rata-rata prediksi model dari seluruh data training</p></li>
+<li><p><strong>f(x)</strong> → Nilai prediksi akhir untuk observasi ini</p></li>
+<li><p><strong>Bar merah</strong> → Fitur yang mendorong prediksi <strong>naik</strong> dari base value</p></li>
+<li><p><strong>Bar biru</strong> → Fitur yang mendorong prediksi <strong>turun</strong> dari base value</p></li>
+<li><p><strong>Panjang bar</strong> → Besarnya kontribusi fitur tersebut</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Informasi observasi pertama</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tanggal  : </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Base val : </span><span class="si">{</span><span class="n">explainer</span><span class="o">.</span><span class="n">expected_value</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> MW  (rata-rata prediksi model)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prediksi : </span><span class="si">{</span><span class="n">explainer</span><span class="o">.</span><span class="n">expected_value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">shap_values</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> MW&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Nilai fitur:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">idx</span><span class="p">]]</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+<span class="c1"># Force plot — matplotlib=True wajib untuk VSCode/Jupyter lokal</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">force_plot</span><span class="p">(</span>
+    <span class="n">explainer</span><span class="o">.</span><span class="n">expected_value</span><span class="p">,</span>
+    <span class="n">shap_values</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="n">matplotlib</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">show</span>       <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tanggal  : 2012-01-07
+Base val : 223820 MW  (rata-rata prediksi model)
+Prediksi : 207163 MW
+
+Nilai fitur:
+                   lag_1         lag_2          lag_3          lag_4          lag_5          lag_6         lag_7  Temperature
+Time                                                                                                                         
+2012-01-07  205338.71462  211066.42655  213792.376946  258955.329422  275490.988882  227778.257304  82531.745918    24.098958
+</pre></div>
+</div>
+<img alt="_images/11aa12d45ebf2c081034ab9cbc56773b80942a6597d36facc0548e820cf0da81.png" src="_images/11aa12d45ebf2c081034ab9cbc56773b80942a6597d36facc0548e820cf0da81.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Waterfall plot — tampilan alternatif yang lebih detail</span>
+<span class="c1"># Menampilkan kontribusi tiap fitur secara bertumpuk (waterfall)</span>
+<span class="n">shap_exp</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">Explanation</span><span class="p">(</span>
+    <span class="n">values</span>        <span class="o">=</span> <span class="n">shap_values</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="n">base_values</span>   <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">explainer</span><span class="o">.</span><span class="n">expected_value</span><span class="p">),</span>
+    <span class="n">data</span>          <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">feature_names</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">shap</span><span class="o">.</span><span class="n">waterfall_plot</span><span class="p">(</span><span class="n">shap_exp</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4d70914e6a30ac621d9390b24b1318e79e3d1e27e95b59f88274d370204087af.png" src="_images/4d70914e6a30ac621d9390b24b1318e79e3d1e27e95b59f88274d370204087af.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tahap-4-shap-dependence-plot">
+<h3>📊 Tahap 4: SHAP Dependence Plot<a class="headerlink" href="#tahap-4-shap-dependence-plot" title="Link to this heading">#</a></h3>
+<p><strong>SHAP Dependence Plot</strong> menampilkan hubungan antara <strong>nilai satu fitur</strong> dengan <strong>nilai SHAP-nya</strong><br />
+(seberapa besar kontribusinya terhadap prediksi).</p>
+<ul class="simple">
+<li><p><strong>Sumbu X</strong> → Nilai fitur yang dipilih</p></li>
+<li><p><strong>Sumbu Y</strong> → Nilai SHAP (kontribusi positif/negatif terhadap prediksi)</p></li>
+<li><p><strong>Warna titik</strong> → Nilai fitur lain yang paling berinteraksi (dipilih otomatis oleh SHAP)</p></li>
+</ul>
+<p>Berguna untuk melihat apakah hubungan fitur-target bersifat <strong>linear atau non-linear</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SHAP Dependence Plot — Temperature</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">dependence_plot</span><span class="p">(</span><span class="s2">&quot;Temperature&quot;</span><span class="p">,</span> <span class="n">shap_values</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;SHAP Dependence Plot: Temperature</span><span class="se">\n</span><span class="s2">(Warna = fitur yang paling berinteraksi)&quot;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5db566062289767c07f1f33b9cbdba761eb619b830db5ca18cbb5438b30e80ed.png" src="_images/5db566062289767c07f1f33b9cbdba761eb619b830db5ca18cbb5438b30e80ed.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SHAP Dependence Plot — lag_1 (demand kemarin)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">dependence_plot</span><span class="p">(</span><span class="s2">&quot;lag_1&quot;</span><span class="p">,</span> <span class="n">shap_values</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;SHAP Dependence Plot: lag_1 (Demand kemarin)</span><span class="se">\n</span><span class="s2">(Warna = fitur yang paling berinteraksi)&quot;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/768de0be9e6f06322b5afc0e0741ef6f7107f5f16a41545bedbfaf1b9063c960.png" src="_images/768de0be9e6f06322b5afc0e0741ef6f7107f5f16a41545bedbfaf1b9063c960.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tahap-5-permutation-feature-importance">
+<h3>📊 Tahap 5: Permutation Feature Importance<a class="headerlink" href="#tahap-5-permutation-feature-importance" title="Link to this heading">#</a></h3>
+<p>Metode <strong>model-agnostik</strong> yang mengukur pentingnya fitur dengan cara:</p>
+<ol class="arabic simple">
+<li><p>Latih model → catat error baseline (R²)</p></li>
+<li><p><strong>Acak (shuffle) nilai satu fitur</strong> secara random</p></li>
+<li><p>Hitung peningkatan error setelah diacak</p></li>
+<li><p>Selisih error = kepentingan fitur tersebut</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[I_i = \text{Error}_{\text{permuted}(i)} - \text{Error}_{\text{original}}\]</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Feature Importance</p></th>
+<th class="head"><p>Permutation Importance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Basis</p></td>
+<td><p>Struktur tree</p></td>
+<td><p>Perubahan performa model</p></td>
+</tr>
+<tr class="row-odd"><td><p>Model-agnostik</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>Bias fitur banyak nilai unik</p></td>
+<td><p>Ya</p></td>
+<td><p>Tidak</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Hitung Permutation Importance</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">permutation_importance</span><span class="p">(</span>
+    <span class="n">estimator</span>    <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">estimator</span><span class="p">,</span>
+    <span class="n">X</span>            <span class="o">=</span> <span class="n">X_train</span><span class="p">,</span>
+    <span class="n">y</span>            <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span>
+    <span class="n">n_repeats</span>    <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">random_state</span> <span class="o">=</span> <span class="mi">123</span><span class="p">,</span>
+    <span class="n">n_jobs</span>       <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">perm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;feature&#39;</span>        <span class="p">:</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;importance_mean&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">importances_mean</span><span class="p">,</span>
+    <span class="s1">&#39;importance_std&#39;</span> <span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">importances_std</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance_mean&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Permutation Importance (diurutkan):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">perm_df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Permutation Importance (diurutkan):
+    feature  importance_mean  importance_std
+      lag_1         0.671814        0.044623
+Temperature         0.382056        0.014953
+      lag_7         0.186175        0.005599
+      lag_2         0.113051        0.004446
+      lag_6         0.076533        0.004470
+      lag_3         0.037839        0.002577
+      lag_5         0.028941        0.001968
+      lag_4         0.027186        0.000723
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisasi Permutation Importance dengan error bar</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sorted_df</span> <span class="o">=</span> <span class="n">perm_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance_mean&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span>
+    <span class="n">sorted_df</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">],</span>
+    <span class="n">sorted_df</span><span class="p">[</span><span class="s1">&#39;importance_mean&#39;</span><span class="p">],</span>
+    <span class="n">xerr</span>     <span class="o">=</span> <span class="n">sorted_df</span><span class="p">[</span><span class="s1">&#39;importance_std&#39;</span><span class="p">],</span>
+    <span class="n">color</span>    <span class="o">=</span> <span class="s1">&#39;darkorange&#39;</span><span class="p">,</span>
+    <span class="n">alpha</span>    <span class="o">=</span> <span class="mf">0.85</span><span class="p">,</span>
+    <span class="n">error_kw</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Permutation Feature Importance</span><span class="se">\n</span><span class="s1">(Mean ± Std dari 5 pengulangan)&#39;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Peningkatan Error saat fitur diacak&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a371068afa54c0eb15aa409062438a7b36101766c284c0d138ef61e5552f932f.png" src="_images/a371068afa54c0eb15aa409062438a7b36101766c284c0d138ef61e5552f932f.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tahap-6-partial-dependence-plot-pdp">
+<h3>📊 Tahap 6: Partial Dependence Plot (PDP)<a class="headerlink" href="#tahap-6-partial-dependence-plot-pdp" title="Link to this heading">#</a></h3>
+<p><strong>PDP</strong> menampilkan efek <strong>rata-rata</strong> satu fitur terhadap prediksi,<br />
+dengan cara memarginalisasi (merata-ratakan) pengaruh semua fitur lainnya.</p>
+<ul class="simple">
+<li><p><strong>Garis tebal (biru)</strong> → Rata-rata efek fitur terhadap prediksi (PDP)</p></li>
+<li><p><strong>Garis tipis (abu)</strong> → Efek per observasi individual (ICE — Individual Conditional Expectation)</p></li>
+</ul>
+<p>Jika garis ICE berbeda-beda arahnya = ada <strong>interaksi antar fitur</strong> yang signifikan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Partial Dependence Plot untuk Temperature dan lag_1</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">PartialDependenceDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">estimator</span>       <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">estimator</span><span class="p">,</span>
+    <span class="n">X</span>               <span class="o">=</span> <span class="n">X_train</span><span class="p">,</span>
+    <span class="n">features</span>        <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;lag_1&quot;</span><span class="p">],</span>
+    <span class="n">kind</span>            <span class="o">=</span> <span class="s1">&#39;both&#39;</span><span class="p">,</span>
+    <span class="n">ax</span>              <span class="o">=</span> <span class="n">axes</span><span class="p">,</span>
+    <span class="n">grid_resolution</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">line_kw</span>         <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;steelblue&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidth&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PDP: Temperature</span><span class="se">\n</span><span class="s1">(tebal=rata-rata, tipis=individual)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PDP: lag_1 (Demand kemarin)</span><span class="se">\n</span><span class="s1">(tebal=rata-rata, tipis=individual)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Partial Dependence Plot (PDP + ICE)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b2ce60ac459d8ac13993e38b8ccd48146a0326c4bcacfb24b5aa8f704f186e52.png" src="_images/b2ce60ac459d8ac13993e38b8ccd48146a0326c4bcacfb24b5aa8f704f186e52.png" />
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="ringkasan-temuan-analisis">
+<h2>✅ Ringkasan Temuan Analisis<a class="headerlink" href="#ringkasan-temuan-analisis" title="Link to this heading">#</a></h2>
+<section id="fitur-paling-penting">
+<h3>Fitur Paling Penting<a class="headerlink" href="#fitur-paling-penting" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fitur</p></th>
+<th class="head"><p>Kepentingan</p></th>
+<th class="head"><p>Alasan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Temperature</strong></p></td>
+<td><p>⭐⭐⭐ Terbesar</p></td>
+<td><p>Suhu dingin → pemanas, suhu panas → AC</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>lag_1</strong></p></td>
+<td><p>⭐⭐</p></td>
+<td><p>Demand kemarin sangat relevan (momentum harian)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>lag_7</strong></p></td>
+<td><p>⭐</p></td>
+<td><p>Pola mingguan (hari kerja vs akhir pekan)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="insight-dari-tiap-metode">
+<h3>Insight dari Tiap Metode:<a class="headerlink" href="#insight-dari-tiap-metode" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Feature Importance</strong> → Temperature dan lag_1 mendominasi jumlah split</p></li>
+<li><p><strong>SHAP Beeswarm</strong> → Temperature tinggi (merah) → SHAP positif (dorong prediksi naik)</p></li>
+<li><p><strong>Force/Waterfall Plot</strong> → Per prediksi bisa dilihat fitur mana yang paling menentukan</p></li>
+<li><p><strong>Dependence Plot</strong> → Hubungan Temperature–Demand berbentuk <strong>U</strong> (non-linear)</p></li>
+<li><p><strong>Permutation Importance</strong> → Konsisten dengan SHAP: Temperature paling krusial</p></li>
+<li><p><strong>PDP</strong> → Semakin tinggi lag_1 → semakin tinggi prediksi demand</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="kesimpulan">
+<h2>📚 Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Explainability</strong> bukan hanya nilai akademis — dalam aplikasi nyata (energi, kesehatan, keuangan),<br />
+memahami <em>mengapa</em> model membuat prediksi tertentu adalah krusial untuk <strong>kepercayaan dan pengambilan keputusan</strong>.</p>
+</div></blockquote>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metode</p></th>
+<th class="head"><p>Scope</p></th>
+<th class="head"><p>Kelebihan Utama</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Feature Importance</p></td>
+<td><p>Global</p></td>
+<td><p>Cepat, bawaan model</p></td>
+</tr>
+<tr class="row-odd"><td><p>Permutation Importance</p></td>
+<td><p>Global</p></td>
+<td><p>Model-agnostik, lebih objektif</p></td>
+</tr>
+<tr class="row-even"><td><p>SHAP Summary (bar)</p></td>
+<td><p>Global</p></td>
+<td><p>Rata-rata kontribusi absolut</p></td>
+</tr>
+<tr class="row-odd"><td><p>SHAP Beeswarm</p></td>
+<td><p>Global</p></td>
+<td><p>Arah + distribusi pengaruh</p></td>
+</tr>
+<tr class="row-even"><td><p>SHAP Force/Waterfall</p></td>
+<td><p><strong>Lokal</strong></p></td>
+<td><p>Penjelasan per-prediksi individual</p></td>
+</tr>
+<tr class="row-odd"><td><p>SHAP Dependence</p></td>
+<td><p>Global</p></td>
+<td><p>Non-linearitas + interaksi antar fitur</p></td>
+</tr>
+<tr class="row-even"><td><p>PDP + ICE</p></td>
+<td><p>Global</p></td>
+<td><p>Efek marginal fitur terhadap target</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="timeseries.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Peramalan Kadar <span class="math notranslate nohighlight">\(NO_2\)</span> di Daerah Gresik</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduksi-dari-skforecast-org-explainability">Reproduksi dari: skforecast.org — Explainability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisa-prediksi-tentang-apa">📌 1. Analisa Prediksi Tentang Apa?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teknik-explainability-yang-digunakan">Teknik Explainability yang digunakan:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instalasi-library">⚙️ Instalasi Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">📦 Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-data-training">📊 2. Bentuk Data Training</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-data">Sumber Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-setelah-agregasi-harian">Kolom setelah agregasi harian:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data-time-series">Visualisasi Data Time Series</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-lag">❓ 3. Apa Itu Lag?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ilustrasi-lags-7">Ilustrasi <code class="docutils literal notranslate"><span class="pre">lags</span> <span class="pre">=</span> <span class="pre">7</span></code>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-matriks-training-setelah-dibuat-lag">Bentuk matriks training setelah dibuat lag:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-dan-melatih-forecaster">🤖 Membuat dan Melatih Forecaster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proses-analisis-explainability">🧪 4. Proses Analisis Explainability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-1-model-specific-feature-importance">📊 Tahap 1: Model-Specific Feature Importance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-2-shap-values-summary-plot">📊 Tahap 2: SHAP Values — Summary Plot</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-shap-vs-feature-importance-biasa">Kelebihan SHAP vs Feature Importance biasa:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-membaca-shap-summary-plot">Cara membaca SHAP Summary Plot:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-3-shap-force-plot-waterfall-penjelasan-prediksi-individual">📊 Tahap 3: SHAP Force Plot + Waterfall — Penjelasan Prediksi Individual</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-4-shap-dependence-plot">📊 Tahap 4: SHAP Dependence Plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-5-permutation-feature-importance">📊 Tahap 5: Permutation Feature Importance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-6-partial-dependence-plot-pdp">📊 Tahap 6: Partial Dependence Plot (PDP)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-temuan-analisis">✅ Ringkasan Temuan Analisis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-paling-penting">Fitur Paling Penting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insight-dari-tiap-metode">Insight dari Tiap Metode:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">📚 Kesimpulan</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Okan Syailendra Wahyudi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
