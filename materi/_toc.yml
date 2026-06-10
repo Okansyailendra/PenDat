@@ -15,3 +15,4 @@ chapters:
 - file: random_forest
 - file : regresi_linear
 - file: timeseries
+- file: skforecast_explainability

@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>📊 Regresi Linier (Linear Regression) &#8212; Notebook Materi</title>
   
@@ -29,44 +28,41 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=1ae7504c"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'regresi_linear';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Peramalan Kadar \(NO_2\) di Daerah Gresik" href="timeseries.html" />
     <link rel="prev" title="Analisis Data Menggunakan Random Forest" href="random_forest.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -164,7 +160,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -187,6 +194,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="decision_tree.html">🌳 Decision Tree dengan KNIME Analytics Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="random_forest.html">Analisis Data Menggunakan Random Forest</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">📊 Regresi Linier (Linear Regression)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries.html">Peramalan Kadar <span class="math notranslate nohighlight">\(NO_2\)</span> di Daerah Gresik</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skforecast_explainability.html">🔍 Explainability pada Time Series Forecasting</a></li>
 </ul>
 
     </div>
@@ -216,9 +225,9 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -359,9 +368,9 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -425,16 +434,16 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="regresi-linier-linear-regression">
-<h1>📊 Regresi Linier (Linear Regression)<a class="headerlink" href="#regresi-linier-linear-regression" title="Permalink to this heading">#</a></h1>
+<h1>📊 Regresi Linier (Linear Regression)<a class="headerlink" href="#regresi-linier-linear-regression" title="Link to this heading">#</a></h1>
 <section id="apa-itu-regresi-linier">
-<h2>1. Apa itu Regresi Linier?<a class="headerlink" href="#apa-itu-regresi-linier" title="Permalink to this heading">#</a></h2>
+<h2>1. Apa itu Regresi Linier?<a class="headerlink" href="#apa-itu-regresi-linier" title="Link to this heading">#</a></h2>
 <p>Regresi Linier adalah metode <strong>supervised learning</strong> untuk memprediksi nilai <strong>kontinu</strong> (bukan kategori). Dalam peta machine learning, posisinya adalah:</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id1">
-<caption><span class="caption-number">Table 1 </span><span class="caption-text">Peta Machine Learning</span><a class="headerlink" href="#id1" title="Permalink to this table">#</a></caption>
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Peta Machine Learning</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
 <colgroup>
-<col style="width: 26%" />
-<col style="width: 37%" />
-<col style="width: 37%" />
+<col style="width: 26.3%" />
+<col style="width: 36.8%" />
+<col style="width: 36.8%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
@@ -467,16 +476,16 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="model-regresi-linier-sederhana">
-<h2>2. Model Regresi Linier Sederhana<a class="headerlink" href="#model-regresi-linier-sederhana" title="Permalink to this heading">#</a></h2>
+<h2>2. Model Regresi Linier Sederhana<a class="headerlink" href="#model-regresi-linier-sederhana" title="Link to this heading">#</a></h2>
 <p>Persamaan dasar regresi linier sederhana (satu prediktor):</p>
 <div class="math notranslate nohighlight">
 \[y = b_0 + b_1 x + \varepsilon\]</div>
 <div class="pst-scrollable-table-container"><table class="table" id="id2">
-<caption><span class="caption-number">Table 2 </span><span class="caption-text">Komponen Model</span><a class="headerlink" href="#id2" title="Permalink to this table">#</a></caption>
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Komponen Model</span><a class="headerlink" href="#id2" title="Link to this table">#</a></caption>
 <colgroup>
-<col style="width: 15%" />
-<col style="width: 25%" />
-<col style="width: 60%" />
+<col style="width: 15.0%" />
+<col style="width: 25.0%" />
+<col style="width: 60.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Simbol</p></th>
@@ -511,7 +520,7 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="model-regresi-linier-berganda-multiple">
-<h2>3. Model Regresi Linier Berganda (Multiple)<a class="headerlink" href="#model-regresi-linier-berganda-multiple" title="Permalink to this heading">#</a></h2>
+<h2>3. Model Regresi Linier Berganda (Multiple)<a class="headerlink" href="#model-regresi-linier-berganda-multiple" title="Link to this heading">#</a></h2>
 <p>Diperluas untuk beberapa variabel input sekaligus:</p>
 <div class="math notranslate nohighlight">
 \[y = b_0 + b_1 x_1 + b_2 x_2 + \cdots + b_n x_n + \varepsilon\]</div>
@@ -522,9 +531,9 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="estimasi-koefisien-ordinary-least-squares-ols">
-<h2>4. Estimasi Koefisien — Ordinary Least Squares (OLS)<a class="headerlink" href="#estimasi-koefisien-ordinary-least-squares-ols" title="Permalink to this heading">#</a></h2>
+<h2>4. Estimasi Koefisien — Ordinary Least Squares (OLS)<a class="headerlink" href="#estimasi-koefisien-ordinary-least-squares-ols" title="Link to this heading">#</a></h2>
 <section id="konsep-meminimalkan-sum-of-squared-residuals">
-<h3>Konsep: Meminimalkan Sum of Squared Residuals<a class="headerlink" href="#konsep-meminimalkan-sum-of-squared-residuals" title="Permalink to this heading">#</a></h3>
+<h3>Konsep: Meminimalkan Sum of Squared Residuals<a class="headerlink" href="#konsep-meminimalkan-sum-of-squared-residuals" title="Link to this heading">#</a></h3>
 <p>Kita mencari garis <span class="math notranslate nohighlight">\(\hat{y}\)</span> yang <strong>meminimalkan</strong> jumlah kuadrat error:</p>
 <div class="math notranslate nohighlight">
 \[SS_{\text{residuals}} = \sum_{i=1}^{N} \left(\hat{y}_i - y_i\right)^2\]</div>
@@ -534,10 +543,10 @@ document.write(`
 </div>
 </section>
 <section id="solusi-analitik-ols">
-<h3>Solusi Analitik OLS<a class="headerlink" href="#solusi-analitik-ols" title="Permalink to this heading">#</a></h3>
+<h3>Solusi Analitik OLS<a class="headerlink" href="#solusi-analitik-ols" title="Link to this heading">#</a></h3>
 <p>Melalui kalkulus (meminimalkan <span class="math notranslate nohighlight">\(SS_{res}\)</span> terhadap <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>), diperoleh formula tertutup:</p>
 <div class="math notranslate nohighlight" id="equation-eq-ols">
-<span class="eqno">(1)<a class="headerlink" href="#equation-eq-ols" title="Permalink to this equation">#</a></span>\[\boxed{\hat{\mathbf{b}} = \left(X^T X\right)^{-1} X^T Y}\]</div>
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-ols" title="Link to this equation">#</a></span>\[\boxed{\hat{\mathbf{b}} = \left(X^T X\right)^{-1} X^T Y}\]</div>
 <p><strong>Keterangan:</strong></p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -566,15 +575,15 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="contoh-perhitungan-manual">
-<h2>5. Contoh Perhitungan Manual<a class="headerlink" href="#contoh-perhitungan-manual" title="Permalink to this heading">#</a></h2>
+<h2>5. Contoh Perhitungan Manual<a class="headerlink" href="#contoh-perhitungan-manual" title="Link to this heading">#</a></h2>
 <section id="dataset">
-<h3>Dataset<a class="headerlink" href="#dataset" title="Permalink to this heading">#</a></h3>
+<h3>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table" id="id3">
-<caption><span class="caption-number">Table 3 </span><span class="caption-text">Data 7 Titik Observasi</span><a class="headerlink" href="#id3" title="Permalink to this table">#</a></caption>
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Data 7 Titik Observasi</span><a class="headerlink" href="#id3" title="Link to this table">#</a></caption>
 <colgroup>
-<col style="width: 20%" />
-<col style="width: 40%" />
-<col style="width: 40%" />
+<col style="width: 20.0%" />
+<col style="width: 40.0%" />
+<col style="width: 40.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Titik</p></th>
@@ -619,18 +628,18 @@ document.write(`
 \[\bar{x} = \frac{2+4+5+3+3+4+5}{7} = \frac{26}{7} \approx 3.714, \qquad \bar{y} = \frac{2+3+5+4+3+5+6}{7} = \frac{28}{7} = 4.0\]</div>
 </section>
 <section id="langkah-1-susun-matriks-x-dan-vektor-y">
-<h3>Langkah 1 — Susun Matriks <span class="math notranslate nohighlight">\(X\)</span> dan Vektor <span class="math notranslate nohighlight">\(Y\)</span><a class="headerlink" href="#langkah-1-susun-matriks-x-dan-vektor-y" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 1 — Susun Matriks <span class="math notranslate nohighlight">\(X\)</span> dan Vektor <span class="math notranslate nohighlight">\(Y\)</span><a class="headerlink" href="#langkah-1-susun-matriks-x-dan-vektor-y" title="Link to this heading">#</a></h3>
 <p>Tambahkan kolom <span class="math notranslate nohighlight">\(1\)</span> di paling kiri sebagai <em>placeholder</em> untuk intercept <span class="math notranslate nohighlight">\(b_0\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}X = \begin{pmatrix} 1 &amp; 2 \\ 1 &amp; 4 \\ 1 &amp; 5 \\ 1 &amp; 3 \\ 1 &amp; 3 \\ 1 &amp; 4 \\ 1 &amp; 5 \end{pmatrix}, \qquad Y = \begin{pmatrix} 2 \\ 3 \\ 5 \\ 4 \\ 3 \\ 5 \\ 6 \end{pmatrix}\end{split}\]</div>
 </section>
 <section id="langkah-2-hitung-x-t-x">
-<h3>Langkah 2 — Hitung <span class="math notranslate nohighlight">\(X^T X\)</span><a class="headerlink" href="#langkah-2-hitung-x-t-x" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 2 — Hitung <span class="math notranslate nohighlight">\(X^T X\)</span><a class="headerlink" href="#langkah-2-hitung-x-t-x" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}X^T X = \begin{pmatrix} 1&amp;1&amp;1&amp;1&amp;1&amp;1&amp;1 \\ 2&amp;4&amp;5&amp;3&amp;3&amp;4&amp;5 \end{pmatrix} \begin{pmatrix} 1&amp;2\\1&amp;4\\1&amp;5\\1&amp;3\\1&amp;3\\1&amp;4\\1&amp;5 \end{pmatrix} = \begin{pmatrix} 7 &amp; 26 \\ 26 &amp; 104 \end{pmatrix}\end{split}\]</div>
 </section>
 <section id="langkah-3-hitung-x-t-x-1">
-<h3>Langkah 3 — Hitung <span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span><a class="headerlink" href="#langkah-3-hitung-x-t-x-1" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 3 — Hitung <span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span><a class="headerlink" href="#langkah-3-hitung-x-t-x-1" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\det(X^TX) = 7 \times 104 - 26 \times 26 = 728 - 676 = 52\]</div>
 <div class="math notranslate nohighlight">
@@ -641,12 +650,12 @@ document.write(`
 </div>
 </section>
 <section id="langkah-4-hitung-x-t-y">
-<h3>Langkah 4 — Hitung <span class="math notranslate nohighlight">\(X^T Y\)</span><a class="headerlink" href="#langkah-4-hitung-x-t-y" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 4 — Hitung <span class="math notranslate nohighlight">\(X^T Y\)</span><a class="headerlink" href="#langkah-4-hitung-x-t-y" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}X^T Y = \begin{pmatrix} 1&amp;1&amp;1&amp;1&amp;1&amp;1&amp;1 \\ 2&amp;4&amp;5&amp;3&amp;3&amp;4&amp;5 \end{pmatrix} \begin{pmatrix} 2\\3\\5\\4\\3\\5\\6 \end{pmatrix} = \begin{pmatrix} 28 \\ 112 \end{pmatrix}\end{split}\]</div>
 </section>
 <section id="langkah-5-hitung-hat-mathbf-b">
-<h3>Langkah 5 — Hitung <span class="math notranslate nohighlight">\(\hat{\mathbf{b}}\)</span><a class="headerlink" href="#langkah-5-hitung-hat-mathbf-b" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 5 — Hitung <span class="math notranslate nohighlight">\(\hat{\mathbf{b}}\)</span><a class="headerlink" href="#langkah-5-hitung-hat-mathbf-b" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{pmatrix} \hat{b}_0 \\ \hat{b}_1 \end{pmatrix} = \begin{pmatrix} 2 &amp; -0.5 \\ -0.5 &amp; 0.1346 \end{pmatrix} \begin{pmatrix} 28 \\ 112 \end{pmatrix} = \begin{pmatrix} 2(28) + (-0.5)(112) \\ (-0.5)(28) + (0.1346)(112) \end{pmatrix} = \begin{pmatrix} 0 \\ 1.0769 \end{pmatrix}\end{split}\]</div>
 <div class="important admonition">
@@ -657,7 +666,7 @@ document.write(`
 </div>
 </section>
 <section id="langkah-6-verifikasi-dengan-rumus-sederhana">
-<h3>Langkah 6 — Verifikasi dengan Rumus Sederhana<a class="headerlink" href="#langkah-6-verifikasi-dengan-rumus-sederhana" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 6 — Verifikasi dengan Rumus Sederhana<a class="headerlink" href="#langkah-6-verifikasi-dengan-rumus-sederhana" title="Link to this heading">#</a></h3>
 <p>Untuk regresi sederhana (1 prediktor), ada rumus alternatif yang lebih ringkas:</p>
 <div class="math notranslate nohighlight">
 \[S_{xx} = \sum(x_i - \bar{x})^2 = 7.4286, \qquad S_{xy} = \sum(x_i - \bar{x})(y_i - \bar{y}) = 8.0\]</div>
@@ -667,15 +676,15 @@ document.write(`
 \[b_0 = \bar{y} - b_1\bar{x} = 4.0 - 1.0769 \times 3.7143 \approx 0 \checkmark\]</div>
 </section>
 <section id="langkah-7-evaluasi-model-r-2">
-<h3>Langkah 7 — Evaluasi Model (<span class="math notranslate nohighlight">\(R^2\)</span>)<a class="headerlink" href="#langkah-7-evaluasi-model-r-2" title="Permalink to this heading">#</a></h3>
+<h3>Langkah 7 — Evaluasi Model (<span class="math notranslate nohighlight">\(R^2\)</span>)<a class="headerlink" href="#langkah-7-evaluasi-model-r-2" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table" id="id4">
-<caption><span class="caption-number">Table 4 </span><span class="caption-text">Prediksi vs Aktual</span><a class="headerlink" href="#id4" title="Permalink to this table">#</a></caption>
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">Prediksi vs Aktual</span><a class="headerlink" href="#id4" title="Link to this table">#</a></caption>
 <colgroup>
-<col style="width: 13%" />
-<col style="width: 19%" />
-<col style="width: 19%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
+<col style="width: 12.5%" />
+<col style="width: 18.8%" />
+<col style="width: 18.8%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Titik</p></th>
@@ -740,7 +749,7 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="variabel-kategorikal-dummy-variables">
-<h2>6. Variabel Kategorikal — Dummy Variables<a class="headerlink" href="#variabel-kategorikal-dummy-variables" title="Permalink to this heading">#</a></h2>
+<h2>6. Variabel Kategorikal — Dummy Variables<a class="headerlink" href="#variabel-kategorikal-dummy-variables" title="Link to this heading">#</a></h2>
 <p>Untuk variabel kategorikal dengan <span class="math notranslate nohighlight">\(k\)</span> level, kita buat <span class="math notranslate nohighlight">\(k-1\)</span> variabel binary (dummy).</p>
 <div class="note admonition">
 <p class="admonition-title">Mengapa <span class="math notranslate nohighlight">\(k-1\)</span> dan bukan <span class="math notranslate nohighlight">\(k\)</span>?</p>
@@ -748,13 +757,13 @@ document.write(`
 </div>
 <p><strong>Contoh:</strong> variabel <code class="docutils literal notranslate"><span class="pre">Major</span></code> dengan <span class="math notranslate nohighlight">\(k=4\)</span> level.</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id5">
-<caption><span class="caption-number">Table 5 </span><span class="caption-text">Encoding Dummy Variables</span><a class="headerlink" href="#id5" title="Permalink to this table">#</a></caption>
+<caption><span class="caption-number">Table 5 </span><span class="caption-text">Encoding Dummy Variables</span><a class="headerlink" href="#id5" title="Link to this table">#</a></caption>
 <colgroup>
-<col style="width: 30%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 10%" />
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Major</p></th>
@@ -800,9 +809,9 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="implementasi-python">
-<h2>7. Implementasi Python<a class="headerlink" href="#implementasi-python" title="Permalink to this heading">#</a></h2>
+<h2>7. Implementasi Python<a class="headerlink" href="#implementasi-python" title="Link to this heading">#</a></h2>
 <section id="menggunakan-scikit-learn">
-<h3>7.1 Menggunakan Scikit-learn<a class="headerlink" href="#menggunakan-scikit-learn" title="Permalink to this heading">#</a></h3>
+<h3>7.1 Menggunakan Scikit-learn<a class="headerlink" href="#menggunakan-scikit-learn" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -847,12 +856,12 @@ document.write(`
 Koefisien  b₁ : 1.0769
 </pre></div>
 </div>
-<img alt="_images/ac5e4654ee2d7ed6ffd18f79c04aadee2d3561f4d499b638183855b928cc7524.png" src="_images/ac5e4654ee2d7ed6ffd18f79c04aadee2d3561f4d499b638183855b928cc7524.png" />
+<img alt="_images/534009e9220d586a452829eda3da6e851ab0f86eab72e99c25812ece758570a1.png" src="_images/534009e9220d586a452829eda3da6e851ab0f86eab72e99c25812ece758570a1.png" />
 </div>
 </div>
 </section>
 <section id="perhitungan-ols-analitik-dari-nol">
-<h3>7.2 Perhitungan OLS Analitik (dari Nol)<a class="headerlink" href="#perhitungan-ols-analitik-dari-nol" title="Permalink to this heading">#</a></h3>
+<h3>7.2 Perhitungan OLS Analitik (dari Nol)<a class="headerlink" href="#perhitungan-ols-analitik-dari-nol" title="Link to this heading">#</a></h3>
 <p>Implementasi langsung formula <a class="reference internal" href="#equation-eq-ols">(1)</a> tanpa library ML:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -924,7 +933,7 @@ R²     = 0.7179
 </div>
 </section>
 <section id="verifikasi-rumus-sxx-sxy">
-<h3>7.3 Verifikasi Rumus Sxx / Sxy<a class="headerlink" href="#verifikasi-rumus-sxx-sxy" title="Permalink to this heading">#</a></h3>
+<h3>7.3 Verifikasi Rumus Sxx / Sxy<a class="headerlink" href="#verifikasi-rumus-sxx-sxy" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -968,12 +977,12 @@ Persamaan: ŷ = 0.0000 + 1.0769x
 </section>
 <hr class="docutils" />
 <section id="visualisasi-interaktif-di-geogebra">
-<h2>8. Visualisasi Interaktif di GeoGebra<a class="headerlink" href="#visualisasi-interaktif-di-geogebra" title="Permalink to this heading">#</a></h2>
+<h2>8. Visualisasi Interaktif di GeoGebra<a class="headerlink" href="#visualisasi-interaktif-di-geogebra" title="Link to this heading">#</a></h2>
 <p>Applet di bawah ini memuat langsung dari GeoGebra dan sudah berisi dataset A–G beserta garis regresi, residual, dan nilai <span class="math notranslate nohighlight">\(R^2\)</span> yang dihitung secara otomatis. Kamu bisa <strong>menggeser titik</strong> untuk melihat bagaimana garis regresi berubah secara real-time.</p>
 <div style="position: relative; width: 100%; padding-bottom: 0; margin: 1.5rem 0;">
   <iframe src="https://www.geogebra.org/classic/jrurjnhb?embed" width="800" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
 </div><section id="cara-membuat-applet-sendiri-di-geogebra-classic">
-<h3>Cara Membuat Applet Sendiri di GeoGebra Classic<a class="headerlink" href="#cara-membuat-applet-sendiri-di-geogebra-classic" title="Permalink to this heading">#</a></h3>
+<h3>Cara Membuat Applet Sendiri di GeoGebra Classic<a class="headerlink" href="#cara-membuat-applet-sendiri-di-geogebra-classic" title="Link to this heading">#</a></h3>
 <p>Jika ingin membuat dari nol dengan data A–G, buka <a class="reference external" href="https://www.geogebra.org/classic">https://www.geogebra.org/classic</a> lalu ketik perintah berikut <strong>satu per satu</strong> di <strong>Input Bar</strong> (baris paling bawah layar):</p>
 <p><strong>① Input data:</strong></p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>X_data = {2, 4, 5, 3, 3, 4, 5}
@@ -1041,12 +1050,12 @@ R2     = 1 - SS_res / SS_tot
 </section>
 <hr class="docutils" />
 <section id="ringkasan-rumus">
-<h2>9. Ringkasan Rumus<a class="headerlink" href="#ringkasan-rumus" title="Permalink to this heading">#</a></h2>
+<h2>9. Ringkasan Rumus<a class="headerlink" href="#ringkasan-rumus" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table" id="id6">
-<caption><span class="caption-number">Table 6 </span><span class="caption-text">Kumpulan Rumus Penting</span><a class="headerlink" href="#id6" title="Permalink to this table">#</a></caption>
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">Kumpulan Rumus Penting</span><a class="headerlink" href="#id6" title="Link to this table">#</a></caption>
 <colgroup>
-<col style="width: 45%" />
-<col style="width: 55%" />
+<col style="width: 45.0%" />
+<col style="width: 55.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Rumus</p></th>
@@ -1151,6 +1160,15 @@ R2     = 1 - SS_res / SS_tot
         <p class="prev-next-title">Analisis Data Menggunakan Random Forest</p>
       </div>
     </a>
+    <a class="right-next"
+       href="timeseries.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Peramalan Kadar <span class="math notranslate nohighlight">\(NO_2\)</span> di Daerah Gresik</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1222,7 +1240,7 @@ By Okan Syailendra Wahyudi
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>

@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris &#8212; Notebook Materi</title>
   
@@ -29,39 +28,35 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=1ae7504c"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'naive_bayes';</script>
@@ -165,7 +160,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -187,6 +193,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris</a></li>
 <li class="toctree-l1"><a class="reference internal" href="decision_tree.html">🌳 Decision Tree dengan KNIME Analytics Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="random_forest.html">Analisis Data Menggunakan Random Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresi_linear.html">📊 Regresi Linier (Linear Regression)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries.html">Peramalan Kadar <span class="math notranslate nohighlight">\(NO_2\)</span> di Daerah Gresik</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skforecast_explainability.html">🔍 Explainability pada Time Series Forecasting</a></li>
 </ul>
 
     </div>
@@ -216,9 +225,9 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -359,9 +368,9 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -401,11 +410,11 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="analisis-mendalam-klasifikasi-naive-bayes-pada-dataset-iris">
-<h1>Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris<a class="headerlink" href="#analisis-mendalam-klasifikasi-naive-bayes-pada-dataset-iris" title="Permalink to this heading">#</a></h1>
+<h1>Analisis Mendalam Klasifikasi Naive Bayes pada Dataset Iris<a class="headerlink" href="#analisis-mendalam-klasifikasi-naive-bayes-pada-dataset-iris" title="Link to this heading">#</a></h1>
 <p>Dokumentasi ini memberikan panduan komprehensif mulai dari teori probabilitas dasar, penurunan rumus matematika, hingga implementasi tingkat lanjut menggunakan Python. Dataset yang digunakan direferensikan dari file <code class="docutils literal notranslate"><span class="pre">IRIS.csv.xlsx</span></code>.</p>
 <hr class="docutils" />
 <section id="teori-dasar-probabilitas-dan-teorema-bayes">
-<h2>1. Teori Dasar Probabilitas dan Teorema Bayes<a class="headerlink" href="#teori-dasar-probabilitas-dan-teorema-bayes" title="Permalink to this heading">#</a></h2>
+<h2>1. Teori Dasar Probabilitas dan Teorema Bayes<a class="headerlink" href="#teori-dasar-probabilitas-dan-teorema-bayes" title="Link to this heading">#</a></h2>
 <p>Naive Bayes bukan sekadar satu algoritma, melainkan keluarga algoritma klasifikasi yang berakar pada <strong>Teorema Bayes</strong>. Teorema ini mendeskripsikan probabilitas suatu kejadian berdasarkan pengetahuan sebelumnya (prior knowledge) mengenai kondisi yang terkait dengan kejadian tersebut.</p>
 <p>Secara matematis, Teorema Bayes dirumuskan sebagai:</p>
 <div class="math notranslate nohighlight">
@@ -424,7 +433,7 @@ Algoritma ini disebut “naif” karena mengasumsikan bahwa <strong>setiap fitur
 </section>
 <hr class="docutils" />
 <section id="gaussian-naive-bayes-menangani-data-numerik">
-<h2>2. Gaussian Naive Bayes (Menangani Data Numerik)<a class="headerlink" href="#gaussian-naive-bayes-menangani-data-numerik" title="Permalink to this heading">#</a></h2>
+<h2>2. Gaussian Naive Bayes (Menangani Data Numerik)<a class="headerlink" href="#gaussian-naive-bayes-menangani-data-numerik" title="Link to this heading">#</a></h2>
 <p>Dataset <code class="docutils literal notranslate"><span class="pre">IRIS.csv.xlsx</span></code> berisi data numerik kontinu (<em>sepal_length, sepal_width, petal_length, petal_width</em>). Kita tidak bisa menghitung probabilitas kejadian pasti dari angka kontinu. Sebagai solusinya, kita menggunakan asumsi <strong>Distribusi Gaussian (Normal)</strong>.</p>
 <p>Model mengasumsikan distribusi data untuk setiap kelas berbentuk lonceng (bell curve). Fungsi Kepadatan Peluang (Probability Density Function / PDF) untuk fitur <span class="math notranslate nohighlight">\(x_i\)</span> pada kelas <span class="math notranslate nohighlight">\(C_k\)</span> adalah:</p>
 <div class="math notranslate nohighlight">
@@ -439,7 +448,7 @@ Algoritma ini disebut “naif” karena mengasumsikan bahwa <strong>setiap fitur
 </section>
 <hr class="docutils" />
 <section id="implementasi-python-tingkat-lanjut">
-<h2>3. Implementasi Python Tingkat Lanjut<a class="headerlink" href="#implementasi-python-tingkat-lanjut" title="Permalink to this heading">#</a></h2>
+<h2>3. Implementasi Python Tingkat Lanjut<a class="headerlink" href="#implementasi-python-tingkat-lanjut" title="Link to this heading">#</a></h2>
 <p>Pada implementasi ini, kita tidak hanya melatih model, tetapi juga:</p>
 <ul class="simple">
 <li><p>Melakukan <strong>Visualisasi Distribusi Data</strong> untuk memvalidasi asumsi Gaussian.</p></li>
@@ -543,7 +552,7 @@ Algoritma ini disebut “naif” karena mengasumsikan bahwa <strong>setiap fitur
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset berhasil dimuat!
 </pre></div>
 </div>
-<img alt="_images/ad2609054d54bb275c3afda3ce8ddfbe9b8a2ec99ff05e863914dea7cbf46261.png" src="_images/ad2609054d54bb275c3afda3ce8ddfbe9b8a2ec99ff05e863914dea7cbf46261.png" />
+<img alt="_images/034f2a582fb85840ea30f6bf991a85581ed8e176ad40f6bd64ed9402b65347ac.png" src="_images/034f2a582fb85840ea30f6bf991a85581ed8e176ad40f6bd64ed9402b65347ac.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- PENDALAMAN MATEMATIKA MODEL ---
 Kelas yang ditemukan oleh model: [&#39;Iris-setosa&#39; &#39;Iris-versicolor&#39; &#39;Iris-virginica&#39;]
 Probabilitas Prior masing-masing kelas (P(C)): [0.33333333 0.34166667 0.325     ]
@@ -575,12 +584,12 @@ Iris-versicolor       1.00      1.00      1.00         9
    weighted avg       1.00      1.00      1.00        30
 </pre></div>
 </div>
-<img alt="_images/823ee50081c010d23587ac4f55d426c5899db7df048be62e0e6c202eb0667560.png" src="_images/823ee50081c010d23587ac4f55d426c5899db7df048be62e0e6c202eb0667560.png" />
+<img alt="_images/3a452d82c44547287dbbf43a610f6ae2519a19575331875ac01368485a58a2ec.png" src="_images/3a452d82c44547287dbbf43a610f6ae2519a19575331875ac01368485a58a2ec.png" />
 </div>
 </div>
 </section>
 <section id="persiapan-data-preprocessing">
-<h2>4. Persiapan Data (Preprocessing)<a class="headerlink" href="#persiapan-data-preprocessing" title="Permalink to this heading">#</a></h2>
+<h2>4. Persiapan Data (Preprocessing)<a class="headerlink" href="#persiapan-data-preprocessing" title="Link to this heading">#</a></h2>
 <p>Salah satu keunggulan besar Naive Bayes adalah algoritma ini tidak memerlukan fitur scaling (seperti Standardization atau Normalization). Karena model menghitung probabilitas berdasarkan rata-rata dan varians masing-masing fitur secara independen, skala data tidak mendistorsi perhitungan.</p>
 <p>Kita hanya perlu membagi data menjadi set pelatihan (training) dan pengujian (testing).</p>
 <div class="cell docutils container">
@@ -606,7 +615,7 @@ Dimensi Data Uji: (30, 4)
 </div>
 </section>
 <section id="pelatihan-model-dan-bedah-parameter-matematis">
-<h2>5. Pelatihan Model dan Bedah Parameter Matematis<a class="headerlink" href="#pelatihan-model-dan-bedah-parameter-matematis" title="Permalink to this heading">#</a></h2>
+<h2>5. Pelatihan Model dan Bedah Parameter Matematis<a class="headerlink" href="#pelatihan-model-dan-bedah-parameter-matematis" title="Link to this heading">#</a></h2>
 <p>Fase training (model.fit()) pada Naive Bayes sesungguhnya adalah proses menghitung rata-rata (<span class="math notranslate nohighlight">\(\mu\)</span>) dan varians (<span class="math notranslate nohighlight">\(\sigma^2\)</span>) dari dataset untuk dimasukkan ke dalam persamaan Gaussian. Mari kita bedah nilai-nilai tersebut.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -744,7 +753,7 @@ Rata-rata (Mu) yang dihitung model untuk tiap fitur:
 <p>Tabel di atas merepresentasikan memori dari model kita. Setiap kali ada data baru untuk diprediksi, model akan mensubstitusikan nilai fitur data baru tersebut ke dalam persamaan Gaussian menggunakan rata-rata dan varians dari tabel di atas.</p>
 </section>
 <section id="prediksi-dan-evaluasi-model">
-<h2>6. Prediksi dan Evaluasi Model<a class="headerlink" href="#prediksi-dan-evaluasi-model" title="Permalink to this heading">#</a></h2>
+<h2>6. Prediksi dan Evaluasi Model<a class="headerlink" href="#prediksi-dan-evaluasi-model" title="Link to this heading">#</a></h2>
 <p>Sekarang kita menguji seberapa baik model memprediksi data yang belum pernah ia lihat sebelumnya (X_test).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -785,7 +794,7 @@ Iris-versicolor       1.00      1.00      1.00         9
    weighted avg       1.00      1.00      1.00        30
 </pre></div>
 </div>
-<img alt="_images/d7970aac8b251189f7046d35e6caa1a0d8cabc08417b1a4559c4584bfcb4dcd8.png" src="_images/d7970aac8b251189f7046d35e6caa1a0d8cabc08417b1a4559c4584bfcb4dcd8.png" />
+<img alt="_images/648cdb15e9ca91d0f6bdbf9363e6cf1e590645ed0a5a775eae3a327af57e0ed6.png" src="_images/648cdb15e9ca91d0f6bdbf9363e6cf1e590645ed0a5a775eae3a327af57e0ed6.png" />
 </div>
 </div>
 <p>Cara Membaca Metrik Evaluasi:
@@ -795,7 +804,7 @@ Precision: Dari semua data yang diprediksi sebagai Versicolor, berapa persen yan
 <p>Confusion Matrix: Menunjukkan peta kesalahan. Jika ada kesalahan prediksi, biasanya terjadi antara Versicolor dan Virginica, sesuai dengan prediksi kita pada tahapan EDA (karena sebaran datanya beririsan).</p>
 </section>
 <section id="kesimpulan">
-<h2>7. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Permalink to this heading">#</a></h2>
+<h2>7. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h2>
 <p>Berdasarkan analisis dan percobaan di atas, dapat ditarik beberapa kesimpulan:</p>
 <ul class="simple">
 <li><p>Model Gaussian Naive Bayes berhasil mengklasifikasikan spesies bunga Iris dengan akurasi yang sangat memuaskan (umumnya mencapai di atas 95% untuk dataset ini).</p></li>
@@ -900,7 +909,7 @@ By Okan Syailendra Wahyudi
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>
